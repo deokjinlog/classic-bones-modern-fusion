@@ -1,0 +1,10 @@
+# 원천 코퍼스 (거대·재다운 가능, 커밋 안 함 — docs/data-sources.md에 URL)
+data/corpus/
+
+# python
+__pycache__/
+*.pyc
+
+# 임시
+*.tmp
+.DS_Store

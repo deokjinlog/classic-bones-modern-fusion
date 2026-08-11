@@ -1,0 +1,367 @@
+<title>Same Bones — the hidden skeletons of story</title>
+<style>
+  :root{
+    --bg:#090c12; --bg-2:#0e131c; --bg-3:#131b28;
+    --line:#1c2634; --line-2:#2b3a4f;
+    --ink:#e9eef4; --ink-dim:#9aa7b8; --ink-faint:#657486;
+    --glow:#63d3ff; --glow-soft:rgba(99,211,255,.13); --glow-line:rgba(99,211,255,.45);
+    --warm:#d79a6a;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono','Cascadia Code','JetBrains Mono',Menlo,Consolas,monospace;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(1200px 600px at 78% -8%, rgba(99,211,255,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 4%, rgba(99,211,255,.05), transparent 55%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:var(--glow)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; padding:88px 0 40px; overflow:hidden}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--glow); opacity:.9;
+    display:inline-block; padding-bottom:6px; border-bottom:1px solid var(--glow-line);
+  }
+  .title{
+    font-family:var(--sans); font-weight:800; letter-spacing:-.02em;
+    font-size:clamp(64px,15vw,168px); line-height:.86; margin:26px 0 0;
+    text-transform:uppercase; text-wrap:balance;
+    color:var(--ink);
+    text-shadow:0 0 46px rgba(99,211,255,.28);
+    animation:sharpen 1.5s ease-out both;
+  }
+  @keyframes sharpen{
+    from{filter:blur(14px); opacity:.15; letter-spacing:.06em}
+    to{filter:blur(0); opacity:1; letter-spacing:-.02em}
+  }
+  .thesis{
+    font-family:var(--serif); font-style:italic;
+    font-size:clamp(20px,3.1vw,29px); line-height:1.4; color:var(--ink);
+    max-width:26ch; margin:30px 0 0; text-wrap:balance;
+  }
+  .lede{max-width:60ch; color:var(--ink-dim); margin:22px 0 0; font-size:17px}
+  .lede b{color:var(--ink); font-weight:600}
+  .scan{
+    position:absolute; left:0; right:0; top:0; height:2px;
+    background:linear-gradient(90deg,transparent,var(--glow),transparent);
+    box-shadow:0 0 22px 3px var(--glow-soft);
+    animation:scan 3.2s cubic-bezier(.5,0,.3,1) .2s 1 forwards; opacity:0;
+  }
+  @keyframes scan{0%{top:0;opacity:.9} 92%{opacity:.9} 100%{top:100%;opacity:0}}
+
+  .rule{height:1px; background:var(--line); margin:56px 0 8px; border:0}
+
+  /* ---------- plate ---------- */
+  .plates{display:flex; flex-direction:column; gap:26px; padding:24px 0 0}
+  .plate{
+    background:linear-gradient(180deg,var(--bg-2),var(--bg));
+    border:1px solid var(--line); border-radius:14px;
+    padding:30px 30px 26px; position:relative;
+    transition:border-color .35s ease, box-shadow .35s ease;
+  }
+  .plate:hover{border-color:var(--line-2); box-shadow:0 0 0 1px var(--glow-soft),0 24px 60px -30px rgba(0,0,0,.8)}
+  .plate-hd{display:flex; flex-direction:column; gap:12px; margin-bottom:22px}
+  .plate-no{font-family:var(--mono); font-size:11.5px; letter-spacing:.26em; color:var(--ink-faint)}
+  .equation{
+    margin:0; font-family:var(--sans); font-weight:800; letter-spacing:-.01em;
+    font-size:clamp(24px,4.4vw,40px); line-height:1.06; text-wrap:balance; color:var(--ink);
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:0 .5ch;
+  }
+  .equation .eq{color:var(--glow); font-weight:400; padding:0 .18em; text-shadow:0 0 20px rgba(99,211,255,.4)}
+  .verdict{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--glow); align-self:flex-start;
+    border:1px solid var(--glow-line); border-radius:999px; padding:5px 12px; background:var(--glow-soft);
+  }
+
+  .plate-body{display:grid; grid-template-columns:1.15fr 1fr; gap:34px; align-items:start}
+
+  /* skeleton = the glowing spine */
+  .skeleton{position:relative}
+  .skel-label{font-family:var(--mono); font-size:11px; letter-spacing:.24em; color:var(--ink-faint); text-transform:uppercase}
+  .vertebrae{list-style:none; margin:16px 0 0; padding:0 0 0 26px; position:relative; counter-reset:v}
+  .vertebrae::before{content:""; position:absolute; left:5px; top:6px; bottom:8px; width:2px;
+    background:linear-gradient(180deg,var(--glow),rgba(99,211,255,.25)); box-shadow:0 0 12px var(--glow-soft)}
+  .vertebrae li{position:relative; padding:0 0 15px; color:var(--ink); font-size:15.5px; line-height:1.5}
+  .vertebrae li::before{
+    content:""; position:absolute; left:-26px; top:6px; width:12px; height:12px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--glow); box-shadow:0 0 10px rgba(99,211,255,.55);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .plate:hover .vertebrae li::before{box-shadow:0 0 16px rgba(99,211,255,.85)}
+  .vertebrae li:last-child{padding-bottom:0}
+
+  /* specimens = the skin */
+  .specimens{display:flex; flex-direction:column; gap:16px}
+  .specimen{border-left:2px solid var(--line-2); padding:2px 0 2px 16px}
+  .sp-tag{font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--warm); text-transform:uppercase}
+  .specimen h3{margin:5px 0 4px; font-family:var(--serif); font-size:21px; font-weight:700; color:var(--ink); line-height:1.15}
+  .specimen p{margin:0; font-size:14px; color:var(--ink-dim); line-height:1.5}
+
+  .diagnosis{
+    font-family:var(--serif); font-style:italic; font-size:16.5px; line-height:1.55;
+    color:var(--ink-dim); margin:24px 0 0; padding-top:20px; border-top:1px solid var(--line);
+    text-wrap:pretty;
+  }
+  .diagnosis b{color:var(--ink); font-style:normal; font-weight:600}
+
+  /* ---------- footer ---------- */
+  .foot{margin:64px 0 90px; padding-top:34px; border-top:1px solid var(--line); color:var(--ink-dim); font-size:14.5px}
+  .foot h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px}
+  .foot p{max-width:70ch; margin:0 0 14px}
+  .foot b{color:var(--ink); font-weight:600}
+  .kicker{font-family:var(--serif); font-style:italic; font-size:19px; color:var(--ink); max-width:44ch}
+
+  @media (max-width:720px){
+    .hero{padding:60px 0 24px}
+    .plate{padding:24px 20px}
+    .plate-body{grid-template-columns:1fr; gap:26px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .title{animation:none; filter:none; opacity:1; letter-spacing:-.02em}
+    .scan{display:none}
+  }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="scan"></div>
+    <span class="eyebrow">An X-ray of 112,936 real story plots</span>
+    <h1 class="title">Same<br>Bones</h1>
+    <p class="thesis">Strip the skin off two stories from different centuries, continents, and genres — and sometimes the very same skeleton stares back.</p>
+    <p class="lede">Originality is mostly <b>recombination</b>. Below are six specimens pulled from a corpus of 112,936 published plots: pairs and trios that look nothing alike and are, underneath, one story wearing different flesh. The differences are skin. The bones are shared.</p>
+  </header>
+
+  <hr class="rule">
+
+  <div class="plates">
+
+    <!-- 01 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 01 — succession by fratricide</span>
+        <h2 class="equation"><span>The Lion King</span><span class="eq">=</span><span>Hamlet</span></h2>
+        <span class="verdict">Match confirmed · 4 shared vertebrae</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A king is murdered by his own brother, who takes the throne.</li>
+            <li>The dead king appears as a ghost to his son and names the killer.</li>
+            <li>The rightful heir, paralysed by guilt, exiles himself from the kingdom.</li>
+            <li>He returns, forces the usurper to confess, and destroys him.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">1994 · animated musical</span>
+            <h3>The Lion King</h3>
+            <p>Pride Rock, a wildebeest stampede, "Hakuna Matata," a father's face in the stars.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">c. 1600 · revenge tragedy</span>
+            <h3>Hamlet</h3>
+            <p>Elsinore, poison poured in a sleeping ear, a play within a play, a ghost on the battlements.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">Same bones, one true divergence: <b>Hamlet dies of his hesitation; Simba survives his.</b> Tragedy and myth are the identical story told to opposite ends.</p>
+    </article>
+
+    <!-- 02 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 02 — the hollow crown</span>
+        <h2 class="equation"><span>The Godfather</span><span class="eq">=</span><span>Macbeth</span></h2>
+        <span class="verdict">Match confirmed · 4 shared vertebrae</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A loyal, capable man is shown an opening to power — and pushed toward it by an intimate and a violent provocation.</li>
+            <li>He commits one murder to seize what feels owed to him.</li>
+            <li>Each killing forces the next; old friends become threats to be purged.</li>
+            <li>He wins the throne and loses his soul, alone behind a closing door.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">1972 · crime epic</span>
+            <h3>The Godfather</h3>
+            <p>A war hero drawn back in, a restaurant hit, a christening intercut with a massacre.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">c. 1606 · Scottish tragedy</span>
+            <h3>Macbeth</h3>
+            <p>Three witches, a drugged guard, a banquet haunted by Banquo, Birnam Wood on the march.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">Only the <b>pusher</b> differs — Lady Macbeth's ambition, or the bullets that put Vito in the street. Both men mistake the crown for safety, and it costs them everyone they love.</p>
+    </article>
+
+    <!-- 03 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 03 — the reluctant chosen one</span>
+        <h2 class="equation"><span>Star Wars</span><span class="eq">=</span><span>The Matrix</span></h2>
+        <span class="verdict">Match confirmed · monomyth family</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A nobody senses his ordinary world is a lie he can't name.</li>
+            <li>A wise older mentor appears, reveals the hidden truth, and calls him "the one."</li>
+            <li>The mentor is taken — struck down, or captured and given up — so the young man can go on.</li>
+            <li>Guided by the mentor beyond death, he masters the hidden power and breaks the dark lord.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">1977 · space opera</span>
+            <h3>Star Wars</h3>
+            <p>A desert farm boy, Obi-Wan's lightsaber, the Force, a voice in the trench: "let go."</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">1999 · cyberpunk</span>
+            <h3>The Matrix</h3>
+            <p>A cubicle hacker, Morpheus's red pill, a simulated world, a phone booth back to the sky.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">The same skeleton walks through <b>The Lord of the Rings, Harry Potter, and half of myth</b> — Joseph Campbell named it the hero's journey. The desert, the code, the ring are only its costume.</p>
+    </article>
+
+    <!-- 04 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 04 — the creator's reckoning</span>
+        <h2 class="equation"><span>Frankenstein</span><span class="eq">=</span><span>Jurassic Park</span><span class="eq">=</span><span>Blade Runner</span></h2>
+        <span class="verdict">Match confirmed · Promethean trio</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A brilliant maker uses new science to create life that "shouldn't" exist.</li>
+            <li>Warnings about playing god are waved away in the thrill — or the profit — of it.</li>
+            <li>The creation slips its maker's control.</li>
+            <li>It turns on him, and the miracle becomes a judgement.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">1818 · gothic novel</span>
+            <h3>Frankenstein</h3>
+            <p>A stitched corpse jolted alive in a watchtower lab; "It's alive!"; a monster who only wanted flowers.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">1993 · sci-fi blockbuster</span>
+            <h3>Jurassic Park</h3>
+            <p>Cloned dinosaurs, "life finds a way," the frog DNA that lets the caged thing breed and break free.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">1982 · neo-noir</span>
+            <h3>Blade Runner</h3>
+            <p>Replicants built to serve, four years to live, and a creation that comes home to meet its maker.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">Only our <b>sympathy</b> moves — we pity the monster, fear the dinosaurs, and root for the replicant. The Promethean bones underneath never change: make life, lose control, answer for it.</p>
+    </article>
+
+    <!-- 05 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 05 — alone against the sea</span>
+        <h2 class="equation"><span>Cast Away</span><span class="eq">=</span><span>Life of Pi</span><span class="eq">=</span><span>Robinson Crusoe</span></h2>
+        <span class="verdict">Match confirmed · castaway trio</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A sudden disaster strands a man alone, cut off from all of society.</li>
+            <li>He must learn raw survival against an indifferent nature.</li>
+            <li>His one bond is with a non-human companion he talks to, needs, and grieves.</li>
+            <li>The ordeal remakes him; he returns to a world he can no longer fully rejoin.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">2000 · survival drama</span>
+            <h3>Cast Away</h3>
+            <p>A FedEx man on a Pacific island, and a volleyball named Wilson.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">2001 · magical-realist novel</span>
+            <h3>Life of Pi</h3>
+            <p>A boy in a lifeboat sharing it with a Bengal tiger named Richard Parker.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">1719 · the first English novel</span>
+            <h3>Robinson Crusoe</h3>
+            <p>A shipwrecked sailor, a footprint in the sand, and a companion named Friday.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">Three centuries apart, the same lonely bones: <b>the companion is the whole story.</b> Without something to keep for, survival isn't a plot — it's just weather.</p>
+    </article>
+
+    <!-- 06 -->
+    <article class="plate">
+      <div class="plate-hd">
+        <span class="plate-no">Plate 06 — assemble the crew</span>
+        <h2 class="equation"><span>Ocean's Eleven</span><span class="eq">=</span><span>Seven Samurai</span></h2>
+        <span class="verdict">Match confirmed · 4 shared vertebrae</span>
+      </div>
+      <div class="plate-body">
+        <div class="skeleton">
+          <span class="skel-label">Shared skeleton</span>
+          <ol class="vertebrae">
+            <li>A leader takes on a job too big for one person, for stakes both practical and personal.</li>
+            <li>He recruits a crew one by one — each a specialist with a signature skill.</li>
+            <li>They drill and plan the near-impossible operation.</li>
+            <li>The execution turns on a hidden gambit; they win, but the team is changed and thinned.</li>
+          </ol>
+        </div>
+        <div class="specimens">
+          <div class="specimen">
+            <span class="sp-tag">2001 · Las Vegas heist</span>
+            <h3>Ocean's Eleven</h3>
+            <p>Con men in tuxedos cracking a casino vault to take a fortune that isn't theirs.</p>
+          </div>
+          <div class="specimen">
+            <span class="sp-tag">1954 · Japanese epic</span>
+            <h3>Seven Samurai</h3>
+            <p>Masterless rōnin recruited to defend a starving village that can pay them only in rice.</p>
+          </div>
+        </div>
+      </div>
+      <p class="diagnosis">The aim inverts — one crew <b>takes</b>, the other <b>protects</b> — but recruit-the-specialists-for-one-impossible-job is the same machine. Change the target and it becomes a war film, a caper, or a fellowship.</p>
+    </article>
+
+  </div>
+
+  <footer class="foot">
+    <p class="kicker">The point isn't that these stories are unoriginal. It's that the skeleton is the part you're free to keep — so all the craft can go into the skin.</p>
+    <div style="height:28px"></div>
+    <h4>How this was made</h4>
+    <p>Each skeleton was drawn by reading the <b>actual plot summaries</b> in <b>WikiPlots</b> — 112,936 plots scraped from Wikipedia (Mark Riedl, Georgia Tech; CC-BY-SA) — and stripping each story down to the structure it shares with the others. It's the same corpus David Robinson once measured for the average "shape" of a story, but left as static charts.</p>
+    <h4>What this is — and isn't</h4>
+    <p>A <b>hand-curated first slice</b>, not the finished instrument. These six were chosen to be recognisable; the corpus skews toward notable, older, English-language works, and the matches are picked, not yet computed at scale. The full version would embed all 112,936 skeletons and let you drop in any story — or your own logline — and surface its structural twins automatically.</p>
+  </footer>
+</div>
