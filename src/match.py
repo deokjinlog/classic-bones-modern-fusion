@@ -17,10 +17,11 @@ def rank(setting_key):
         req = set(s["req"])
         met = req & affords
         rate = len(met) / len(req) if req else 0
-        fresh = 1 - s.get("modern_done", 0.5)          # 집거리 대용: 현대로 덜 옮겨졌을수록 신선
-        score = fresh * s["freq"] if rate >= 0.999 else 0  # 완전 적합만 후보
+        fresh = 1 - s.get("modern_done", 0.5)              # 집거리 대용: 현대로 덜 옮겨졌을수록 신선
+        proven = s["freq"] + 8 * s.get("canon_freq", 0)    # 검증도 = 일반빈도 + 캐논가중(블렌드)
+        score = fresh * proven if rate >= 0.999 else 0     # 완전 적합만 후보
         rows.append({"name": s["name"], "rate": rate, "met": len(met), "tot": len(req),
-                     "freq": s["freq"], "fresh": round(fresh, 2), "score": round(score, 1),
+                     "proven": proven, "fresh": round(fresh, 2), "score": round(score, 1),
                      "missing": sorted(req - affords)})
     rows.sort(key=lambda r: (-r["score"], -r["rate"]))
     return rows
@@ -31,11 +32,11 @@ def main():
     st = ST[key]
     print(f"■ 세팅: {st['name']}   보유: {st['affords']}")
     print(f"  ({st['gloss']})\n")
-    print("  점수 = 신선도(1−현대소진) × 빈도  [완전 적합만]")
+    print("  점수 = 신선도(1−현대소진) × 검증도(일반빈도 + 8×캐논빈도)  [완전 적합만]")
     print("  " + "-" * 68)
     for r in rank(key):
         if r["score"] > 0:
-            print(f"  ✅ {r['score']:>5}  충족 {r['met']}/{r['tot']} · 신선 {r['fresh']} · 빈도 {r['freq']:>2}  {r['name']}")
+            print(f"  ✅ {r['score']:>6}  충족 {r['met']}/{r['tot']} · 신선 {r['fresh']} · 검증 {r['proven']:>3}  {r['name']}")
     print("  " + "-" * 68 + "  (아래=부적합/부분)")
     for r in rank(key):
         if r["score"] == 0:
