@@ -4,7 +4,7 @@
 > 신선하되 말 되는 이야기 프리미스를 **"진짜 덜 쓰였다"는 실데이터 영수증**과 함께 뽑아준다.
 
 design-explosion의 **스토리판**. "AI가 이야기를 대신 쓴다"가 아니라, 실제 이야기 **11만 편을 세어서** 조준하는 분석 도구.
-산출물 = **Claude Code 스킬 + 배포 아티팩트 쇼케이스** (무서버·무API).
+산출물 = **Claude Code 스킬**([`.claude/skills/classic-bones-fusion`](.claude/skills/classic-bones-fusion/SKILL.md)) **+ 배포 아티팩트 쇼케이스** (무서버·무API).
 
 ---
 
