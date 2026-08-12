@@ -1,7 +1,7 @@
 <title>센터</title>
 <style>
   :root{
-    --stage:#08080e; --panel:#101018; --panel2:#15151f;
+    --stage:#08080e; --panel:#101018;
     --ink:#f3eff7; --muted:#928ca1; --faint:#6f6a7d;
     --magenta:#ff2e88; --cyan:#35e6ff; --gold:#f6c453;
     --line:#242230; --line2:#33303f;
@@ -12,8 +12,7 @@
     line-height:1.7; -webkit-font-smoothing:antialiased; }
   .reel{ max-width:720px; margin:0 auto; padding:0 18px 80px; }
 
-  /* COVER */
-  .cover{ position:relative; min-height:76vh; display:flex; flex-direction:column;
+  .cover{ position:relative; min-height:560px; display:flex; flex-direction:column;
     justify-content:flex-end; padding:40px 0 44px; overflow:hidden; }
   .cover::before{ content:""; position:absolute; inset:-10% -30% auto -30%; height:92%;
     background:radial-gradient(60% 70% at 50% 0%, rgba(246,196,83,.20), transparent 62%),
@@ -39,7 +38,6 @@
     font-weight:700; margin:52px 0 16px; display:flex; align-items:center; gap:12px; }
   .lbl::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line2),transparent); }
 
-  /* CAST */
   .cast{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   @media(max-width:520px){ .cast{ grid-template-columns:1fr; } }
   .role{ border:1px solid var(--line); border-radius:12px; padding:13px 15px; background:var(--panel); }
@@ -49,21 +47,21 @@
   .role.ghost{ border-color:#1d3a44; background:linear-gradient(180deg,var(--panel),#0c1418); }
   .role.ghost .maps{ color:var(--cyan); }
 
-  /* PANELS */
   .panel{ margin:0 0 26px; }
   .stage{ position:relative; aspect-ratio:16/12; border-radius:16px; overflow:hidden;
     background:radial-gradient(120% 100% at 50% 120%, #14121c, var(--stage));
-    border:1px solid var(--line); box-shadow:0 18px 50px -30px #000; }
-  .floor{ position:absolute; inset:auto 0 0 0; height:32%;
-    background:linear-gradient(180deg,transparent,rgba(255,255,255,.03)); }
-  .spot{ position:absolute; border-radius:50%; transform:translateX(-50%);
-    filter:blur(3px); mix-blend-mode:screen; }
-  .char{ position:absolute; bottom:0; height:96%; filter:drop-shadow(0 12px 18px rgba(0,0,0,.55)); }
+    border:1px solid var(--line); box-shadow:0 18px 50px -30px #000; filter:saturate(1.05) contrast(1.04); }
+  .stage::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+    box-shadow:inset 0 0 76px 20px rgba(0,0,0,.55); }
+  .floor{ position:absolute; inset:auto 0 0 0; height:34%;
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.45)); }
+  .spot{ position:absolute; border-radius:50%; transform:translateX(-50%); filter:blur(3px); mix-blend-mode:screen; }
+  .char{ position:absolute; bottom:0; filter:drop-shadow(0 12px 18px rgba(0,0,0,.6)); z-index:1; }
   .frame{ position:absolute; border:2px solid var(--gold); border-radius:6px;
     background:linear-gradient(180deg,rgba(246,196,83,.12),transparent); box-shadow:0 0 24px rgba(246,196,83,.2);
-    display:flex; align-items:flex-end; justify-content:center; overflow:hidden; }
+    overflow:hidden; z-index:1; }
   .phone{ position:absolute; width:64px; height:120px; border-radius:12px; background:#05060a;
-    border:1px solid #143038; box-shadow:0 0 34px rgba(53,230,255,.5); display:flex; align-items:center; justify-content:center; }
+    border:1px solid #143038; box-shadow:0 0 34px rgba(53,230,255,.5); display:flex; align-items:center; justify-content:center; z-index:1; }
   .wave{ display:flex; gap:4px; align-items:center; height:54px; }
   .wave i{ width:4px; border-radius:3px; background:var(--cyan); box-shadow:0 0 10px var(--cyan);
     animation:pulse 1.1s ease-in-out infinite; }
@@ -72,7 +70,7 @@
 
   .bubble{ position:absolute; max-width:62%; background:var(--ink); color:#14101a;
     font-size:13.5px; font-weight:700; line-height:1.4; padding:9px 13px; border-radius:14px;
-    box-shadow:0 8px 22px -8px #000; z-index:3; }
+    box-shadow:0 8px 22px -8px #000; z-index:4; }
   .bubble::after{ content:""; position:absolute; width:0; height:0; border:9px solid transparent; }
   .bubble.tl::after{ left:18px; bottom:-14px; border-top-color:var(--ink); }
   .bubble.tr::after{ right:18px; bottom:-14px; border-top-color:var(--ink); }
@@ -80,14 +78,13 @@
   .bubble.dark.tl::after{ border-top-color:#14121b; } .bubble.dark.tr::after{ border-top-color:#14121b; }
   .bubble.truth{ background:#0c1a20; color:var(--cyan); border:1px solid #1f4b57; font-weight:600; }
   .bubble.truth.tr::after{ border-top-color:#0c1a20; }
-  .think{ position:absolute; max-width:70%; font-size:14px; font-weight:600; font-style:italic;
-    text-shadow:0 2px 12px #000; z-index:3; }
+  .think{ position:absolute; max-width:72%; font-size:14px; font-weight:600; font-style:italic;
+    text-shadow:0 2px 14px #000, 0 0 3px #000; z-index:4; }
 
   .cap{ display:flex; gap:14px; align-items:baseline; margin:12px 4px 0; }
   .beatno{ font-weight:900; font-size:26px; line-height:1; color:var(--magenta); flex:none; width:34px; }
   .cap p{ margin:0; font-size:14.5px; } .cap .scene{ color:var(--muted); }
 
-  /* RECEIPT */
   .receipt{ margin-top:48px; border:1px solid var(--line2); border-radius:16px; overflow:hidden; background:var(--panel); }
   .receipt h3{ margin:0; padding:16px 20px; font-size:12px; letter-spacing:.26em; text-transform:uppercase;
     color:var(--stage); font-weight:800; background:linear-gradient(90deg,var(--gold),#e6a53a); }
@@ -100,72 +97,62 @@
   .note{ margin-top:14px; font-size:12px; color:var(--faint); text-align:center; }
 </style>
 
-<!-- ================= CHARACTER ART (flat vector) ================= -->
+<!-- CHARACTER ART (flat vector, dramatic cel-shaded) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <!-- 서하 : 후계자(햄릿) — 검은머리 후드, 강렬/그늘 -->
   <symbol id="seoha" viewBox="0 0 200 250">
-    <path d="M12,250 C12,186 52,162 74,156 L126,156 C148,162 188,186 188,250 Z" fill="#2b2935"/>
-    <path d="M78,150 C86,176 114,176 122,150 L124,250 L76,250 Z" fill="#201e28"/>
-    <path d="M86,132 h28 v22 q-14,11 -28,0 z" fill="#e2ac84"/>
-    <path d="M60,86 C60,50 78,40 100,40 C122,40 140,50 140,86 C140,112 135,131 120,140 C111,145 100,146 100,146 C100,146 89,145 80,140 C65,131 60,112 60,86 Z" fill="#f0c8a4"/>
-    <circle cx="60" cy="98" r="7" fill="#f0c8a4"/><circle cx="140" cy="98" r="7" fill="#f0c8a4"/>
-    <!-- hair -->
-    <path d="M56,96 C50,52 74,30 100,30 C128,30 150,52 145,98 C143,80 138,70 132,66 C133,80 130,88 126,92 C124,74 118,66 110,63 C112,74 108,80 104,84 C99,66 86,60 74,66 C80,68 82,74 80,82 C72,74 63,80 56,96 Z" fill="#181620"/>
-    <path d="M70,64 C64,74 62,86 63,96 L58,92 C57,78 61,68 70,64 Z" fill="#181620"/>
-    <!-- brows (angled = intense) -->
-    <path d="M74,92 l20,5" stroke="#241f2b" stroke-width="4" stroke-linecap="round"/>
-    <path d="M126,92 l-20,5" stroke="#241f2b" stroke-width="4" stroke-linecap="round"/>
-    <!-- eyes -->
-    <path d="M74,104 q10,-6 20,1 q-10,5 -20,-1 z" fill="#fff"/>
-    <path d="M106,105 q10,-7 20,-1 q-10,6 -20,1 z" fill="#fff"/>
-    <circle cx="85" cy="103" r="4.5" fill="#2a2331"/><circle cx="116" cy="103" r="4.5" fill="#2a2331"/>
-    <circle cx="86.5" cy="101.5" r="1.5" fill="#fff"/><circle cx="117.5" cy="101.5" r="1.5" fill="#fff"/>
-    <!-- nose + mouth -->
-    <path d="M100,110 l-3,9 h6 z" fill="#d69a72" opacity=".35"/>
-    <path d="M92,126 q8,4 16,0" stroke="#b9805f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M4,250 C4,180 46,155 74,149 L126,149 C154,155 196,180 196,250 Z" fill="#211f2a"/>
+    <path d="M74,149 C84,178 116,178 126,149 L128,250 L72,250 Z" fill="#15131c"/>
+    <path d="M89,134 h22 v18 q-11,8 -22,0 z" fill="#d19a70"/>
+    <path d="M64,84 C64,52 82,44 100,44 C118,44 136,52 136,84 C136,107 121,133 100,153 C79,133 64,107 64,84 Z" fill="#eec19a"/>
+    <path d="M100,44 C118,44 136,52 136,84 C136,107 121,133 100,153 Z" fill="#c88a62" opacity=".5"/>
+    <path d="M65,68 C63,58 68,50 78,46" stroke="#ffe0b0" stroke-width="2.5" fill="none" opacity=".55" stroke-linecap="round"/>
+    <circle cx="64" cy="97" r="6" fill="#eec19a"/><circle cx="136" cy="97" r="6" fill="#c88a62"/>
+    <path d="M56,100 C50,52 78,30 100,30 C124,30 150,52 144,100 C140,80 132,70 124,68 L130,90 C121,72 111,66 103,66 L109,86 C99,66 84,62 74,70 L80,86 C70,74 61,84 56,100 Z" fill="#141019"/>
+    <path d="M74,93 L95,98" stroke="#161019" stroke-width="5" stroke-linecap="round"/>
+    <path d="M126,93 L105,98" stroke="#161019" stroke-width="5" stroke-linecap="round"/>
+    <path d="M75,103 Q85,99 94,103 L93,107 Q84,106 75,106 Z" fill="#fbf7f2"/>
+    <path d="M106,103 Q115,99 125,103 L124,107 Q115,106 106,106 Z" fill="#e9ddd2"/>
+    <circle cx="85" cy="104" r="3.8" fill="#221c29"/><circle cx="116" cy="104" r="3.8" fill="#221c29"/>
+    <circle cx="86.4" cy="102.6" r="1.3" fill="#fff"/>
+    <path d="M99,110 L96,120 L102,120 Z" fill="#b87c54" opacity=".4"/>
+    <path d="M92,130 L108,130" stroke="#9c6642" stroke-width="3" stroke-linecap="round"/>
   </symbol>
 
-  <!-- 도경 : 찬탈자 — 애쉬블론드, 자신만만 -->
   <symbol id="dokyung" viewBox="0 0 200 250">
-    <path d="M12,250 C12,184 54,160 76,155 L124,155 C146,160 188,184 188,250 Z" fill="#efeef4"/>
-    <path d="M80,150 L100,196 L120,150 L124,250 L76,250 Z" fill="#c9c7d6"/>
-    <path d="M100,168 l0,60" stroke="#8f8da3" stroke-width="2"/>
-    <path d="M86,132 h28 v22 q-14,11 -28,0 z" fill="#e6b48c"/>
-    <path d="M60,86 C60,50 78,40 100,40 C122,40 140,50 140,86 C140,112 135,131 120,140 C111,145 100,146 100,146 C100,146 89,145 80,140 C65,131 60,112 60,86 Z" fill="#f4d0ac"/>
-    <circle cx="60" cy="98" r="7" fill="#f4d0ac"/><circle cx="140" cy="98" r="7" fill="#f4d0ac"/>
-    <!-- swept blonde hair -->
-    <path d="M55,92 C48,50 76,28 104,30 C134,32 150,54 146,92 C142,72 132,60 118,58 C138,66 138,84 134,94 C132,76 120,66 104,66 C126,58 120,44 100,44 C82,44 70,56 64,72 C61,80 58,86 55,92 Z" fill="#d8c49a"/>
-    <path d="M104,30 C120,34 132,44 138,58 C120,50 108,50 100,54 C112,42 108,34 104,30 Z" fill="#c7b083"/>
-    <!-- brows (one raised = smug) -->
-    <path d="M74,94 q10,-3 20,-1" stroke="#7a5a3a" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M108,90 q10,-2 18,3" stroke="#7a5a3a" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M76,104 q9,-5 18,0 q-9,5 -18,0 z" fill="#fff"/>
-    <path d="M108,104 q9,-5 18,0 q-9,5 -18,0 z" fill="#fff"/>
-    <circle cx="86" cy="103" r="4.5" fill="#3a2f22"/><circle cx="117" cy="103" r="4.5" fill="#3a2f22"/>
-    <circle cx="87.5" cy="101.5" r="1.5" fill="#fff"/><circle cx="118.5" cy="101.5" r="1.5" fill="#fff"/>
-    <path d="M100,110 l-3,9 h6 z" fill="#c98a5f" opacity=".35"/>
-    <!-- smirk -->
-    <path d="M90,124 q10,7 22,-1" stroke="#b06f4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M4,250 C4,180 46,155 74,149 L126,149 C154,155 196,180 196,250 Z" fill="#eeedf3"/>
+    <path d="M76,149 L100,196 L124,149 L128,250 L72,250 Z" fill="#c6c4d3"/>
+    <path d="M89,134 h22 v18 q-11,8 -22,0 z" fill="#d79b72"/>
+    <path d="M64,84 C64,52 82,44 100,44 C118,44 136,52 136,84 C136,107 121,133 100,153 C79,133 64,107 64,84 Z" fill="#f2c8a0"/>
+    <path d="M100,44 C118,44 136,52 136,84 C136,107 121,133 100,153 Z" fill="#cf9067" opacity=".45"/>
+    <circle cx="64" cy="97" r="6" fill="#f2c8a0"/><circle cx="136" cy="97" r="6" fill="#cf9067"/>
+    <path d="M55,96 C50,50 80,28 104,30 C132,32 150,56 143,98 C138,74 126,64 110,64 C132,60 128,44 104,44 C84,44 70,54 62,72 C59,80 57,88 55,96 Z" fill="#d7c191"/>
+    <path d="M104,30 C124,34 138,48 143,70 C126,54 112,54 102,58 C116,44 110,34 104,30 Z" fill="#c3aa77"/>
+    <path d="M74,95 Q84,92 94,95" stroke="#7c5c3a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M107,89 Q117,87 126,92" stroke="#7c5c3a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M75,104 Q85,100 94,104 Q85,108 75,104 Z" fill="#fbf7f2"/>
+    <path d="M107,104 Q116,100 125,104 Q116,108 107,104 Z" fill="#e9ddd2"/>
+    <circle cx="86" cy="104" r="3.8" fill="#3a2f22"/><circle cx="117" cy="104" r="3.8" fill="#3a2f22"/>
+    <circle cx="87.4" cy="102.6" r="1.3" fill="#fff"/><circle cx="118.4" cy="102.6" r="1.3" fill="#fff"/>
+    <path d="M99,110 L96,120 L102,120 Z" fill="#c98a5f" opacity=".4"/>
+    <path d="M90,126 Q101,134 113,125" stroke="#b06f4a" stroke-width="3" fill="none" stroke-linecap="round"/>
   </symbol>
 
-  <!-- 김 매니저 : 진실을 아는 자 — 지친 -->
   <symbol id="manager" viewBox="0 0 200 250">
-    <path d="M14,250 C14,190 52,168 74,162 L126,162 C148,168 186,190 186,250 Z" fill="#1c2436"/>
-    <path d="M84,158 L100,192 L116,158 L120,250 L80,250 Z" fill="#141a28"/>
-    <rect x="97" y="160" width="6" height="42" fill="#c94f6b"/><rect x="90" y="200" width="20" height="14" rx="2" fill="#0d1220"/>
-    <path d="M86,138 h28 v20 q-14,10 -28,0 z" fill="#d7a67e"/>
-    <path d="M62,88 C62,54 80,44 100,44 C120,44 138,54 138,88 C138,112 133,130 119,139 C110,144 100,145 100,145 C100,145 90,144 81,139 C67,130 62,112 62,88 Z" fill="#e6bd97"/>
-    <circle cx="62" cy="99" r="7" fill="#e6bd97"/><circle cx="138" cy="99" r="7" fill="#e6bd97"/>
-    <path d="M60,92 C56,58 78,40 100,40 C122,40 144,58 140,92 C136,72 124,60 100,60 C76,60 64,72 60,92 Z" fill="#26232e"/>
-    <!-- tired brows (inner up) -->
-    <path d="M76,96 q10,3 18,6" stroke="#2a2530" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M124,96 q-10,3 -18,6" stroke="#2a2530" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M76,108 q9,-4 18,0 q-9,5 -18,0 z" fill="#fff"/>
-    <path d="M106,108 q9,-4 18,0 q-9,5 -18,0 z" fill="#fff"/>
-    <circle cx="85" cy="107" r="4" fill="#2f2833"/><circle cx="115" cy="107" r="4" fill="#2f2833"/>
-    <path d="M83,114 q2,3 5,3" stroke="#b98a66" stroke-width="1.5" fill="none" opacity=".5"/>
-    <path d="M100,114 l-3,8 h6 z" fill="#bd8560" opacity=".35"/>
-    <path d="M91,130 q9,3 18,0" stroke="#a06f4c" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M6,250 C6,184 48,160 74,154 L126,154 C152,160 194,184 194,250 Z" fill="#1b2334"/>
+    <path d="M84,152 L100,190 L116,152 L120,250 L80,250 Z" fill="#131a28"/>
+    <rect x="97" y="156" width="6" height="40" fill="#c94f6b"/><rect x="90" y="194" width="20" height="14" rx="2" fill="#0d1220"/>
+    <path d="M89,136 h22 v18 q-11,8 -22,0 z" fill="#cf9970"/>
+    <path d="M66,86 C66,54 84,46 100,46 C116,46 134,54 134,86 C134,108 120,132 100,151 C80,132 66,108 66,86 Z" fill="#e6bd95"/>
+    <path d="M100,46 C116,46 134,54 134,86 C134,108 120,132 100,151 Z" fill="#c58f66" opacity=".45"/>
+    <circle cx="66" cy="98" r="6" fill="#e6bd95"/><circle cx="134" cy="98" r="6" fill="#c58f66"/>
+    <path d="M60,92 C56,58 80,40 100,40 C120,40 144,58 140,92 C135,72 122,62 100,62 C78,62 65,72 60,92 Z" fill="#25222c"/>
+    <path d="M76,98 Q86,101 94,105" stroke="#211e28" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M124,98 Q114,101 106,105" stroke="#211e28" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M76,108 Q85,105 94,108 Q85,112 76,108 Z" fill="#f3ece4"/>
+    <path d="M106,108 Q115,105 124,108 Q115,112 106,108 Z" fill="#e2d6cc"/>
+    <circle cx="85" cy="108" r="3.6" fill="#2f2833"/><circle cx="115" cy="108" r="3.6" fill="#2f2833"/>
+    <path d="M99,114 L96,123 L102,123 Z" fill="#b57e56" opacity=".4"/>
+    <path d="M92,132 Q100,135 108,132" stroke="#9c6a48" stroke-width="3" fill="none" stroke-linecap="round"/>
   </symbol>
 </svg>
 
@@ -188,55 +175,49 @@
 
   <p class="lbl">EP.01 — 빈 센터</p>
 
-  <!-- ① -->
   <figure class="panel"><div class="stage">
     <div class="spot" style="left:58%; bottom:-16%; width:66%; height:66%; background:radial-gradient(closest-side,rgba(246,196,83,.55),transparent);"></div>
-    <svg class="char" style="left:36%; height:100%; opacity:.35" viewBox="0 0 200 250"><use href="#seoha"/></svg>
-    <svg class="char" style="left:52%; height:104%" viewBox="0 0 200 250"><use href="#dokyung"/></svg>
+    <svg class="char" style="left:34%; height:100%" viewBox="0 0 200 250" width="160" height="200" opacity="0.4"><use href="#seoha"/></svg>
+    <svg class="char" style="left:50%; height:104%" viewBox="0 0 200 250" width="167" height="208"><use href="#dokyung"/></svg>
     <div class="floor"></div>
     <div class="bubble dark tl" style="left:5%; top:9%;">…서준이가, 왜?</div>
     <div class="bubble tr" style="right:5%; top:16%;">걱정 마세요. 무대는, 비지 않으니까.</div>
   </div><div class="cap"><span class="beatno">①</span><p><b>살해·찬탈.</b> <span class="scene">헤드라인 “센터 서준, 자진 탈퇴.” 텅 빈 무대 중앙에 도경이 걸어 들어와 선다.</span></p></div></figure>
 
-  <!-- ② -->
   <figure class="panel"><div class="stage">
     <div class="spot" style="left:40%; bottom:-10%; width:60%; height:56%; background:radial-gradient(closest-side,rgba(255,46,136,.26),transparent);"></div>
-    <div class="frame" style="right:9%; top:12%; width:26%; height:56%;"><svg style="width:120%; height:120%; opacity:.9" viewBox="0 0 200 250"><use href="#seoha"/></svg></div>
-    <svg class="char" style="left:12%; height:100%" viewBox="0 0 200 250"><use href="#seoha"/></svg>
-    <div class="think" style="left:38%; bottom:14%; color:var(--ink)">형은 무대 위에서 죽는 사람이었어.<br>제 발로 내려갈 리가 없어.</div>
+    <div class="frame" style="right:9%; top:12%; width:26%; height:56%;"><svg style="width:130%; height:130%; margin:-8% 0 0 -12%" viewBox="0 0 200 250"><use href="#seoha"/></svg></div>
+    <svg class="char" style="left:11%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha"/></svg>
+    <div class="think" style="left:38%; bottom:12%; color:var(--ink)">형은 무대 위에서 죽는 사람이었어.<br>제 발로 내려갈 리가 없어.</div>
   </div><div class="cap"><span class="beatno">②</span><p><b>후계자 등장.</b> <span class="scene">신인 서하, 데뷔조 합류. 대기실에 걸린 형의 사진 앞에 홀로 선다.</span></p></div></figure>
 
-  <!-- ③ -->
   <figure class="panel"><div class="stage">
     <div class="spot" style="left:62%; bottom:0%; width:60%; height:76%; background:radial-gradient(closest-side,rgba(53,230,255,.30),transparent);"></div>
-    <svg class="char" style="left:6%; height:100%" viewBox="0 0 200 250"><use href="#seoha"/></svg>
+    <svg class="char" style="left:5%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha"/></svg>
     <div class="phone" style="right:16%; top:24%;"><div class="wave" aria-hidden="true"><i style="height:16px"></i><i style="height:38px;animation-delay:.1s"></i><i style="height:52px;animation-delay:.2s"></i><i style="height:28px;animation-delay:.3s"></i><i style="height:44px;animation-delay:.15s"></i></div></div>
     <div class="bubble truth tr" style="right:6%; bottom:11%;">이건 자진이 아니라 — 도려내는 거잖아요.</div>
   </div><div class="cap"><span class="beatno">③</span><p><b>유령의 폭로.</b> <span class="scene">삭제됐어야 할 연습실 녹취. 형의 목소리 — 퇴출은 조작된 계약사고였다.</span></p></div></figure>
 
-  <!-- ④ -->
   <figure class="panel"><div class="stage">
     <div class="spot" style="left:28%; bottom:-10%; width:58%; height:60%; background:radial-gradient(closest-side,rgba(255,46,136,.34),transparent);"></div>
     <div class="spot" style="left:72%; bottom:-10%; width:58%; height:60%; background:radial-gradient(closest-side,rgba(53,230,255,.30),transparent);"></div>
-    <svg class="char" style="left:50%; transform:translateX(-50%); height:104%" viewBox="0 0 200 250"><use href="#seoha"/></svg>
+    <svg class="char" style="left:50%; transform:translateX(-50%); height:104%" viewBox="0 0 200 250" width="167" height="208"><use href="#seoha"/></svg>
     <div class="think" style="left:50%; transform:translateX(-50%); text-align:center; bottom:11%; max-width:84%; color:var(--ink)">터뜨리면 그룹도 나도 끝나. 덮으면 — 형이 두 번 죽고.</div>
   </div><div class="cap"><span class="beatno">④</span><p><b>망설임.</b> <span class="scene">폭로하면 그룹은 해체되고, 자기 데뷔도 끝난다. 조명 반, 어둠 반.</span></p></div></figure>
 
-  <!-- ⑤ -->
   <figure class="panel"><div class="stage">
     <div class="spot" style="left:70%; bottom:-12%; width:56%; height:54%; background:radial-gradient(closest-side,rgba(255,255,255,.13),transparent);"></div>
     <div class="frame" style="right:5%; top:0; width:20%; height:92%; border-color:var(--line2); background:linear-gradient(180deg,rgba(255,255,255,.05),transparent); box-shadow:none;"></div>
-    <svg class="char" style="left:16%; height:100%" viewBox="0 0 200 250"><use href="#manager"/></svg>
+    <svg class="char" style="left:16%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#manager"/></svg>
     <div class="bubble dark tl" style="left:5%; top:11%; max-width:70%;">나까지 잘린 건, 네가 맞다는 뜻이야. …그러니까 넌, 무대에 서.</div>
   </div><div class="cap"><span class="beatno">⑤</span><p><b>곁가지의 죽음.</b> <span class="scene">진실을 캐던 김 매니저가 ‘재계약 불가’ 통보를 받고 짐을 싼다.</span></p></div></figure>
 
-  <!-- ⑥ -->
   <figure class="panel"><div class="stage" style="aspect-ratio:16/13;">
     <div class="spot" style="left:50%; bottom:-8%; width:72%; height:74%; background:radial-gradient(closest-side,rgba(246,196,83,.5),transparent);"></div>
-    <div class="wave" style="position:absolute; left:50%; top:22%; transform:translateX(-50%); height:44px; opacity:.85" aria-hidden="true"><i style="height:14px"></i><i style="height:32px;animation-delay:.1s"></i><i style="height:44px;animation-delay:.2s"></i><i style="height:24px;animation-delay:.3s"></i><i style="height:38px;animation-delay:.15s"></i><i style="height:18px;animation-delay:.25s"></i></div>
-    <svg class="char" style="left:8%; height:78%; opacity:.35" viewBox="0 0 200 250"><use href="#dokyung"/></svg>
-    <svg class="char" style="left:72%; height:78%; opacity:.35" viewBox="0 0 200 250"><use href="#manager"/></svg>
-    <svg class="char" style="left:41%; height:100%" viewBox="0 0 200 250"><use href="#seoha"/></svg>
+    <div class="wave" style="position:absolute; left:50%; top:22%; transform:translateX(-50%); height:44px; opacity:.85; z-index:1;" aria-hidden="true"><i style="height:14px"></i><i style="height:32px;animation-delay:.1s"></i><i style="height:44px;animation-delay:.2s"></i><i style="height:24px;animation-delay:.3s"></i><i style="height:38px;animation-delay:.15s"></i><i style="height:18px;animation-delay:.25s"></i></div>
+    <svg class="char" style="left:8%; height:78%" viewBox="0 0 200 250" width="125" height="156" opacity="0.4"><use href="#dokyung"/></svg>
+    <svg class="char" style="left:72%; height:78%" viewBox="0 0 200 250" width="125" height="156" opacity="0.4"><use href="#manager"/></svg>
+    <svg class="char" style="left:41%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha"/></svg>
     <div class="bubble tr" style="right:6%; bottom:9%;">이 무대는, 원래 제 형의 자리였습니다.</div>
   </div><div class="cap"><span class="beatno">⑥</span><p><b>파국서 복수·공멸.</b> <span class="scene">컴백 생방송. 인이어에서 반주 대신 그 녹취가 흐른다. 카메라도, 관객도, 도경도 멈춘다. — 그리고 방송은, 아직 꺼지지 않았다.</span></p></div></figure>
 
@@ -250,6 +231,6 @@
     <div class="stamp">이 에피소드는 <b>classic-bones-modern-fusion</b>이 매칭(코드·결정적) → 융합(LLM)으로 조준·생성. 매칭은 취향 0, 창작만 LLM. <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></div>
   </section>
 
-  <p class="note">※ 캐릭터 그림은 플랫 벡터(SVG)로 그린 스타일라이즈드 아트 — 완성형 컬러 작화는 이미지 생성 모델을 거칩니다.</p>
+  <p class="note">※ 캐릭터 그림은 플랫 벡터(SVG) 스타일라이즈드 아트 — 완성형 컬러 작화는 이미지 생성 모델(docs/art-prompts.md)을 거칩니다.</p>
   <p class="foot">AI가 이야기를 대신 쓰지 않는다. 실데이터로 조준한다.</p>
 </div>
