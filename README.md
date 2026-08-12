@@ -86,3 +86,8 @@ GPT에 "신선한 스타트업 이야기 줘" 하면 **제일 시끄러운 클�
 
 > 코퍼스 본체는 `.gitignore`. 재다운로드 URL은 [`docs/data-sources.md`](docs/data-sources.md).
 > 확정 스키마(뼈대·세팅 태깅 어휘)는 [`docs/schema.md`](docs/schema.md).
+
+## 라이선스
+
+코드·문서: [MIT](LICENSE) · 기여: [CONTRIBUTING.md](CONTRIBUTING.md)
+코퍼스 원본은 각자 라이선스를 따른다 — WikiPlots(CC-BY-SA) · TVTropes(CC-BY-NC). 원본은 재배포하지 않고 재다운로드 URL만 제공한다 ([docs/data-sources.md](docs/data-sources.md)).
