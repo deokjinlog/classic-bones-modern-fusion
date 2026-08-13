@@ -8,3 +8,6 @@ __pycache__/
 # 임시
 *.tmp
 .DS_Store
+
+# generated real art (run src/render_art.py with a Gemini key)
+assets/art/

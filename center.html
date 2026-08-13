@@ -61,6 +61,7 @@
   .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
     box-shadow:0 20px 55px -32px #000; }
   .scene svg{ display:block; width:100%; }
+  .scene .art{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
   .scene::after{ content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.06;
     mix-blend-mode:overlay; background-size:160px 160px;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
@@ -126,6 +127,7 @@
 
   <!-- ① 살해·찬탈 : 빈 무대, 스포트라이트, 도경 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-1.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="텅 빈 무대 중앙 스포트라이트로 걸어 들어오는 도경">
       <defs>
         <linearGradient id="p1sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0b16"/><stop offset="1" stop-color="#08070f"/></linearGradient>
@@ -169,6 +171,7 @@
 
   <!-- ② 후계자 등장 : 대기실, 형의 대형 추모 초상 앞 홀로 선 서하 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-2.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="대기실에 걸린 형의 대형 초상 앞에 홀로 선 서하">
       <defs>
         <linearGradient id="p2bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0d18"/><stop offset="1" stop-color="#070810"/></linearGradient>
@@ -216,6 +219,7 @@
 
   <!-- ③ 유령의 폭로 : 어두운 연습실, 폰 시안 파형, 유령처럼 떠오르는 형 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-3.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="어두운 연습실 바닥의 폰에서 흐르는 유령 같은 형의 목소리">
       <defs>
         <radialGradient id="p3glow" cx="50%" cy="72%" r="52%"><stop offset="0" stop-color="#35e6ff" stop-opacity=".55"/><stop offset=".5" stop-color="#1596b8" stop-opacity=".22"/><stop offset="1" stop-color="#35e6ff" stop-opacity="0"/></radialGradient>
@@ -260,6 +264,7 @@
 
   <!-- ④ 망설임 : 마젠타/시안 반반 분할 조명, 서하 정면 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-4.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="마젠타와 시안으로 반반 갈린 조명 속 망설이는 서하">
       <defs>
         <linearGradient id="p4L" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff2e88" stop-opacity=".42"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></linearGradient>
@@ -295,6 +300,7 @@
 
   <!-- ⑤ 곁가지의 죽음 : 복도, 상자 든 매니저가 돌아본다 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-5.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="짐 상자를 든 김 매니저가 복도 끝에서 돌아본다">
       <defs>
         <linearGradient id="p5wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e131f"/><stop offset="1" stop-color="#080a12"/></linearGradient>
@@ -334,6 +340,7 @@
 
   <!-- ⑥ 파국·공멸 : 컴백 생방송, 인이어에 그 녹취, 모두 정지 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/center-6.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 520" role="img" aria-label="컴백 생방송 무대에서 그 녹취가 흐르고 모두 멈춘다">
       <defs>
         <linearGradient id="p6sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e0b16"/><stop offset="1" stop-color="#08070f"/></linearGradient>

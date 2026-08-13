@@ -62,6 +62,7 @@
   .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
     box-shadow:0 20px 55px -32px #000; }
   .scene svg{ display:block; width:100%; }
+  .scene .art{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
   .scene::after{ content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.06;
     mix-blend-mode:overlay; background-size:160px 160px;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
@@ -136,6 +137,7 @@
 
   <!-- ① 부름 : 파산 직전 도크, 회사 관제 홀로그램 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-1.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="파산 직전 도크에서 회사 관제 홀로그램이 미션을 내린다">
       <defs>
         <linearGradient id="c1bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1220"/><stop offset="1" stop-color="#060a12"/></linearGradient>
@@ -188,6 +190,7 @@
 
   <!-- ② 여정 : 별 사이를 가르는 배, 항로에 떠 있는 잔해 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-2.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="별과 성운 사이를 가르는 작은 배, 항로에 떠 있는 죽은 이의 잔해">
       <defs>
         <radialGradient id="c2neb" cx="30%" cy="30%" r="70%"><stop offset="0" stop-color="#2a3a6a" stop-opacity=".5"/><stop offset=".6" stop-color="#5a2a5a" stop-opacity=".22"/><stop offset="1" stop-color="#5a2a5a" stop-opacity="0"/></radialGradient>
@@ -225,6 +228,7 @@
 
   <!-- ③ 시련 : 버려진 정거장의 사이렌 신호, 홀리는 루카 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-3.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="버려진 정거장에서 흘러나오는 사이렌 신호에 홀리는 루카">
       <defs>
         <radialGradient id="c3sig" cx="72%" cy="40%" r="55%"><stop offset="0" stop-color="#3fe0ff" stop-opacity=".5"/><stop offset=".5" stop-color="#1f8ba6" stop-opacity=".2"/><stop offset="1" stop-color="#3fe0ff" stop-opacity="0"/></radialGradient>
@@ -275,6 +279,7 @@
 
   <!-- ④ 목표 도달 : 화물칸, 컨테이너 개봉, 숨겨진 표식 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-4.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="화물칸에서 컨테이너를 연 선장, 드러나는 숨겨진 표식">
       <defs>
         <linearGradient id="c4bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12100c"/><stop offset="1" stop-color="#080a10"/></linearGradient>
@@ -316,6 +321,7 @@
 
   <!-- ⑤ 귀환 : 조종석, 별창, 뱃머리를 되돌린다 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-5.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="조종석에서 별창을 마주하고 뱃머리를 되돌리는 선장">
       <defs>
         <radialGradient id="c5win" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#12203a"/><stop offset="1" stop-color="#060a14"/></radialGradient>
@@ -354,6 +360,7 @@
 
   <!-- ⑥ 귀환·대가 : 죽은 도크, 매각 통보 -->
   <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/cargo-6.png" alt="" onerror="this.remove()">
     <svg viewBox="0 0 800 500" role="img" aria-label="돌아온 도크는 이미 매각되고 등록이 말소되어 있다">
       <defs>
         <linearGradient id="c6bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#080a12"/><stop offset="1" stop-color="#05060c"/></linearGradient>

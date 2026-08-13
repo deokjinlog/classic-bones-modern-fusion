@@ -3,6 +3,17 @@
 외부 이미지 모델로 웹툰 컷을 뽑기 위한 프롬프트 팩. 뽑은 이미지를 `exhibits/center-webtoon.html`의
 벡터 자리에 얹으면 완성형 웹툰이 됨. **텍스트 없이** 그림만 뽑으면 됨(말풍선은 후작업).
 
+## ⚡ 자동 파이프라인 (권장) — 코드가 나노바나나를 호출
+수동 복붙 대신 **우리 파이프라인이 이미지 API를 직접 호출** = 엔드투엔드 우리 오케스트레이션(연출=우리, 렌더=이미지 모델).
+```bash
+pip install google-genai
+export GEMINI_API_KEY=...      # 무료 키: https://aistudio.google.com/apikey
+python3 src/render_art.py       # data/art_shots.json 12컷 → assets/art/*.png (앞 컷 레퍼런스로 얼굴 유지)
+```
+끝. 웹툰(`center.html`·`cargo.html`)이 **PNG 있으면 진짜 작화, 없으면 SVG** 자동 표시(말풍선·근거·그레인·먼지는 그대로 위에). Pages 반영은 `git add assets/art && commit`(기본 gitignore).
+
+> 아래는 같은 발주서의 **사람이 읽는 버전**(수동으로 할 때·프롬프트 손볼 때).
+
 ## 0) 실행 순서 (이대로만 하면 됨)
 1. 아래 **① 스타일 락**을 복사해 매 프롬프트 맨 앞에 붙인다.
 2. 먼저 **캐릭터 시트**부터 뽑아 서하·도경 얼굴을 **확정**한다(일관성 기준점).
