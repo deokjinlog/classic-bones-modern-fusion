@@ -14,11 +14,12 @@
 **툴 선택**
 | 툴 | 비용 | 웹툰 적합 | 일관성 |
 |---|---|---|---|
-| **NijiJourney 6** | 유료 | ★★★ (애니/웹툰 특화) | `--cref` 강력 |
+| **Nano Banana (Gemini 2.5 Flash Image)** | **무료권** | ★★★ | **최강** — 캐릭터·구도 유지하며 편집 |
+| NijiJourney 6 | 유료 | ★★★ (애니/웹툰 특화) | `--cref` 강력 |
 | Midjourney v6 | 유료 | ★★ | `--cref` 강력 |
-| ChatGPT(DALL·E 3)·Gemini·Bing | **무료권** | ★★ | 세션 내 "same character"로 유지 |
+| ChatGPT(DALL·E 3)·Bing | 무료권 | ★★ | 세션 내 "same character"로 유지 |
 
-> 무료로 먼저 감 잡고, 맘에 들면 니지로 퀄 올리는 걸 추천.
+> **추천: Nano Banana(Gemini)부터.** 무료 + 캐릭터 일관성·부분수정이 웹툰에 최적. **한 컷 먼저 뽑아 붙여보고** 될지 판단 → 되면 나머지.
 
 ## 1) 스타일 락 (모든 프롬프트 앞에 붙이기)
 ```
