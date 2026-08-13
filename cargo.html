@@ -58,33 +58,18 @@
   .role.holo{ border-color:#1d4a57; background:linear-gradient(180deg,var(--panel),#08151b); }
   .role.holo .maps{ color:var(--cyan); }
 
-  .panel{ margin:0 0 26px; }
-  .stage{ position:relative; aspect-ratio:16/12; border-radius:16px; overflow:hidden;
-    background:radial-gradient(120% 100% at 50% 120%, #0c1322, var(--stage));
-    border:1px solid var(--line); box-shadow:0 18px 50px -30px #000; filter:saturate(1.05) contrast(1.05); }
-  .stage::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
-    box-shadow:inset 0 0 80px 22px rgba(0,0,0,.6); }
-  .starfield i{ position:absolute; width:2px; height:2px; border-radius:50%; background:#bcd8f5; opacity:.55; z-index:0; }
-  .floor{ position:absolute; inset:auto 0 0 0; height:32%;
-    background:linear-gradient(180deg,transparent,rgba(0,0,0,.45)); }
-  .spot{ position:absolute; border-radius:50%; transform:translateX(-50%); filter:blur(3px); mix-blend-mode:screen; }
-  .char{ position:absolute; bottom:0; filter:drop-shadow(0 12px 18px rgba(0,0,0,.6)); z-index:1; }
-  .holoimg{ opacity:.9; filter:drop-shadow(0 0 14px rgba(63,224,255,.6)); }
-  .crate{ position:absolute; border:2px solid var(--amber); border-radius:5px;
-    background:linear-gradient(180deg,rgba(246,178,60,.12),transparent); box-shadow:0 0 24px rgba(246,178,60,.22);
-    z-index:1; display:flex; align-items:center; justify-content:center; }
-  .crate span{ font-size:10px; letter-spacing:.2em; color:var(--amber); font-weight:800; }
-  .console{ position:absolute; width:70px; height:120px; border-radius:12px; background:#04121a;
-    border:1px solid #16414f; box-shadow:0 0 34px rgba(63,224,255,.45); display:flex; align-items:center; justify-content:center; z-index:1; }
+  .panel{ margin:0 0 30px; }
+  .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+    box-shadow:0 20px 55px -32px #000; }
+  .scene svg{ display:block; width:100%; }
   .wave{ display:flex; gap:4px; align-items:center; height:54px; }
   .wave i{ width:4px; border-radius:3px; background:var(--cyan); box-shadow:0 0 10px var(--cyan);
     animation:pulse 1.15s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ transform:scaleY(.3);} 50%{ transform:scaleY(1);} }
   @media(prefers-reduced-motion:reduce){ .wave i{ animation:none; transform:scaleY(.7);} }
-  .helmet{ position:absolute; z-index:1; filter:drop-shadow(0 0 10px rgba(120,150,190,.4)); }
 
-  .bubble{ position:absolute; max-width:62%; background:var(--ink); color:#0b111c;
-    font-size:13.5px; font-weight:700; line-height:1.4; padding:9px 13px; border-radius:14px;
+  .bubble{ position:absolute; max-width:60%; background:var(--ink); color:#0b111c;
+    font-size:14px; font-weight:700; line-height:1.42; padding:9px 13px; border-radius:14px;
     box-shadow:0 8px 22px -8px #000; z-index:4; }
   .bubble::after{ content:""; position:absolute; width:0; height:0; border:9px solid transparent; }
   .bubble.tl::after{ left:18px; bottom:-14px; border-top-color:var(--ink); }
@@ -94,15 +79,15 @@
   .bubble.holo{ background:#06202a; color:var(--cyan); border:1px solid #1f5866; font-weight:600; }
   .bubble.holo.tl::after{ border-top-color:#06202a; } .bubble.holo.tr::after{ border-top-color:#06202a; }
   .bubble.siren{ background:#07242e; color:#9af0ff; border:1px solid #2b6f80; font-style:italic; font-weight:600; }
-  .bubble.siren.tl::after{ border-top-color:#07242e; }
+  .bubble.siren.tl::after{ border-top-color:#07242e; } .bubble.siren.tr::after{ border-top-color:#07242e; }
   .bubble.alarm{ background:#2a0c15; color:#ff9db1; border:1px solid #6e2337; }
-  .bubble.alarm.tr::after{ border-top-color:#2a0c15; }
-  .think{ position:absolute; max-width:74%; font-size:14px; font-weight:600; font-style:italic;
-    text-shadow:0 2px 14px #000, 0 0 3px #000; z-index:4; }
+  .bubble.alarm.tr::after{ border-top-color:#2a0c15; } .bubble.alarm.tl::after{ border-top-color:#2a0c15; }
+  .think{ position:absolute; max-width:72%; font-size:14.5px; font-weight:600; font-style:italic;
+    text-shadow:0 2px 16px #000, 0 0 4px #000; z-index:4; }
 
-  .cap{ display:flex; gap:14px; align-items:baseline; margin:12px 4px 0; }
+  .cap{ display:flex; gap:14px; align-items:baseline; margin:14px 4px 0; }
   .beatno{ font-weight:900; font-size:26px; line-height:1; color:var(--amber); flex:none; width:34px; }
-  .cap p{ margin:0; font-size:14.5px; } .cap .scene{ color:var(--muted); }
+  .cap p{ margin:0; font-size:15px; line-height:1.72; } .cap b{ color:var(--ink); } .cap .scene{ color:var(--muted); }
 
   .receipt{ margin-top:48px; border:1px solid var(--line2); border-radius:16px; overflow:hidden; background:var(--panel); }
   .receipt h3{ margin:0; padding:16px 20px; font-size:12px; letter-spacing:.26em; text-transform:uppercase;
@@ -115,134 +100,6 @@
   .foot{ text-align:center; margin-top:34px; font-size:11.5px; letter-spacing:.06em; color:var(--faint); }
   .note{ margin-top:14px; font-size:12px; color:var(--faint); text-align:center; }
 </style>
-
-<!-- CHARACTER ART — premium SVG, space cast -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="rimA" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ffd98a" stop-opacity="0"/><stop offset="100%" stop-color="#ffd98a" stop-opacity="1"/></linearGradient>
-    <linearGradient id="rimC" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#9af0ff" stop-opacity="0"/><stop offset="100%" stop-color="#9af0ff" stop-opacity="1"/></linearGradient>
-    <radialGradient id="skinCap" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#e7b98c"/><stop offset="58%" stop-color="#d3a071"/><stop offset="100%" stop-color="#a9744a"/></radialGradient>
-    <linearGradient id="hairCap" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4c4a52"/><stop offset="50%" stop-color="#2c2a31"/><stop offset="100%" stop-color="#17161c"/></linearGradient>
-    <radialGradient id="irisCap" cx="50%" cy="32%" r="70%"><stop offset="0%" stop-color="#8a6a44"/><stop offset="66%" stop-color="#4e3a24"/><stop offset="100%" stop-color="#241a10"/></radialGradient>
-    <linearGradient id="jkt" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a4132"/><stop offset="100%" stop-color="#20261c"/></linearGradient>
-    <radialGradient id="skinEng" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#f6cfa4"/><stop offset="58%" stop-color="#e7b487"/><stop offset="100%" stop-color="#c88c5e"/></radialGradient>
-    <linearGradient id="hairEng" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a3f2c"/><stop offset="50%" stop-color="#3a2718"/><stop offset="100%" stop-color="#22160d"/></linearGradient>
-    <radialGradient id="irisEng" cx="50%" cy="32%" r="70%"><stop offset="0%" stop-color="#7a5a3a"/><stop offset="66%" stop-color="#463322"/><stop offset="100%" stop-color="#21160d"/></radialGradient>
-    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a3346"/><stop offset="100%" stop-color="#161d2b"/></linearGradient>
-    <linearGradient id="holoSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bff2ff"/><stop offset="100%" stop-color="#3fb8d6"/></linearGradient>
-    <linearGradient id="holoHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7fe6ff"/><stop offset="100%" stop-color="#2a8ba6"/></linearGradient>
-    <radialGradient id="sirenSkin" cx="45%" cy="32%" r="75%"><stop offset="0%" stop-color="#eafbff"/><stop offset="60%" stop-color="#a7e9f7"/><stop offset="100%" stop-color="#5bb9cf"/></radialGradient>
-    <linearGradient id="sirenHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#dffaff"/><stop offset="55%" stop-color="#6fd3ec"/><stop offset="100%" stop-color="#2f8ba6"/></linearGradient>
-  </defs>
-
-  <!-- 선장 (탐색자) : 풍상 겪은 얼굴, 관자놀이 새치, 수염, 비행 재킷 -->
-  <symbol id="captain" viewBox="0 0 200 250">
-    <path d="M0,250 C0,182 42,156 72,150 L128,150 C158,156 200,182 200,250 Z" fill="url(#jkt)"/>
-    <path d="M72,150 C82,182 118,182 128,150 L128,168 L72,168 Z" fill="#141811"/>
-    <path d="M84,150 L100,188 L116,150 L120,250 L80,250 Z" fill="#171b12"/>
-    <path d="M74,158 L80,150 M126,158 L120,150" stroke="#c9962f" stroke-width="3" opacity=".7"/>
-    <path d="M88,137 h24 v15 q-12,9 -24,0 z" fill="#c89268"/>
-    <path d="M88,137 h24 v6 q-12,7 -24,0 z" fill="#a1704a" opacity=".5"/>
-    <path d="M63,88 C63,55 81,44 100,44 C119,44 137,55 137,88 C137,116 120,140 100,152 C80,140 63,116 63,88 Z" fill="url(#skinCap)"/>
-    <path d="M112,51 C129,59 137,71 137,90 C137,116 120,140 100,152 C112,137 118,120 118,96 C118,74 116,61 112,51 Z" fill="#a9744a" opacity=".4"/>
-    <path d="M118,61 C130,71 136,79 137,92 C138,112 123,134 102,150" stroke="url(#rimA)" stroke-width="3.2" fill="none" opacity=".7" stroke-linecap="round"/>
-    <path d="M74,120 C82,139 118,139 126,120 C124,132 112,142 100,142 C88,142 76,132 74,120 Z" fill="#3a2a1e" opacity=".22"/>
-    <circle cx="63" cy="101" r="6.5" fill="url(#skinCap)"/><circle cx="137" cy="101" r="6.5" fill="#a9744a"/>
-    <path d="M60,92 C56,58 80,42 100,42 C120,42 144,58 140,92 C135,72 122,63 100,63 C78,63 65,72 60,92 Z" fill="url(#hairCap)"/>
-    <path d="M60,92 C58,74 66,64 74,60 C70,72 68,82 68,92 Z" fill="#6d6b74" opacity=".55"/>
-    <path d="M70,95 Q81,92 92,95" stroke="#1d1b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-    <path d="M108,95 Q119,92 130,95" stroke="#1d1b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-    <path d="M72,107 Q82,102 91,106 Q82,110.5 72,107 Z" fill="#f2ede6"/>
-    <circle cx="82" cy="106.4" r="4" fill="url(#irisCap)"/><circle cx="82" cy="106.6" r="1.9" fill="#140f0a"/><circle cx="83.5" cy="105.2" r="1.2" fill="#fff"/>
-    <path d="M109,106 Q118,102 127,106 Q118,110.5 109,106 Z" fill="#e6ddd2"/>
-    <circle cx="118" cy="106.4" r="4" fill="url(#irisCap)"/><circle cx="118" cy="106.6" r="1.9" fill="#140f0a"/><circle cx="119.5" cy="105.2" r="1.2" fill="#fff"/>
-    <path d="M73,111.5 Q82,113 90,111.5" stroke="#a9744a" stroke-width="1.4" fill="none" opacity=".5"/>
-    <path d="M110,111.5 Q118,113 126,111.5" stroke="#a9744a" stroke-width="1.4" fill="none" opacity=".5"/>
-    <path d="M100,110 l-3.4,10 6.8,0 z" fill="#a9744a" opacity=".5"/>
-    <path d="M91,131 Q100,133 109,131" stroke="#7a4e30" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-  </symbol>
-
-  <!-- 정비사 (동료) : 젊고 따뜻, 고글 이마에, 점프수트 -->
-  <symbol id="engineer" viewBox="0 0 200 250">
-    <path d="M0,250 C0,182 42,156 72,150 L128,150 C158,156 200,182 200,250 Z" fill="url(#suit)"/>
-    <path d="M72,150 C82,182 118,182 128,150 L132,250 L68,250 Z" fill="#111725"/>
-    <path d="M96,152 h8 v46 h-8 z" fill="#e7913a" opacity=".8"/>
-    <path d="M88,137 h24 v15 q-12,9 -24,0 z" fill="#d29a70"/>
-    <path d="M88,137 h24 v6 q-12,7 -24,0 z" fill="#ac7850" opacity=".5"/>
-    <path d="M63,88 C63,55 81,44 100,44 C119,44 137,55 137,88 C137,116 120,140 100,152 C80,140 63,116 63,88 Z" fill="url(#skinEng)"/>
-    <path d="M112,51 C129,59 137,71 137,90 C137,116 120,140 100,152 C112,137 118,120 118,96 C118,74 116,61 112,51 Z" fill="#c88c5e" opacity=".38"/>
-    <path d="M118,61 C130,71 136,79 137,92 C138,112 123,134 102,150" stroke="url(#rimA)" stroke-width="3.2" fill="none" opacity=".75" stroke-linecap="round"/>
-    <ellipse cx="78" cy="120" rx="9" ry="5" fill="#e07f5e" opacity=".15"/>
-    <circle cx="63" cy="101" r="6.5" fill="url(#skinEng)"/><circle cx="137" cy="101" r="6.5" fill="#c88c5e"/>
-    <path d="M57,96 C52,58 80,40 100,40 C120,40 148,58 143,96 C139,78 130,70 122,68 L128,86 C119,72 110,68 103,68 L108,84 C99,70 86,68 78,74 L83,86 C72,76 62,80 57,96 Z" fill="url(#hairEng)"/>
-    <path d="M58,84 C74,72 126,72 142,84 C142,92 141,96 141,96 L59,96 C59,96 58,90 58,84 Z" fill="#0a0f18"/>
-    <ellipse cx="80" cy="86" rx="15" ry="11" fill="none" stroke="#8fd8e6" stroke-width="3" opacity=".85"/>
-    <ellipse cx="120" cy="86" rx="15" ry="11" fill="none" stroke="#8fd8e6" stroke-width="3" opacity=".85"/>
-    <ellipse cx="80" cy="86" rx="13" ry="9" fill="#1a2c33" opacity=".55"/><ellipse cx="120" cy="86" rx="13" ry="9" fill="#1a2c33" opacity=".55"/>
-    <path d="M95,86 h10" stroke="#8fd8e6" stroke-width="3" opacity=".85"/>
-    <path d="M71,99 Q81,96 91,99" stroke="#231610" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <path d="M109,99 Q119,96 129,99" stroke="#231610" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <path d="M72,108 Q82,102.5 92,107 Q82,112 72,108 Z" fill="#fbf6f0"/>
-    <circle cx="82" cy="107.4" r="4.4" fill="url(#irisEng)"/><circle cx="82" cy="107.7" r="2.1" fill="#160f0a"/><circle cx="83.8" cy="105.8" r="1.5" fill="#fff"/>
-    <path d="M108,108 Q118,102.5 128,107 Q118,112 108,108 Z" fill="#f0e7db"/>
-    <circle cx="118" cy="107.4" r="4.4" fill="url(#irisEng)"/><circle cx="118" cy="107.7" r="2.1" fill="#160f0a"/><circle cx="119.8" cy="105.8" r="1.5" fill="#fff"/>
-    <path d="M100,112 l-3.4,10 6.8,0 z" fill="#c88c5e" opacity=".5"/>
-    <path d="M90,131 Q100,135 110,131" stroke="#8a5636" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M92,132.5 Q100,135 108,132.5" stroke="#eaa079" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".55"/>
-  </symbol>
-
-  <!-- 회사 관제 (부름) : 시안 홀로그램, 냉정한 미소 -->
-  <symbol id="corpo" viewBox="0 0 200 250">
-    <path d="M0,250 C0,184 44,158 74,152 L126,152 C156,158 200,184 200,250 Z" fill="#0c3341" opacity=".9"/>
-    <path d="M80,152 L100,192 L120,152 L124,250 L76,250 Z" fill="#0a2732" opacity=".9"/>
-    <path d="M88,138 h24 v14 q-12,9 -24,0 z" fill="#5fc6dc"/>
-    <path d="M64,88 C64,56 82,46 100,46 C118,46 136,56 136,88 C136,110 120,134 100,152 C80,134 64,110 64,88 Z" fill="url(#holoSkin)"/>
-    <path d="M100,46 C118,46 136,56 136,88 C136,110 120,134 100,152 Z" fill="#2f9fbd" opacity=".4"/>
-    <circle cx="64" cy="100" r="6.5" fill="url(#holoSkin)"/><circle cx="136" cy="100" r="6.5" fill="#3fb8d6"/>
-    <path d="M58,92 C55,52 82,34 104,36 C130,38 146,58 140,92 C135,70 124,62 108,62 C128,58 124,46 102,46 C84,46 70,54 62,70 C60,78 59,84 58,92 Z" fill="url(#holoHair)"/>
-    <path d="M104,36 C126,40 138,54 140,74 C126,60 114,60 104,62 C118,50 110,40 104,36 Z" fill="#1f7d99" opacity=".7"/>
-    <path d="M71,96 L92,94" stroke="#0a3644" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-    <path d="M108,94 L129,96" stroke="#0a3644" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-    <path d="M73,105 Q82,101.5 91,104 Q82,108.5 73,105 Z" fill="#eafcff"/>
-    <circle cx="82" cy="105.2" r="3.8" fill="#0d4a5a"/><circle cx="82" cy="105.4" r="1.8" fill="#04222b"/><circle cx="83.4" cy="104" r="1.1" fill="#fff"/>
-    <path d="M109,104 Q118,101.5 127,105 Q118,108.5 109,104 Z" fill="#dbf6fb"/>
-    <circle cx="118" cy="105.2" r="3.8" fill="#0d4a5a"/><circle cx="118" cy="105.4" r="1.8" fill="#04222b"/><circle cx="119.4" cy="104" r="1.1" fill="#fff"/>
-    <path d="M100,110 l-3.2,9 6.4,0 z" fill="#2f9fbd" opacity=".5"/>
-    <path d="M90,129 Q100,132 113,125" stroke="#0d4a5a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-    <g opacity=".18" fill="#dffbff"><rect x="60" y="60" width="80" height="1.4"/><rect x="60" y="78" width="80" height="1.4"/><rect x="60" y="96" width="80" height="1.4"/><rect x="60" y="114" width="80" height="1.4"/><rect x="60" y="132" width="80" height="1.4"/></g>
-  </symbol>
-
-  <!-- 사이렌 (길의 시련) : 정거장의 유혹, 흐르는 머리·서늘한 미소 -->
-  <symbol id="siren" viewBox="0 0 200 250">
-    <path d="M40,250 C40,192 60,168 78,214 C86,236 114,236 122,214 C140,168 160,192 160,250 Z" fill="#0c2c37" opacity=".55"/>
-    <path d="M52,120 C40,180 46,250 46,250 L74,250 C70,210 70,170 78,150 Z" fill="url(#sirenHair)" opacity=".8"/>
-    <path d="M148,120 C160,180 154,250 154,250 L126,250 C130,210 130,170 122,150 Z" fill="url(#sirenHair)" opacity=".8"/>
-    <path d="M88,138 h24 v16 q-12,9 -24,0 z" fill="#7fcfe0"/>
-    <path d="M64,86 C64,52 82,42 100,42 C118,42 136,52 136,86 C136,112 120,138 100,154 C80,138 64,112 64,86 Z" fill="url(#sirenSkin)"/>
-    <path d="M112,49 C129,57 136,69 136,88 C136,112 120,138 100,154 C112,138 118,120 118,94 C118,72 116,59 112,49 Z" fill="#63b6cc" opacity=".38"/>
-    <path d="M118,60 C130,70 135,78 136,90 C137,112 122,136 102,152" stroke="url(#rimC)" stroke-width="3.2" fill="none" opacity=".8" stroke-linecap="round"/>
-    <circle cx="64" cy="99" r="6.5" fill="url(#sirenSkin)"/><circle cx="136" cy="99" r="6.5" fill="#63b6cc"/>
-    <path d="M54,92 C48,44 82,26 100,26 C118,26 152,44 146,92 C150,60 120,40 100,40 C80,40 50,60 54,92 Z" fill="url(#sirenHair)"/>
-    <path d="M70,44 C84,34 116,34 130,44 C114,42 86,42 70,44 Z" fill="#eafdff" opacity=".5"/>
-    <path d="M71,93 Q81,90 91,93" stroke="#155a6b" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M109,93 Q119,90 129,93" stroke="#155a6b" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M72,104 Q82,99 92,103 Q82,108 72,104 Z" fill="#f2feff"/>
-    <circle cx="82" cy="104" r="4.4" fill="#2f8ba6"/><circle cx="82" cy="104.3" r="2" fill="#0b323d"/><circle cx="83.7" cy="102.4" r="1.4" fill="#fff"/>
-    <path d="M108,104 Q118,99 128,103 Q118,108 108,104 Z" fill="#e6fbff"/>
-    <circle cx="118" cy="104" r="4.4" fill="#2f8ba6"/><circle cx="118" cy="104.3" r="2" fill="#0b323d"/><circle cx="119.7" cy="102.4" r="1.4" fill="#fff"/>
-    <path d="M99,109 l-3,9 6,0 z" fill="#63b6cc" opacity=".5"/>
-    <path d="M89,128 Q100,134 111,128" stroke="#1f7286" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-    <path d="M91,129.5 Q100,133 109,129.5" stroke="#a7ebf7" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".6"/>
-  </symbol>
-
-  <symbol id="helmet" viewBox="0 0 120 120">
-    <ellipse cx="60" cy="62" rx="42" ry="46" fill="#141c28" stroke="#3a4a63" stroke-width="3"/>
-    <path d="M26,54 C30,30 90,30 94,54 C94,74 82,84 60,84 C38,84 26,74 26,54 Z" fill="#0c1420"/>
-    <path d="M34,50 C40,40 56,38 64,42" stroke="#6f8bb0" stroke-width="3" fill="none" opacity=".5"/>
-    <path d="M60,84 L60,108 M40,104 L80,104" stroke="#3a4a63" stroke-width="3" stroke-linecap="round"/>
-    <path d="M70,96 L100,110" stroke="#2a3548" stroke-width="4" stroke-linecap="round"/>
-  </symbol>
-</svg>
 
 <div class="reel">
   <header class="cover">
@@ -268,53 +125,253 @@
 
   <p class="lbl">EP.01 — 마지막 항로</p>
 
-  <figure class="panel"><div class="stage">
-    <div class="starfield" aria-hidden="true"><i style="left:14%;top:18%"></i><i style="left:30%;top:30%"></i><i style="left:80%;top:20%"></i><i style="left:88%;top:44%"></i></div>
-    <div class="spot" style="left:70%; bottom:-4%; width:60%; height:70%; background:radial-gradient(closest-side,rgba(63,224,255,.34),transparent);"></div>
-    <svg class="char" style="left:8%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#captain"/></svg>
-    <svg class="char holoimg" style="left:60%; height:88%" viewBox="0 0 200 250" width="141" height="176"><use href="#corpo"/></svg>
-    <div class="bubble holo tr" style="right:5%; top:10%;">회수만 하면, 그 배는 당신 겁니다. 딱 한 번.</div>
-    <div class="bubble dark tl" style="left:5%; top:20%;">…‘마지막’이라고 했나.</div>
-  </div><div class="cap"><span class="beatno">①</span><p><b>부름.</b> <span class="scene">파산 직전의 운송선. 회사 관제가 내민 단 하나의 출구 — 외행성 궤도의 버려진 화물을 회수하면 빚이 청산된다.</span></p></div></figure>
+  <!-- ① 부름 : 파산 직전 도크, 회사 관제 홀로그램 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="파산 직전 도크에서 회사 관제 홀로그램이 미션을 내린다">
+      <defs>
+        <linearGradient id="c1bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1220"/><stop offset="1" stop-color="#060a12"/></linearGradient>
+        <radialGradient id="c1holo" cx="50%" cy="40%" r="55%"><stop offset="0" stop-color="#3fe0ff" stop-opacity=".38"/><stop offset="1" stop-color="#3fe0ff" stop-opacity="0"/></radialGradient>
+        <linearGradient id="c1eng" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffb454" stop-opacity=".8"/><stop offset="1" stop-color="#ffb454" stop-opacity="0"/></linearGradient>
+        <radialGradient id="c1vig" cx="50%" cy="46%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#c1bg)"/>
+      <g fill="#bcd8f5"><circle cx="80" cy="60" r="1.4" opacity=".5"/><circle cx="200" cy="40" r="1.2" opacity=".4"/><circle cx="720" cy="70" r="1.4" opacity=".5"/><circle cx="620" cy="46" r="1.2" opacity=".4"/></g>
+      <!-- dock gantries -->
+      <g fill="#0c1526" stroke="#16233c" stroke-width="2">
+        <path d="M0,60 L120,60 L120,440 L0,440 Z"/><path d="M680,60 L800,60 L800,440 L680,440 Z"/>
+        <rect x="120" y="120" width="70" height="16"/><rect x="120" y="300" width="70" height="16"/>
+        <rect x="610" y="120" width="70" height="16"/><rect x="610" y="300" width="70" height="16"/></g>
+      <g fill="#ffb454"><circle cx="40" cy="100" r="3" opacity=".85"/><circle cx="40" cy="220" r="3" opacity=".5"/><circle cx="760" cy="100" r="3" opacity=".85"/></g>
+      <g fill="#ff5a7a"><circle cx="40" cy="360" r="3" opacity=".8"/><circle cx="760" cy="360" r="3" opacity=".7"/></g>
+      <!-- cargo ship hull docked -->
+      <g>
+        <path d="M150,250 L600,242 C640,244 664,252 640,260 L170,268 C140,266 128,258 150,250 Z" fill="#10192b"/>
+        <path d="M150,250 L600,242 C640,244 664,252 660,254 L160,262 C140,260 132,256 150,250 Z" fill="#1a2740"/>
+        <rect x="300" y="230" width="120" height="16" rx="3" fill="#0c1424"/>
+        <g fill="#5fd8ee"><rect x="315" y="234" width="8" height="6" opacity=".8"/><rect x="335" y="234" width="8" height="6" opacity=".6"/><rect x="355" y="234" width="8" height="6" opacity=".8"/></g>
+        <ellipse cx="150" cy="256" rx="30" ry="12" fill="url(#c1eng)"/>
+        <circle cx="150" cy="256" r="7" fill="#ffd9a0"/>
+      </g>
+      <!-- holographic comms panel -->
+      <g transform="translate(500,150)">
+        <ellipse cx="0" cy="30" rx="120" ry="90" fill="url(#c1holo)"/>
+        <rect x="-70" y="-20" width="140" height="96" rx="6" fill="none" stroke="#3fe0ff" stroke-width="1.5" opacity=".55"/>
+        <g opacity=".5" stroke="#7fe9ff" stroke-width="1"><line x1="-70" y1="4" x2="70" y2="4"/><line x1="-70" y1="28" x2="70" y2="28"/><line x1="-70" y1="52" x2="70" y2="52"/></g>
+        <text x="0" y="-2" text-anchor="middle" font-weight="800" font-size="13" fill="#9af0ff" opacity=".85" letter-spacing="2">MISSION · FINAL</text>
+        <text x="0" y="22" text-anchor="middle" font-weight="600" font-size="11" fill="#5fd8ee" opacity=".7">회수 = 채무 전액 청산</text>
+        <text x="0" y="46" text-anchor="middle" font-weight="600" font-size="11" fill="#5fd8ee" opacity=".7">대상 : 외행성 궤도 유실 화물</text>
+      </g>
+      <!-- captain small on gantry -->
+      <g transform="translate(255,300)">
+        <ellipse cx="0" cy="52" rx="22" ry="6" fill="#000" opacity=".4"/>
+        <path d="M-11,-8 C-13,16 -13,44 -11,52 L11,52 C13,44 13,16 11,-8 C11,-18 5,-24 0,-24 C-5,-24 -11,-18 -11,-8 Z" fill="#1a2016"/>
+        <path d="M10,-6 C12,18 11,42 10,50" stroke="#5fd8ee" stroke-width="1.6" fill="none" opacity=".5"/>
+        <circle cx="0" cy="-32" r="9" fill="#cf9970"/>
+        <path d="M-9,-34 C-9,-42 -4,-45 0,-45 C4,-45 9,-42 9,-34 C9,-37 4,-39 0,-39 C-4,-39 -9,-37 -9,-34 Z" fill="#3a3742"/>
+        <path d="M8,-36 C10,-30 8,-24 4,-21" stroke="#5fd8ee" stroke-width="1.4" fill="none" opacity=".5"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c1vig)"/>
+    </svg>
+    <div class="bubble holo tr" style="right:5%;top:12%;">회수만 하면, 그 배는 당신 겁니다. 딱 한 번.</div>
+    <div class="bubble dark tl" style="left:5%;bottom:16%;">…‘마지막’이라고 했나.</div>
+  </div><div class="cap"><span class="beatno">①</span><p><b>부름.</b> <span class="scene">엔진도 끄지 못할 만큼 파산 직전의 운송선. 도크의 어둠 속으로 회사 관제가 홀로그램을 띄운다 — 외행성 궤도의 유실 화물을 회수하면, 빚이 전액 청산된다. 화물이 무엇인지는, 끝내 말하지 않는다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="starfield" aria-hidden="true"><i style="left:10%;top:14%"></i><i style="left:24%;top:40%"></i><i style="left:50%;top:12%"></i><i style="left:68%;top:34%"></i><i style="left:86%;top:22%"></i><i style="left:40%;top:56%"></i></div>
-    <div class="spot" style="left:40%; bottom:-6%; width:64%; height:60%; background:radial-gradient(closest-side,rgba(246,178,60,.18),transparent);"></div>
-    <svg class="helmet" style="right:14%; top:20%; width:64px; height:64px" viewBox="0 0 120 120"><use href="#helmet"/></svg>
-    <svg class="char" style="left:14%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#captain"/></svg>
-    <div class="think" style="right:8%; top:52%; text-align:right; color:var(--ink)">이 항로에서, 나보다 먼저 간 사람들이 있었다.</div>
-  </div><div class="cap"><span class="beatno">②</span><p><b>여정.</b> <span class="scene">별 사이를 가르는 배. 항로엔 돌아오지 못한 이들의 잔해가 떠 있다. 크루는 단 하나, 정비사 루카뿐.</span></p></div></figure>
+  <!-- ② 여정 : 별 사이를 가르는 배, 항로에 떠 있는 잔해 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="별과 성운 사이를 가르는 작은 배, 항로에 떠 있는 죽은 이의 잔해">
+      <defs>
+        <radialGradient id="c2neb" cx="30%" cy="30%" r="70%"><stop offset="0" stop-color="#2a3a6a" stop-opacity=".5"/><stop offset=".6" stop-color="#5a2a5a" stop-opacity=".22"/><stop offset="1" stop-color="#5a2a5a" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c2neb2" cx="80%" cy="70%" r="55%"><stop offset="0" stop-color="#1f6b7a" stop-opacity=".3"/><stop offset="1" stop-color="#1f6b7a" stop-opacity="0"/></radialGradient>
+        <linearGradient id="c2trail" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#3fe0ff" stop-opacity=".7"/><stop offset="1" stop-color="#3fe0ff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="c2vig" cx="50%" cy="50%" r="72%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".66"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#05070f"/>
+      <rect width="800" height="500" fill="url(#c2neb)"/><rect width="800" height="500" fill="url(#c2neb2)"/>
+      <g fill="#dfeafd">
+        <circle cx="60" cy="80" r="1.5" opacity=".7"/><circle cx="140" cy="140" r="1" opacity=".5"/><circle cx="220" cy="60" r="1.4" opacity=".6"/><circle cx="300" cy="120" r="1" opacity=".45"/><circle cx="380" cy="70" r="1.6" opacity=".7"/><circle cx="460" cy="150" r="1" opacity=".5"/><circle cx="540" cy="90" r="1.4" opacity=".6"/><circle cx="620" cy="50" r="1" opacity=".45"/><circle cx="700" cy="130" r="1.6" opacity=".7"/><circle cx="760" cy="80" r="1" opacity=".5"/>
+        <circle cx="120" cy="330" r="1.2" opacity=".5"/><circle cx="260" cy="400" r="1.5" opacity=".6"/><circle cx="500" cy="360" r="1" opacity=".45"/><circle cx="680" cy="420" r="1.4" opacity=".6"/><circle cx="740" cy="300" r="1" opacity=".5"/></g>
+      <!-- ship crossing with trail -->
+      <g transform="translate(470,250)">
+        <rect x="-160" y="-3" width="170" height="6" fill="url(#c2trail)"/>
+        <path d="M-30,-8 L44,-6 C60,-4 66,0 60,4 L-34,10 C-44,8 -46,-4 -30,-8 Z" fill="#141d30"/>
+        <path d="M-30,-8 L44,-6 C58,-4 64,-1 60,0 L-38,6 C-46,4 -44,-4 -30,-8 Z" fill="#22304d"/>
+        <rect x="0" y="-11" width="26" height="7" rx="2" fill="#0e1626"/>
+        <g fill="#5fd8ee"><rect x="4" y="-9" width="4" height="3" opacity=".8"/><rect x="12" y="-9" width="4" height="3" opacity=".6"/></g>
+        <circle cx="-32" cy="1" r="5" fill="#9af0ff"/><circle cx="-32" cy="1" r="10" fill="#3fe0ff" opacity=".3"/>
+      </g>
+      <!-- drifting wreck: broken helmet -->
+      <g transform="translate(230,360) rotate(-14)">
+        <ellipse cx="0" cy="0" rx="26" ry="28" fill="#0f1622" stroke="#33435e" stroke-width="2.5"/>
+        <path d="M-18,-8 C-14,-24 14,-24 18,-8 C18,6 8,14 0,14 C-8,14 -18,6 -18,-8 Z" fill="#080d16"/>
+        <path d="M-12,-10 C-8,-18 4,-19 10,-15" stroke="#6f8bb0" stroke-width="2" fill="none" opacity=".45"/>
+        <path d="M8,18 L22,30" stroke="#2a3548" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="-4" cy="-4" r="2" fill="#ff5a7a" opacity=".6"/>
+      </g>
+      <text x="150" y="150" font-weight="600" font-size="12" fill="#4a5f80" opacity=".6" letter-spacing="2">LANE · 07 — NO RETURN LOGGED</text>
+      <rect width="800" height="500" fill="url(#c2vig)"/>
+    </svg>
+    <div class="think" style="right:6%;bottom:16%;text-align:right;color:var(--ink)">이 항로에서, 나보다 먼저 간 사람들이 있었다.</div>
+  </div><div class="cap"><span class="beatno">②</span><p><b>여정.</b> <span class="scene">별과 성운 사이를 배 한 척이 가른다. 항로엔 돌아오지 못한 이들의 잔해가 소리 없이 떠 있다 — 부서진 헬멧 하나, 아직 깜빡이는 조난 표시. 크루는 단 하나, 정비사 루카뿐이다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="starfield" aria-hidden="true"><i style="left:18%;top:20%"></i><i style="left:60%;top:16%"></i><i style="left:84%;top:38%"></i></div>
-    <div class="spot" style="left:24%; bottom:0%; width:64%; height:80%; background:radial-gradient(closest-side,rgba(63,224,255,.4),transparent);"></div>
-    <svg class="char" style="left:56%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#siren"/></svg>
-    <svg class="char" style="left:14%; height:96%" viewBox="0 0 200 250" width="154" height="192"><use href="#engineer"/></svg>
-    <div class="bubble siren tl" style="left:6%; top:9%;">여기서 쉬어가요. 돌아갈 곳, 없잖아요.</div>
-  </div><div class="cap"><span class="beatno">③</span><p><b>시련.</b> <span class="scene">버려진 정거장에서 새어나오는 조난 신호 — 사이렌. 루카가 홀린다. 멈추면, 이 항로의 잔해들처럼 끝이다.</span></p></div></figure>
+  <!-- ③ 시련 : 버려진 정거장의 사이렌 신호, 홀리는 루카 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="버려진 정거장에서 흘러나오는 사이렌 신호에 홀리는 루카">
+      <defs>
+        <radialGradient id="c3sig" cx="72%" cy="40%" r="55%"><stop offset="0" stop-color="#3fe0ff" stop-opacity=".5"/><stop offset=".5" stop-color="#1f8ba6" stop-opacity=".2"/><stop offset="1" stop-color="#3fe0ff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c3vig" cx="45%" cy="52%" r="70%"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".76"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#050810"/>
+      <g fill="#cfe0f5"><circle cx="80" cy="70" r="1.3" opacity=".5"/><circle cx="180" cy="120" r="1" opacity=".4"/><circle cx="300" cy="60" r="1.4" opacity=".5"/><circle cx="120" cy="220" r="1" opacity=".4"/></g>
+      <!-- derelict station silhouette right -->
+      <g transform="translate(560,60)">
+        <ellipse cx="20" cy="180" rx="220" ry="200" fill="url(#c3sig)"/>
+        <g fill="#0b1420" stroke="#16283a" stroke-width="2">
+          <path d="M-40,40 L120,20 L150,60 L150,300 L-40,320 Z"/>
+          <rect x="-90" y="120" width="60" height="60"/><rect x="150" y="150" width="60" height="40"/>
+          <path d="M40,-20 L60,-20 L60,40 L40,40 Z"/></g>
+        <g fill="#5fd8ee"><rect x="-20" y="70" width="10" height="8" opacity=".7"/><rect x="10" y="90" width="10" height="8" opacity=".5"/><rect x="60" y="120" width="10" height="8" opacity=".8"/><rect x="30" y="160" width="10" height="8" opacity=".4"/></g>
+        <!-- pulsing beacon -->
+        <circle cx="55" cy="-16" r="6" fill="#9af0ff"/><circle cx="55" cy="-16" r="14" fill="#3fe0ff" opacity=".4"/>
+        <!-- siren face faint in a window -->
+        <g transform="translate(70,150)" opacity=".55" stroke="#bff0ff" stroke-width="2" fill="none">
+          <path d="M-16,-2 C-24,-28 -8,-44 0,-44 C8,-44 24,-28 16,-2 C12,-16 6,-22 0,-22 C-6,-22 -12,-16 -16,-2 Z"/>
+          <path d="M-12,2 Q-6,-2 0,2"/><path d="M0,2 Q6,-2 12,2"/><path d="M-6,26 Q0,30 6,26"/></g>
+      </g>
+      <!-- floor of a corridor / airlock -->
+      <path d="M0,380 L800,380 L800,500 L0,500 Z" fill="#04060c"/>
+      <ellipse cx="500" cy="400" rx="300" ry="60" fill="#3fe0ff" opacity=".1"/>
+      <!-- 루카 drawn toward it, captain grabbing -->
+      <g transform="translate(430,330)">
+        <ellipse cx="0" cy="58" rx="24" ry="7" fill="#000" opacity=".4"/>
+        <path d="M-13,-6 C-16,20 -14,50 -12,58 L12,58 C14,50 16,20 13,-6 C13,-18 6,-24 0,-24 C-6,-24 -13,-18 -13,-6 Z" fill="#141d30"/>
+        <path d="M12,-4 C15,22 13,48 12,56" stroke="#9af0ff" stroke-width="2" fill="none" opacity=".7"/>
+        <path d="M8,4 L40,-6" stroke="#141d30" stroke-width="10" stroke-linecap="round"/>
+        <path d="M34,-4 L48,-8" stroke="#d29a70" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="0" cy="-34" r="11" fill="#d9a077"/>
+        <path d="M-11,-36 C-11,-46 -5,-50 0,-50 C5,-50 11,-46 11,-36 C11,-40 5,-42 0,-42 C-5,-42 -11,-40 -11,-36 Z" fill="#3a2718"/>
+        <path d="M-16,-42 h32" stroke="#8fd8e6" stroke-width="3" opacity=".6"/>
+      </g>
+      <!-- captain's arm reaching from left -->
+      <g transform="translate(300,360)">
+        <path d="M-70,20 C-40,20 40,-6 120,-30" stroke="#101826" stroke-width="26" stroke-linecap="round" fill="none" opacity=".92"/>
+        <path d="M116,-30 C124,-32 132,-30 138,-26" stroke="#c89268" stroke-width="16" stroke-linecap="round" fill="none"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c3vig)"/>
+    </svg>
+    <div class="bubble siren tr" style="right:6%;top:10%;">여기서 쉬어가요. 돌아갈 곳, 없잖아요.</div>
+    <div class="bubble alarm tl" style="left:5%;bottom:14%;">귀 막아. 저건 항구가 아니야.</div>
+  </div><div class="cap"><span class="beatno">③</span><p><b>시련.</b> <span class="scene">버려진 정거장에서 사이렌 같은 조난 신호가 흘러나온다. 창 너머 누군가의 얼굴이 어른거리고, 루카가 홀린 듯 이끌린다. 선장이 그 팔을 붙든다 — 멈추는 순간, 이 항로의 잔해들처럼 끝이다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:50%; bottom:-6%; width:64%; height:64%; background:radial-gradient(closest-side,rgba(246,178,60,.34),transparent);"></div>
-    <div class="crate" style="left:50%; transform:translateX(-50%); top:16%; width:40%; height:44%;"><span>CARGO ██</span></div>
-    <svg class="char" style="left:8%; height:96%" viewBox="0 0 200 250" width="154" height="192"><use href="#captain"/></svg>
-    <div class="bubble alarm tr" style="right:5%; bottom:12%;">이건 회수가 아니야 — 처음부터 우릴 지우려던 거였어.</div>
-  </div><div class="cap"><span class="beatno">④</span><p><b>목표 도달.</b> <span class="scene">마침내 연 컨테이너. 회수 지시서엔 없던 표식. 회사가 숨긴 진실이 그 안에 있었다.</span></p></div></figure>
+  <!-- ④ 목표 도달 : 화물칸, 컨테이너 개봉, 숨겨진 표식 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="화물칸에서 컨테이너를 연 선장, 드러나는 숨겨진 표식">
+      <defs>
+        <linearGradient id="c4bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12100c"/><stop offset="1" stop-color="#080a10"/></linearGradient>
+        <radialGradient id="c4glow" cx="50%" cy="46%" r="55%"><stop offset="0" stop-color="#ffb454" stop-opacity=".42"/><stop offset="1" stop-color="#ffb454" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c4vig" cx="50%" cy="46%" r="70%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".76"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#c4bg)"/>
+      <!-- ribbed hold walls -->
+      <g stroke="#1c2436" stroke-width="3" fill="none" opacity=".8"><path d="M60,20 L60,480"/><path d="M140,40 L140,460"/><path d="M660,40 L660,460"/><path d="M740,20 L740,480"/></g>
+      <g stroke="#141b2a" stroke-width="2" opacity=".6"><line x1="0" y1="120" x2="800" y2="120"/><line x1="0" y1="380" x2="800" y2="380"/></g>
+      <ellipse cx="400" cy="250" rx="260" ry="200" fill="url(#c4glow)"/>
+      <!-- cargo container center, opened -->
+      <g transform="translate(400,270)">
+        <rect x="-120" y="-90" width="240" height="180" rx="6" fill="#12161f" stroke="#3a4152" stroke-width="3"/>
+        <path d="M-120,-90 L0,-120 L120,-90 Z" fill="#0c0f16" stroke="#3a4152" stroke-width="2"/>
+        <rect x="-96" y="-66" width="192" height="132" fill="#1a1206"/>
+        <rect x="-96" y="-66" width="192" height="132" fill="url(#c4glow)" opacity=".5"/>
+        <!-- hazard / redacted mark -->
+        <g transform="translate(0,-4)">
+          <path d="M0,-40 L34,20 L-34,20 Z" fill="none" stroke="#ffb454" stroke-width="4"/>
+          <rect x="-3" y="-24" width="6" height="26" fill="#ffb454"/><circle cx="0" cy="10" r="3.4" fill="#ffb454"/>
+        </g>
+        <rect x="-70" y="44" width="140" height="14" fill="#0c0f16"/>
+        <text x="0" y="55" text-anchor="middle" font-weight="800" font-size="11" fill="#ff8a3c" letter-spacing="3">████ CLASSIFIED</text>
+      </g>
+      <!-- captain before it, from behind, small -->
+      <g transform="translate(230,340)">
+        <ellipse cx="0" cy="52" rx="26" ry="7" fill="#000" opacity=".45"/>
+        <path d="M-14,-10 C-17,18 -15,46 -13,54 L13,54 C15,46 17,18 14,-10 C14,-22 6,-28 0,-28 C-6,-28 -14,-22 -14,-10 Z" fill="#13180f"/>
+        <path d="M13,-8 C16,20 14,46 13,52" stroke="#ffcf80" stroke-width="2" fill="none" opacity=".6"/>
+        <circle cx="0" cy="-38" r="11" fill="#12140d"/>
+        <path d="M9,-40 C11,-34 9,-27 5,-24" stroke="#ffcf80" stroke-width="1.6" fill="none" opacity=".55"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c4vig)"/>
+    </svg>
+    <div class="bubble alarm tr" style="right:5%;bottom:14%;">이건 회수가 아니야 — 처음부터 우릴 지우려던 거였어.</div>
+  </div><div class="cap"><span class="beatno">④</span><p><b>목표 도달.</b> <span class="scene">마침내 화물칸의 컨테이너가 열린다. 회수 지시서엔 없던 표식, 지워진 분류 코드. 회사가 숨긴 진실이 그 안에 있었다 — 이 항로는 회수가 아니라, 처음부터 그들을 지우기 위한 편도였다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="starfield" aria-hidden="true"><i style="left:16%;top:22%"></i><i style="left:76%;top:18%"></i><i style="left:88%;top:40%"></i></div>
-    <div class="spot" style="left:30%; bottom:-8%; width:58%; height:58%; background:radial-gradient(closest-side,rgba(63,224,255,.26),transparent);"></div>
-    <div class="spot" style="left:72%; bottom:-8%; width:58%; height:58%; background:radial-gradient(closest-side,rgba(246,178,60,.22),transparent);"></div>
-    <svg class="char" style="left:50%; transform:translateX(-50%); height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#captain"/></svg>
-    <div class="think" style="left:50%; transform:translateX(-50%); text-align:center; bottom:11%; max-width:84%; color:var(--ink)">알아도 돌아간다. 저 화물이 무엇이든, 항구는 내 뒤에 있으니까.</div>
-  </div><div class="cap"><span class="beatno">⑤</span><p><b>귀환.</b> <span class="scene">진실을 알고도 선장은 뱃머리를 돌린다. 사이렌을 등지고, 왔던 항로를 되짚어 — 집으로.</span></p></div></figure>
+  <!-- ⑤ 귀환 : 조종석, 별창, 뱃머리를 되돌린다 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="조종석에서 별창을 마주하고 뱃머리를 되돌리는 선장">
+      <defs>
+        <radialGradient id="c5win" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#12203a"/><stop offset="1" stop-color="#060a14"/></radialGradient>
+        <linearGradient id="c5con" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffb454" stop-opacity=".5"/><stop offset="1" stop-color="#ffb454" stop-opacity="0"/></linearGradient>
+        <radialGradient id="c5vig" cx="50%" cy="54%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#05080f"/>
+      <!-- cockpit window -->
+      <path d="M120,60 L680,60 C700,60 700,300 660,340 L140,340 C100,300 100,60 120,60 Z" fill="url(#c5win)" stroke="#1c2c46" stroke-width="4"/>
+      <path d="M400,60 L400,338 M120,180 L680,180" stroke="#16233a" stroke-width="3" opacity=".7"/>
+      <g fill="#dfeafd"><circle cx="200" cy="120" r="1.4" opacity=".7"/><circle cx="300" cy="100" r="1" opacity=".5"/><circle cx="500" cy="140" r="1.5" opacity=".6"/><circle cx="600" cy="110" r="1" opacity=".5"/><circle cx="250" cy="250" r="1.2" opacity=".5"/><circle cx="560" cy="240" r="1.4" opacity=".6"/></g>
+      <!-- receding siren station tiny in window -->
+      <g transform="translate(560,150)" opacity=".8"><path d="M0,0 L18,-3 L22,4 L22,34 L0,37 Z" fill="#0f1c2a"/><circle cx="9" cy="-8" r="3" fill="#3fe0ff" opacity=".7"/></g>
+      <!-- helm turn arc -->
+      <path d="M300,300 A120 120 0 0 1 500,300" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="6 8" opacity=".5"/>
+      <path d="M500,300 l-10,-10 m10,10 l-12,4" stroke="#ffb454" stroke-width="2" opacity=".6" fill="none"/>
+      <!-- console glow bottom -->
+      <path d="M0,340 L800,340 L800,500 L0,500 Z" fill="#080b14"/>
+      <rect x="120" y="350" width="560" height="60" rx="8" fill="#0c1220" stroke="#1a2740" stroke-width="2"/>
+      <g fill="#ffb454"><rect x="150" y="366" width="30" height="6" rx="3" opacity=".8"/><rect x="200" y="366" width="18" height="6" rx="3" opacity=".5"/></g>
+      <g fill="#3fe0ff"><rect x="560" y="366" width="26" height="6" rx="3" opacity=".7"/><rect x="600" y="366" width="16" height="6" rx="3" opacity=".5"/></g>
+      <ellipse cx="400" cy="410" rx="260" ry="40" fill="url(#c5con)"/>
+      <!-- captain from behind at helm -->
+      <g transform="translate(400,360)">
+        <path d="M-40,120 C-44,50 -18,14 18,20 C58,28 74,72 76,120 Z" fill="#0d1119"/>
+        <path d="M50,40 C66,58 72,84 70,116" stroke="#ffcf80" stroke-width="2.5" fill="none" opacity=".55"/>
+        <path d="M-30,60 C-30,52 34,52 34,60" stroke="#ffcf80" stroke-width="2" fill="none" opacity=".3"/>
+        <circle cx="14" cy="-2" r="22" fill="#0b0e15"/>
+        <path d="M14,-24 C0,-24 -8,-12 -6,0 C-2,-10 6,-14 14,-14" fill="#6d6b74" opacity=".5"/>
+        <path d="M34,-6 C38,10 36,26 30,32" stroke="#ffcf80" stroke-width="2.5" fill="none" opacity=".6"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c5vig)"/>
+    </svg>
+    <div class="think" style="left:50%;transform:translateX(-50%);text-align:center;bottom:12%;max-width:78%;color:var(--ink)">알아도 돌아간다. 저 화물이 무엇이든, 항구는 내 뒤에 있으니까.</div>
+  </div><div class="cap"><span class="beatno">⑤</span><p><b>귀환.</b> <span class="scene">진실을 알고도 선장은 조종간을 되돌린다. 창 너머로 사이렌의 정거장이 점점 작아지고, 뱃머리는 왔던 항로를 되짚는다 — 남는 게 무엇이든, 집으로.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage" style="aspect-ratio:16/13;">
-    <div class="spot" style="left:50%; bottom:-6%; width:70%; height:66%; background:radial-gradient(closest-side,rgba(246,178,60,.3),transparent);"></div>
-    <div class="console" style="right:14%; top:20%;"><div class="wave" aria-hidden="true"><i style="height:12px"></i><i style="height:8px;animation-delay:.1s"></i><i style="height:4px;animation-delay:.2s"></i></div></div>
-    <svg class="char" style="left:12%; height:96%" viewBox="0 0 200 250" width="154" height="192"><use href="#captain"/></svg>
-    <div class="bubble holo tr" style="right:6%; top:12%; max-width:56%;">등록 말소. 해당 선박의 정박지는 매각되었습니다.</div>
-    <div class="think" style="left:10%; bottom:11%; color:var(--ink)">돌아왔더니 — 돌아갈 곳이 없었다.</div>
-  </div><div class="cap"><span class="beatno">⑥</span><p><b>귀환·대가.</b> <span class="scene">도크 진입 코드가 거부된다. 빚은 청산됐지만, 그가 없는 사이 항구는 이미 팔린 뒤. 관제 신호가, 마지막으로 꺼진다.</span></p></div></figure>
+  <!-- ⑥ 귀환·대가 : 죽은 도크, 매각 통보 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="돌아온 도크는 이미 매각되고 등록이 말소되어 있다">
+      <defs>
+        <linearGradient id="c6bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#080a12"/><stop offset="1" stop-color="#05060c"/></linearGradient>
+        <radialGradient id="c6red" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="#ff5a7a" stop-opacity=".22"/><stop offset="1" stop-color="#ff5a7a" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c6vig" cx="50%" cy="46%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".78"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#c6bg)"/>
+      <ellipse cx="400" cy="180" rx="300" ry="160" fill="url(#c6red)"/>
+      <!-- dark dock structures -->
+      <g fill="#0a0e18" stroke="#141b2a" stroke-width="2"><path d="M0,80 L120,80 L120,440 L0,440 Z"/><path d="M680,80 L800,80 L800,440 L680,440 Z"/><rect x="120" y="340" width="80" height="14"/><rect x="600" y="340" width="80" height="14"/></g>
+      <g fill="#ff5a7a"><circle cx="40" cy="120" r="3" opacity=".7"/><circle cx="760" cy="120" r="3" opacity=".5"/></g>
+      <!-- big notice screen -->
+      <rect x="240" y="100" width="320" height="150" rx="6" fill="#0c0910" stroke="#3a1622" stroke-width="2"/>
+      <text x="400" y="160" text-anchor="middle" font-weight="900" font-size="30" fill="#ff5a7a" opacity=".85" letter-spacing="2">정박지 매각</text>
+      <text x="400" y="196" text-anchor="middle" font-weight="700" font-size="15" fill="#a2506a" letter-spacing="4">등록 말소 · DOCK CLOSED</text>
+      <text x="400" y="228" text-anchor="middle" font-weight="600" font-size="12" fill="#6a3648" letter-spacing="2">SHIP ID 07 — 접안 코드 거부됨</text>
+      <!-- captain's arriving ship, small, facing dead dock -->
+      <g transform="translate(400,360)">
+        <path d="M-90,4 L60,-2 C86,0 96,8 84,14 L-96,20 C-118,18 -112,6 -90,4 Z" fill="#101826"/>
+        <rect x="-20" y="-12" width="40" height="12" rx="3" fill="#0c1424"/>
+        <g fill="#5fd8ee" opacity=".5"><rect x="-12" y="-9" width="6" height="5"/><rect x="0" y="-9" width="6" height="5"/></g>
+        <circle cx="-92" cy="10" r="5" fill="#ffcf80" opacity=".7"/><circle cx="-92" cy="10" r="10" fill="#ffb454" opacity=".2"/>
+      </g>
+      <!-- fading holo comms cutting off -->
+      <g transform="translate(150,200)" opacity=".4"><rect x="-30" y="-24" width="60" height="48" rx="4" fill="none" stroke="#3fe0ff" stroke-width="1.2" stroke-dasharray="4 6"/><line x1="-30" y1="0" x2="30" y2="0" stroke="#3fe0ff" stroke-width="1" opacity=".5"/></g>
+      <rect width="800" height="500" fill="url(#c6vig)"/>
+    </svg>
+    <div class="bubble holo tr" style="right:6%;top:10%;max-width:54%;">등록 말소. 해당 선박의 정박지는 매각되었습니다.</div>
+    <div class="think" style="left:8%;bottom:14%;color:var(--ink)">돌아왔더니 — 돌아갈 곳이 없었다.</div>
+  </div><div class="cap"><span class="beatno">⑥</span><p><b>귀환·대가.</b> <span class="scene">항로 끝에서 그를 맞은 건 매각 통보였다. 빚은 청산됐지만, 그가 자리를 비운 사이 항구는 이미 팔린 뒤. 접안 코드가 거부되고, 마지막 관제 신호가 조용히 꺼진다.</span></p></div></figure>
 
   <section class="receipt">
     <h3>근거 · 왜 이 조합인가</h3>
@@ -326,7 +383,7 @@
     <div class="stamp">이 에피소드는 <b>classic-bones-modern-fusion</b>이 매칭(코드·결정적) → 융합(LLM)으로 조준·생성. 「센터」(햄릿×아이돌)와 <b>다른 뼈대·다른 세팅</b> — 같은 엔진이 여러 무대에 옮겨짐을 보여준다. <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></div>
   </section>
 
-  <p class="note">※ 캐릭터 그림은 벡터(SVG) 스타일라이즈드 아트 — 완성형 컬러 작화는 이미지 생성 모델(docs/art-prompts.md)을 거칩니다.</p>
+  <p class="note">※ 장면은 코드로 구성한 시네마틱 벡터(SVG) 아트 — 완성형 컬러 작화는 이미지 생성 모델(docs/art-prompts.md)을 거칩니다.</p>
   <p class="foot">AI가 이야기를 대신 쓰지 않는다. 실데이터로 조준한다.</p>
 </div>
 
