@@ -1,0 +1,145 @@
+<title>고전 뼈대 매칭 탐색기</title>
+<style>
+  :root{
+    --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26; --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
+    --gold:#f6c453; --magenta:#ff2e88; --cyan:#35e6ff; --good:#54e0a0; --bad:#e5556f;
+    --line:#242231; --line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;} html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:30px 18px 70px;}
+  .kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:0 0 8px;}
+  h1{font-size:clamp(26px,6vw,40px);font-weight:900;letter-spacing:-.03em;margin:0;line-height:1.05;text-wrap:balance;}
+  .lead{margin:12px 0 0;color:var(--muted);font-size:14.5px;max-width:62ch;}
+  .lead b{color:var(--ink);}
+
+  .picklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:26px 0 12px;display:flex;gap:12px;align-items:center;}
+  .picklbl::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent);}
+  .picker{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{border:1px solid var(--line2);background:var(--panel);color:var(--muted);border-radius:999px;
+    padding:7px 13px;font:600 13px var(--sans);cursor:pointer;transition:.14s;}
+  .chip:hover{border-color:var(--gold);color:var(--ink);}
+  .chip[aria-pressed="true"]{background:var(--gold);color:#241a06;border-color:var(--gold);font-weight:800;}
+  .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
+  .rnd:hover{border-color:var(--gold);}
+
+  .setline{margin:26px 0 4px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;}
+  .setname{font-size:20px;font-weight:900;}
+  .setgloss{color:var(--faint);font-size:12.5px;}
+  .affords{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--faint);}
+  .gtag{border:1px solid var(--line2);border-radius:6px;padding:3px 8px;font:600 11.5px var(--sans);color:var(--muted);background:var(--panel);}
+
+  .top{margin:16px 0 0;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));}
+  .top .hd{padding:16px 18px 14px;border-bottom:1px solid var(--line);}
+  .toptag{display:inline-block;font:800 10.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#241a06;background:var(--gold);border-radius:999px;padding:4px 10px;margin-bottom:10px;}
+  .top h2{margin:0;font-size:22px;font-weight:900;}
+  .top .engine{color:var(--muted);font-weight:600;font-size:14px;}
+  .bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:16px 18px;}
+  @media(max-width:560px){.bars{grid-template-columns:1fr;}}
+  .bar .bk{font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;}
+  .bar .bk b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums;}
+  .bar .track{height:8px;border-radius:6px;background:#26232f;margin-top:6px;overflow:hidden;}
+  .bar .fill{height:100%;border-radius:6px;}
+  .f-gold{background:linear-gradient(90deg,#e6a53a,var(--gold));}
+  .f-cyan{background:linear-gradient(90deg,#1f9bb3,var(--cyan));}
+  .f-good{background:linear-gradient(90deg,#2f9e70,var(--good));}
+  .reqline{padding:0 18px 16px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--faint);}
+  .met{border:1px solid #2a5f49;background:#0e2019;color:var(--good);border-radius:6px;padding:3px 8px;font:700 11.5px var(--sans);}
+  .flow{padding:14px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
+  .flow b{color:var(--ink);} .flow .arrow{color:var(--gold);}
+
+  .ranklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:30px 0 10px;}
+  .rows{display:flex;flex-direction:column;gap:6px;}
+  .row{display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:11px 14px;background:var(--panel);}
+  .row.miss{opacity:.5;}
+  .row .num{font:900 14px var(--sans);color:var(--faint);font-variant-numeric:tabular-nums;text-align:right;}
+  .row .rn{font-weight:800;font-size:14.5px;}
+  .row .re{color:var(--faint);font-size:11.5px;}
+  .row .sc{text-align:right;font-variant-numeric:tabular-nums;}
+  .row .sc b{color:var(--gold);font-size:15px;font-weight:900;}
+  .row .sc .lab{color:var(--faint);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;}
+  .row.miss .sc b{color:var(--bad);font-size:12px;}
+  .row .missc{color:var(--bad);}
+
+  .note{margin-top:26px;border:1px solid var(--line2);border-radius:14px;padding:16px 18px;background:var(--panel);font-size:13.5px;color:var(--muted);}
+  .note b{color:var(--ink);} .note .k{color:var(--gold);font-weight:800;}
+  .foot{margin-top:22px;text-align:center;font-size:12px;color:var(--faint);}
+  .foot a{color:var(--magenta);text-decoration:none;}
+</style>
+
+<div class="wrap">
+  <p class="kicker">classic-bones-modern-fusion · 매칭 엔진</p>
+  <h1>고전 뼈대 매칭 탐색기</h1>
+  <p class="lead">현대 <b>세팅</b>을 하나 고르면 — 수백 년 검증된 <b>고전 뼈대</b> 중 무엇이 맞는지, <b>왜</b>인지를
+    코드가 <b>결정적으로</b> 계산한다. <b>매칭은 취향 0</b>(요구 ⊆ 보유), 점수 = 신선도 × 검증도. 프리미스(융합)만 LLM이 쓴다.</p>
+
+  <p class="picklbl">세팅 고르기 · 27</p>
+  <div class="picker" id="picker"></div>
+
+  <div id="result"></div>
+
+  <div class="note">
+    <b>이 화면이 GPT와 다른 점.</b> "신선한 이야기 줘"엔 누구나 답한다. 여기가 하는 건 —
+    <span class="k">검증</span>(실제 이야기에서 몇 번 반복된 구조인가·<span class="k">proven</span>) ·
+    <span class="k">신선</span>(이 세팅엔 얼마나 안 쓰였나) ·
+    <span class="k">양립</span>(뼈대의 요구 조건을 세팅이 다 갖췄나) 을 <b>세어서 숫자로 증명</b>하는 것.
+    프리미스는 아무나 쓰지만, <b>근거는 데이터만 준다.</b>
+  </div>
+  <p class="foot">classic-bones-modern-fusion · <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></p>
+</div>
+
+<script>
+const SK={"조사미스터리": {"name": "조사·미스터리", "engine": "은폐된 진실을 파헤치다 자신마저 휘말린다", "req": ["G9", "G8", "G10"], "proven": 57, "md": 0.8, "roles": ["수사자", "은폐하는 자", "거짓 단서", "진실을 아는 목격자"], "turns": ["사건 발생", "단서 추적", "반전·배신", "진실 근접의 위협", "폭로"]}, "괴물퇴치": {"name": "괴물 퇴치", "engine": "세계를 위협하는 존재를 무리가 사냥한다", "req": ["G17", "G9"], "proven": 54, "md": 0.6, "roles": ["위협받는 공동체", "괴물", "사냥꾼 무리", "규칙을 아는 현자"], "turns": ["위협 등장", "부정·피해", "규칙 파악", "사냥", "희생 끝 격퇴"]}, "로맨스결합": {"name": "로맨스 결합", "engine": "장벽을 넘어 두 사람이 결합한다", "req": ["G15", "G2"], "proven": 52, "md": 0.85, "roles": ["연인 A", "연인 B", "방해 장벽/라이벌", "조력자"], "turns": ["만남", "끌림·오해", "장벽", "시련", "결합"]}, "성장": {"name": "성장담", "engine": "미숙한 자가 시련을 거쳐 어른이 된다", "req": ["G15", "G19", "G6"], "proven": 43, "md": 0.8, "roles": ["미숙한 주인공", "멘토", "또래", "상실의 계기"], "turns": ["순진한 세계", "계기·상실", "시행착오", "각성", "성숙"]}, "복수": {"name": "복수", "engine": "당한 잘못을 갚으려 파멸을 향해 간다", "req": ["G9", "G15", "G8", "G14"], "proven": 30, "md": 0.4, "roles": ["피해자·복수자", "가해자들", "조력자", "치를 대가"], "turns": ["당함", "결심·준비", "하나씩 갚음", "회의·대가", "파국"]}, "원정탐색": {"name": "원정·탐색", "engine": "무언가를 얻거나 부수러 험지를 건넌다", "req": ["G16", "G18", "G9"], "proven": 62, "md": 0.5, "roles": ["탐색자", "동료", "길의 시련", "목표물"], "turns": ["부름", "여정", "시련", "목표 도달", "귀환·대가"]}, "조종파멸": {"name": "조종당한 파멸", "engine": "측근의 조종에 놀아나 스스로 무너진다", "req": ["G13", "G9", "G15"], "proven": 29, "md": 0.45, "roles": ["표적", "조종자", "무고한 희생자", "거짓 증거"], "turns": ["신뢰", "계략", "심어진 의심", "폭주", "파멸"]}, "금지된사랑": {"name": "금지된 사랑", "engine": "넘지 말 벽 너머의 사랑이 파국을 부른다", "req": ["G2", "G14", "G15"], "proven": 52, "md": 0.55, "roles": ["연인 A", "연인 B", "금지하는 세력", "중재자"], "turns": ["끌림", "금기", "비밀", "발각", "파국"]}, "언더독증명": {"name": "언더독의 증명", "engine": "무명이 일생일대 기회로 자신을 증명한다", "req": ["G20", "G14"], "proven": 19, "md": 0.85, "roles": ["무명", "사부", "강자", "조력자"], "turns": ["밑바닥", "기회", "수련", "시합", "증명"]}, "생존": {"name": "생존", "engine": "적대적 환경에서 살아 돌아온다", "req": ["G16", "G15", "G11", "G17", "G6"], "proven": 27, "md": 0.55, "roles": ["고립된 자", "동료/짐", "환경·위협", "구원의 실마리"], "turns": ["고립", "자원 고갈", "갈등", "결단", "생환"]}, "하이스트사기": {"name": "하이스트·사기", "engine": "치밀한 계획으로 판을 털거나 속인다", "req": ["G12", "G10", "G18"], "proven": 9, "md": 0.6, "roles": ["설계자", "팀", "표적·보안", "배신 변수"], "turns": ["판 포착", "팀 구성", "실행", "반전", "정산"]}, "신분상승": {"name": "신분 상승", "engine": "낮은 신분이 사다리를 올라 인정받는다", "req": ["G20", "G1", "G16", "G10", "G12"], "proven": 39, "md": 0.75, "roles": ["주인공", "억압", "기회", "조력자"], "turns": ["밑바닥", "기회", "상승", "정체 위기", "확정"]}, "재난": {"name": "재난 생존", "engine": "닥친 재난 속에서 목숨을 건다", "req": ["G11", "G17", "G16", "G7"], "proven": 7, "md": 0.6, "roles": ["일상의 사람들", "재난", "구조자", "마감"], "turns": ["평온", "재난 발생", "혼돈", "탈출·구조", "여파"]}, "부당감금탈출": {"name": "부당한 감금·탈출", "engine": "억울하게 갇힌 자가 유대·계략으로 탈출한다", "req": ["G5", "G10", "G9", "G12", "G13"], "proven": 14, "md": 0.4, "roles": ["수감자", "억압 체제", "감옥의 벗", "탈출 열쇠"], "turns": ["수감", "적응", "준비", "부패 확인", "탈출"]}, "도망자추격": {"name": "도망자·추격", "engine": "쫓기는 자가 추격을 따돌리며 진실·자유로 향한다", "req": ["G16", "G9", "G6"], "proven": 6, "md": 0.5, "roles": ["도망자", "추격자", "조력자", "누명·비밀"], "turns": ["발단", "도주", "궁지", "반격", "탈출·폭로"]}, "죄와벌": {"name": "죄와 벌", "engine": "저지른 죄가 양심에 잠식돼 심판에 이른다", "req": ["G8", "G1"], "proven": 29, "md": 0.3, "roles": ["범죄자", "수사자", "양심의 인물", "숨긴 죄"], "turns": ["궁핍·합리화", "범죄", "압박", "잠식", "자백"]}, "몰락": {"name": "몰락", "engine": "정점에 오른 자가 결함으로 추락한다", "req": ["G14", "G1", "G6", "G10"], "proven": 36, "md": 0.35, "roles": ["권력자", "부추기는 자", "도전자", "치명적 결함"], "turns": ["정점", "오만·유혹", "위반", "균열", "몰락"]}, "권력암투": {"name": "권력 암투", "engine": "자리를 둘러싼 음모와 배신이 벌어진다", "req": ["G8", "G13", "G6", "G3"], "proven": 28, "md": 0.4, "roles": ["야심가들", "현 권력", "배신자", "판돈"], "turns": ["균형", "음모", "배신", "격돌", "재편"]}, "창조주재앙": {"name": "창조주의 재앙", "engine": "창조주의 과욕이 낳은 것이 그를 파괴한다", "req": ["G17", "G9"], "proven": 12, "md": 0.55, "roles": ["창조주", "피조물", "무고한 희생자"], "turns": ["창조·과욕", "통제 불능", "반란", "추락", "공멸"]}, "선택받은자": {"name": "선택받은 자", "engine": "평범한 자가 부름을 받아 거대 권력에 맞선다", "req": ["G7", "G8", "G21"], "proven": 18, "md": 0.7, "roles": ["주인공", "사부", "거대 권력", "매개물"], "turns": ["부름", "수련", "각성", "대결", "승리"]}, "구원속죄": {"name": "구원·속죄", "engine": "타락한 자가 속죄로 구원에 이른다", "req": ["G16", "G15", "G21"], "proven": 10, "md": 0.5, "roles": ["죄인", "계기의 인물", "과거", "시험"], "turns": ["타락", "계기", "갈등", "희생", "구원"]}, "찬탈복수": {"name": "찬탈복수(햄릿형)", "engine": "찬탈당한 후계자의 복수", "req": ["G3", "G9"], "proven": 33, "md": 0.25, "roles": ["죽은 권력자", "찬탈자", "후계자", "내부자", "목격자"], "turns": ["찬탈", "진실 앎", "망설임", "곁가지 죽음", "공멸"]}, "귀향": {"name": "귀향(오디세이형)", "engine": "떠난 자가 시련 끝에 돌아와 자리를 되찾는다", "req": ["G4", "G16"], "proven": 9, "md": 0.5, "roles": ["떠난 자", "길의 조력자", "길의 유혹", "집의 것"], "turns": ["떠남", "시련", "정체 은폐", "귀환", "회복"]}}, ST={"스타트업": {"name": "스타트업", "affords": ["G1", "G3", "G9", "G12", "G13", "G14", "G15", "G20"], "gloss": "지분 서열·이사회 승계·회계 은폐·빚·압박·평판·팀·데뷔상승"}, "대기업사내정치": {"name": "대기업 사내정치", "affords": ["G1", "G3", "G6", "G8", "G9", "G13", "G14", "G20"], "gloss": "승진 서열·후계·상명하복·이권·은폐·압박·평판·승진"}, "로펌": {"name": "로펌", "affords": ["G1", "G8", "G9", "G10", "G12", "G13", "G14", "G20"], "gloss": "파트너 서열·이권·의뢰인 비밀·위장·수임료·압박·평판·파트너 승격"}, "증권가": {"name": "투자은행/증권가", "affords": ["G1", "G8", "G9", "G12", "G13", "G14", "G20"], "gloss": "서열·부패·내부자 은폐·부/빚·압박·평판·상승"}, "방송국": {"name": "방송국/언론사", "affords": ["G6", "G8", "G9", "G10", "G11", "G13", "G14", "G15", "G18"], "gloss": "권력·이권·은폐·잠입 위장·마감·압박·평판·취재팀 유대·특종(탐색물)"}, "아이돌기획사": {"name": "아이돌 기획사", "affords": ["G1", "G2", "G3", "G9", "G10", "G11", "G12", "G13", "G14", "G15", "G19", "G20"], "gloss": "연습생 서열·연애금지·센터 자리·계약비리·사생활 위장·데뷔/컴백 마감·계약금·소속사 통제·평판·멤버 유대·트레이너·데뷔 상승"}, "공직": {"name": "정부/공직", "affords": ["G3", "G6", "G8", "G9", "G13", "G14"], "gloss": "권력 승계·억압·부패·은폐·조종·평판"}, "종합병원": {"name": "종합병원", "affords": ["G1", "G5", "G9", "G11", "G13", "G14", "G15", "G17"], "gloss": "의료 위계·폐쇄 병동·의료사고 은폐·응급 마감·압박·평판·환자·동료 유대·감염/폭주"}, "군대": {"name": "군대", "affords": ["G1", "G5", "G6", "G9", "G13", "G14", "G15", "G19"], "gloss": "계급·전장 고립·억압·은폐·압박·명예·전우 유대·훈련"}, "교도소": {"name": "교도소", "affords": ["G1", "G5", "G6", "G9", "G10", "G13", "G15"], "gloss": "서열·감금·억압·은폐·위장·강압·유대"}, "요양원": {"name": "요양원", "affords": ["G5", "G9", "G12", "G13", "G14", "G15"], "gloss": "폐쇄·은폐·비용/유산·통제·평판·유사가족"}, "사이비공동체": {"name": "사이비 종교공동체", "affords": ["G5", "G6", "G7", "G9", "G10", "G13", "G15"], "gloss": "감금·억압·예언·은폐·위장·세뇌 조종·유대"}, "대학원연구실": {"name": "대학원 연구실", "affords": ["G1", "G6", "G8", "G9", "G12", "G13", "G18", "G19", "G20"], "gloss": "사제 서열·억압·성과 가로채기·은폐·등록금/빚·압박·연구(탐색물)·지도교수·학위 상승"}, "요리경연": {"name": "요리 경연", "affords": ["G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "연출 조작·마감·심사 압박·평판·팀·사부·상승"}, "프로스포츠팀": {"name": "프로스포츠팀", "affords": ["G1", "G3", "G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "서열·주전 경쟁·승부조작 은폐·시합 마감·감독 압박·평판·팀 유대·코치·상승"}, "오디션서바이벌": {"name": "오디션/서바이벌", "affords": ["G1", "G9", "G10", "G11", "G13", "G14", "G15", "G20"], "gloss": "서열·편집 조작 은폐·컨셉 위장·탈락 마감·제작진 조종·평판·연대·상승"}, "프로게임단": {"name": "프로게임단", "affords": ["G1", "G3", "G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "서열·주전 경쟁·승부조작 은폐·대회 마감·감독 압박·평판·팀 유대·코치·신인 상승"}, "재개발조합": {"name": "재개발 조합", "affords": ["G1", "G8", "G12", "G13", "G14", "G15"], "gloss": "지분 서열·이권·보상금·부채·회유·협박·평판·주민 유대"}, "셰어하우스": {"name": "셰어하우스", "affords": ["G2", "G9", "G10", "G15"], "gloss": "연애·비밀·위장·유사가족"}, "스트리머판": {"name": "스트리머/유튜버 판", "affords": ["G9", "G10", "G11", "G13", "G14", "G20"], "gloss": "사생활 은폐·부캐 위장·업로드 마감·여론 조작·평판·구독 상승"}, "긱이코노미": {"name": "배달/긱이코노미", "affords": ["G1", "G6", "G9", "G11", "G12", "G15", "G16"], "gloss": "플랫폼 서열·알고리즘 억압·블랙박스 은폐·실시간 배차 마감·수입/빚·동료 유대·이동"}, "재혼가정": {"name": "재혼가정", "affords": ["G1", "G2", "G9", "G13", "G15"], "gloss": "가족 서열·금지된 끌림·비밀·갈등·유사가족"}, "코인판": {"name": "코인/크립토 판", "affords": ["G8", "G9", "G10", "G12", "G14", "G20"], "gloss": "스캠 이권·은폐·익명 위장·부/빚·평판·상승"}, "AI연구소": {"name": "AI 연구소", "affords": ["G6", "G9", "G13", "G17", "G18", "G19", "G20", "G21"], "gloss": "통제 권력·데이터 은폐·조종·폭주 AI(괴물)·핵심 모델(매개물)·지도교수·상승·인간/AI 두 세계"}, "콘텐츠검열팀": {"name": "콘텐츠 검열/신뢰안전팀", "affords": ["G6", "G9", "G10", "G13", "G14", "G15", "G21"], "gloss": "권력·은폐·검열관 이중생활·압박·평판·팀 유대·온/오프 두 세계"}, "팬데믹대응팀": {"name": "팬데믹 대응팀", "affords": ["G6", "G9", "G11", "G14", "G15", "G17"], "gloss": "권력·은폐·마감·평판·유대·감염(괴물)"}, "우주기업": {"name": "우주기업/정거장", "affords": ["G5", "G6", "G9", "G11", "G16", "G17", "G18"], "gloss": "고립 폐쇄·본사 통제·은폐·산소·마감·항행 여정·우주 위협·미션 화물"}}, GL={"G1": "계층 격차", "G2": "금지된 사랑", "G3": "승계·축취", "G4": "귀환할 집", "G5": "감금", "G6": "억압 권력", "G7": "예언·운명", "G8": "부패 권력", "G9": "은폐된 진실", "G10": "위장·이중정체", "G11": "마감", "G12": "경제·부채", "G13": "강압·조종", "G14": "평판·명예", "G15": "대리·유대", "G16": "여정·원정", "G17": "괴물·위협", "G18": "탐색물", "G19": "사부·수련", "G20": "신분 상승", "G21": "두 세계"};
+const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven));
+const gname=c=>GL[c]||c;
+function rows(setKey){
+  const aff=ST[setKey].affords;
+  return Object.keys(SK).map(k=>{
+    const s=SK[k], met=s.req.filter(c=>aff.includes(c)), miss=s.req.filter(c=>!aff.includes(c));
+    const rate=s.req.length?met.length/s.req.length:0, fresh=1-s.md;
+    const score=rate>=0.999?fresh*s.proven:0;
+    return {k,name:s.name,engine:s.engine,req:s.req,met,miss,rate,fresh,proven:s.proven,score,roles:s.roles,turns:s.turns};
+  }).sort((a,b)=> b.score-a.score || b.rate-a.rate);
+}
+function bar(lab,val,disp,cls){return `<div class="bar"><div class="bk"><span>${lab}</span><b>${disp}</b></div><div class="track"><div class="fill ${cls}" style="width:${Math.round(val*100)}%"></div></div></div>`;}
+function render(setKey){
+  const S=ST[setKey], rs=rows(setKey), top=rs[0], maxSc=Math.max(...rs.map(r=>r.score))||1;
+  const aff=S.affords.map(c=>`<span class="gtag">${c} ${gname(c)}</span>`).join("");
+  let h=`<div class="setline"><span class="setname">${S.name}</span><span class="setgloss">${S.gloss}</span></div>
+    <div class="affords">보유 조건 ${S.affords.length} · ${aff}</div>`;
+  if(top && top.score>0){
+    const metchips=top.req.map(c=> top.met.includes(c)?`<span class="met">✓ ${c} ${gname(c)}</span>`:`<span class="gtag missc">✗ ${c} ${gname(c)}</span>`).join("");
+    h+=`<div class="top"><div class="hd"><span class="toptag">1등 매칭</span>
+      <h2>${top.name} <span class="engine">— ${top.engine}</span></h2></div>
+      <div class="bars">
+        ${bar("검증 proven", top.proven/MAXPROV, top.proven, "f-gold")}
+        ${bar("신선 freshness", top.fresh, Math.round(top.fresh*100)+"%", "f-cyan")}
+        ${bar("양립 fit", top.met.length/top.req.length, top.met.length+"/"+top.req.length, "f-good")}
+      </div>
+      <div class="reqline">양립 조건 &nbsp; ${metchips}</div>
+      <div class="flow"><b>역할</b> ${top.roles.join(" · ")}<br><b>턴</b> ${top.turns.join(' <span class="arrow">→</span> ')}</div>
+    </div>`;
+  }
+  const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
+  h+=`<p class="ranklbl">전체 순위 · 적합 ${matched.length} / 탈락 ${missed.length}</p><div class="rows">`;
+  matched.forEach((r,i)=>{ h+=`<div class="row"><span class="num">${i+1}</span>
+    <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
+    <span class="sc"><b>${r.score.toFixed(1)}</b><span class="lab">점수</span></span></div>`; });
+  missed.slice(0,6).forEach(r=>{ h+=`<div class="row miss"><span class="num">—</span>
+    <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
+    <span class="sc"><b>탈락</b><span class="lab missc">${r.miss.map(gname).slice(0,2).join(" · ")} 없음</span></span></div>`; });
+  h+=`</div>`;
+  document.getElementById("result").innerHTML=h;
+  [...document.querySelectorAll(".chip")].forEach(c=>c.setAttribute("aria-pressed", c.dataset.k===setKey));
+}
+(function(){
+  const p=document.getElementById("picker");
+  Object.keys(ST).forEach(k=>{ const b=document.createElement("button");
+    b.className="chip"; b.dataset.k=k; b.textContent=ST[k].name; b.setAttribute("aria-pressed","false");
+    b.onclick=()=>render(k); p.appendChild(b); });
+  const r=document.createElement("button"); r.className="rnd"; r.textContent="🎲 자동 제안";
+  r.onclick=()=>{ const ks=Object.keys(ST); render(ks[Math.floor(Math.random()*ks.length)]); }; p.appendChild(r);
+  render("아이돌기획사" in ST ? "아이돌기획사" : Object.keys(ST)[0]);
+})();
+</script>

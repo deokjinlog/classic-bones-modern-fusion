@@ -3,9 +3,10 @@
 > 수백 년 검증된 **고전 이야기의 뼈대**를, 아직 아무도 안 넣어본 **현대 세팅**에 이식해 —
 > 신선하되 말 되는 이야기 프리미스를 **"진짜 덜 쓰였다"는 실데이터 근거**와 함께 뽑아준다.
 
-### ▶︎ 바로 보기
-- **웹툰 데모** (레포에서 바로 열림): **https://deokjinlog.github.io/classic-bones-modern-fusion/**
-- 아티팩트: https://claude.ai/code/artifact/1a751e95-627a-4aff-8980-359524595925
+### ▶︎ 바로 보기 (레포에서 바로 열림)
+- **🎯 매칭 탐색기** (인터랙티브 툴 데모): **https://deokjinlog.github.io/classic-bones-modern-fusion/explore.html**
+  세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 코드가 결정적으로 계산 → **이게 GPT가 못 하는 부분.**
+- **👑 웹툰 데모** 「센터」(햄릿×아이돌): **https://deokjinlog.github.io/classic-bones-modern-fusion/**
 
 design-explosion의 **스토리판**. "AI가 이야기를 대신 쓴다"가 아니라, 실제 이야기를 **세어서** 조준하는 분석 도구.
 **매칭은 결정적(코드·취향 0), 융합만 창작(LLM).**

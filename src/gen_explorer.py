@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+import json, re
+ROOT="/home/djchoi/deokjinlog/classic-bones-modern-fusion"
+SK=json.load(open(f"{ROOT}/data/skeletons.json",encoding="utf-8"))
+ST=json.load(open(f"{ROOT}/data/settings.json",encoding="utf-8"))
+sk={k:{"name":v.get("name",k),"engine":v.get("engine",""),"req":v.get("req",[]),
+       "proven":v.get("proven",0),"md":v.get("modern_done",0.5),
+       "roles":v.get("roles",[]),"turns":v.get("turns",[])}
+    for k,v in SK.items() if not k.startswith("_")}
+st={k:{"name":v.get("name",k),"affords":v.get("affords",[]),"gloss":v.get("gloss","")}
+    for k,v in ST.items() if not k.startswith("_")}
+GL={"G1":"계층 격차","G2":"금지된 사랑","G3":"승계·축취","G4":"귀환할 집","G5":"감금",
+    "G6":"억압 권력","G7":"예언·운명","G8":"부패 권력","G9":"은폐된 진실","G10":"위장·이중정체",
+    "G11":"마감","G12":"경제·부채","G13":"강압·조종","G14":"평판·명예","G15":"대리·유대",
+    "G16":"여정·원정","G17":"괴물·위협","G18":"탐색물","G19":"사부·수련","G20":"신분 상승","G21":"두 세계"}
+
+T = r'''<title>고전 뼈대 매칭 탐색기</title>
+<style>
+  :root{
+    --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26; --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
+    --gold:#f6c453; --magenta:#ff2e88; --cyan:#35e6ff; --good:#54e0a0; --bad:#e5556f;
+    --line:#242231; --line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;} html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:30px 18px 70px;}
+  .kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:0 0 8px;}
+  h1{font-size:clamp(26px,6vw,40px);font-weight:900;letter-spacing:-.03em;margin:0;line-height:1.05;text-wrap:balance;}
+  .lead{margin:12px 0 0;color:var(--muted);font-size:14.5px;max-width:62ch;}
+  .lead b{color:var(--ink);}
+
+  .picklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:26px 0 12px;display:flex;gap:12px;align-items:center;}
+  .picklbl::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent);}
+  .picker{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{border:1px solid var(--line2);background:var(--panel);color:var(--muted);border-radius:999px;
+    padding:7px 13px;font:600 13px var(--sans);cursor:pointer;transition:.14s;}
+  .chip:hover{border-color:var(--gold);color:var(--ink);}
+  .chip[aria-pressed="true"]{background:var(--gold);color:#241a06;border-color:var(--gold);font-weight:800;}
+  .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
+  .rnd:hover{border-color:var(--gold);}
+
+  .setline{margin:26px 0 4px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;}
+  .setname{font-size:20px;font-weight:900;}
+  .setgloss{color:var(--faint);font-size:12.5px;}
+  .affords{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--faint);}
+  .gtag{border:1px solid var(--line2);border-radius:6px;padding:3px 8px;font:600 11.5px var(--sans);color:var(--muted);background:var(--panel);}
+
+  .top{margin:16px 0 0;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));}
+  .top .hd{padding:16px 18px 14px;border-bottom:1px solid var(--line);}
+  .toptag{display:inline-block;font:800 10.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#241a06;background:var(--gold);border-radius:999px;padding:4px 10px;margin-bottom:10px;}
+  .top h2{margin:0;font-size:22px;font-weight:900;}
+  .top .engine{color:var(--muted);font-weight:600;font-size:14px;}
+  .bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:16px 18px;}
+  @media(max-width:560px){.bars{grid-template-columns:1fr;}}
+  .bar .bk{font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;}
+  .bar .bk b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums;}
+  .bar .track{height:8px;border-radius:6px;background:#26232f;margin-top:6px;overflow:hidden;}
+  .bar .fill{height:100%;border-radius:6px;}
+  .f-gold{background:linear-gradient(90deg,#e6a53a,var(--gold));}
+  .f-cyan{background:linear-gradient(90deg,#1f9bb3,var(--cyan));}
+  .f-good{background:linear-gradient(90deg,#2f9e70,var(--good));}
+  .reqline{padding:0 18px 16px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--faint);}
+  .met{border:1px solid #2a5f49;background:#0e2019;color:var(--good);border-radius:6px;padding:3px 8px;font:700 11.5px var(--sans);}
+  .flow{padding:14px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
+  .flow b{color:var(--ink);} .flow .arrow{color:var(--gold);}
+
+  .ranklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:30px 0 10px;}
+  .rows{display:flex;flex-direction:column;gap:6px;}
+  .row{display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:11px 14px;background:var(--panel);}
+  .row.miss{opacity:.5;}
+  .row .num{font:900 14px var(--sans);color:var(--faint);font-variant-numeric:tabular-nums;text-align:right;}
+  .row .rn{font-weight:800;font-size:14.5px;}
+  .row .re{color:var(--faint);font-size:11.5px;}
+  .row .sc{text-align:right;font-variant-numeric:tabular-nums;}
+  .row .sc b{color:var(--gold);font-size:15px;font-weight:900;}
+  .row .sc .lab{color:var(--faint);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;}
+  .row.miss .sc b{color:var(--bad);font-size:12px;}
+  .row .missc{color:var(--bad);}
+
+  .note{margin-top:26px;border:1px solid var(--line2);border-radius:14px;padding:16px 18px;background:var(--panel);font-size:13.5px;color:var(--muted);}
+  .note b{color:var(--ink);} .note .k{color:var(--gold);font-weight:800;}
+  .foot{margin-top:22px;text-align:center;font-size:12px;color:var(--faint);}
+  .foot a{color:var(--magenta);text-decoration:none;}
+</style>
+
+<div class="wrap">
+  <p class="kicker">classic-bones-modern-fusion · 매칭 엔진</p>
+  <h1>고전 뼈대 매칭 탐색기</h1>
+  <p class="lead">현대 <b>세팅</b>을 하나 고르면 — 수백 년 검증된 <b>고전 뼈대</b> 중 무엇이 맞는지, <b>왜</b>인지를
+    코드가 <b>결정적으로</b> 계산한다. <b>매칭은 취향 0</b>(요구 ⊆ 보유), 점수 = 신선도 × 검증도. 프리미스(융합)만 LLM이 쓴다.</p>
+
+  <p class="picklbl">세팅 고르기 · 27</p>
+  <div class="picker" id="picker"></div>
+
+  <div id="result"></div>
+
+  <div class="note">
+    <b>이 화면이 GPT와 다른 점.</b> "신선한 이야기 줘"엔 누구나 답한다. 여기가 하는 건 —
+    <span class="k">검증</span>(실제 이야기에서 몇 번 반복된 구조인가·<span class="k">proven</span>) ·
+    <span class="k">신선</span>(이 세팅엔 얼마나 안 쓰였나) ·
+    <span class="k">양립</span>(뼈대의 요구 조건을 세팅이 다 갖췄나) 을 <b>세어서 숫자로 증명</b>하는 것.
+    프리미스는 아무나 쓰지만, <b>근거는 데이터만 준다.</b>
+  </div>
+  <p class="foot">classic-bones-modern-fusion · <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></p>
+</div>
+
+<script>
+const SK=__SK__, ST=__ST__, GL=__GL__;
+const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven));
+const gname=c=>GL[c]||c;
+function rows(setKey){
+  const aff=ST[setKey].affords;
+  return Object.keys(SK).map(k=>{
+    const s=SK[k], met=s.req.filter(c=>aff.includes(c)), miss=s.req.filter(c=>!aff.includes(c));
+    const rate=s.req.length?met.length/s.req.length:0, fresh=1-s.md;
+    const score=rate>=0.999?fresh*s.proven:0;
+    return {k,name:s.name,engine:s.engine,req:s.req,met,miss,rate,fresh,proven:s.proven,score,roles:s.roles,turns:s.turns};
+  }).sort((a,b)=> b.score-a.score || b.rate-a.rate);
+}
+function bar(lab,val,disp,cls){return `<div class="bar"><div class="bk"><span>${lab}</span><b>${disp}</b></div><div class="track"><div class="fill ${cls}" style="width:${Math.round(val*100)}%"></div></div></div>`;}
+function render(setKey){
+  const S=ST[setKey], rs=rows(setKey), top=rs[0], maxSc=Math.max(...rs.map(r=>r.score))||1;
+  const aff=S.affords.map(c=>`<span class="gtag">${c} ${gname(c)}</span>`).join("");
+  let h=`<div class="setline"><span class="setname">${S.name}</span><span class="setgloss">${S.gloss}</span></div>
+    <div class="affords">보유 조건 ${S.affords.length} · ${aff}</div>`;
+  if(top && top.score>0){
+    const metchips=top.req.map(c=> top.met.includes(c)?`<span class="met">✓ ${c} ${gname(c)}</span>`:`<span class="gtag missc">✗ ${c} ${gname(c)}</span>`).join("");
+    h+=`<div class="top"><div class="hd"><span class="toptag">1등 매칭</span>
+      <h2>${top.name} <span class="engine">— ${top.engine}</span></h2></div>
+      <div class="bars">
+        ${bar("검증 proven", top.proven/MAXPROV, top.proven, "f-gold")}
+        ${bar("신선 freshness", top.fresh, Math.round(top.fresh*100)+"%", "f-cyan")}
+        ${bar("양립 fit", top.met.length/top.req.length, top.met.length+"/"+top.req.length, "f-good")}
+      </div>
+      <div class="reqline">양립 조건 &nbsp; ${metchips}</div>
+      <div class="flow"><b>역할</b> ${top.roles.join(" · ")}<br><b>턴</b> ${top.turns.join(' <span class="arrow">→</span> ')}</div>
+    </div>`;
+  }
+  const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
+  h+=`<p class="ranklbl">전체 순위 · 적합 ${matched.length} / 탈락 ${missed.length}</p><div class="rows">`;
+  matched.forEach((r,i)=>{ h+=`<div class="row"><span class="num">${i+1}</span>
+    <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
+    <span class="sc"><b>${r.score.toFixed(1)}</b><span class="lab">점수</span></span></div>`; });
+  missed.slice(0,6).forEach(r=>{ h+=`<div class="row miss"><span class="num">—</span>
+    <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
+    <span class="sc"><b>탈락</b><span class="lab missc">${r.miss.map(gname).slice(0,2).join(" · ")} 없음</span></span></div>`; });
+  h+=`</div>`;
+  document.getElementById("result").innerHTML=h;
+  [...document.querySelectorAll(".chip")].forEach(c=>c.setAttribute("aria-pressed", c.dataset.k===setKey));
+}
+(function(){
+  const p=document.getElementById("picker");
+  Object.keys(ST).forEach(k=>{ const b=document.createElement("button");
+    b.className="chip"; b.dataset.k=k; b.textContent=ST[k].name; b.setAttribute("aria-pressed","false");
+    b.onclick=()=>render(k); p.appendChild(b); });
+  const r=document.createElement("button"); r.className="rnd"; r.textContent="🎲 자동 제안";
+  r.onclick=()=>{ const ks=Object.keys(ST); render(ks[Math.floor(Math.random()*ks.length)]); }; p.appendChild(r);
+  render("아이돌기획사" in ST ? "아이돌기획사" : Object.keys(ST)[0]);
+})();
+</script>'''
+
+out=(T.replace("__SK__", json.dumps(sk,ensure_ascii=False))
+      .replace("__ST__", json.dumps(st,ensure_ascii=False))
+      .replace("__GL__", json.dumps(GL,ensure_ascii=False)))
+open(f"{ROOT}/exhibits/match-explorer.html","w",encoding="utf-8").write(out)
+print("match-explorer.html", len(out), "bytes ·", len(sk),"skeletons ·",len(st),"settings")
