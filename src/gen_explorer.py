@@ -9,6 +9,8 @@ sk={k:{"name":v.get("name",k),"engine":v.get("engine",""),"req":v.get("req",[]),
     for k,v in SK.items() if not k.startswith("_")}
 st={k:{"name":v.get("name",k),"affords":v.get("affords",[]),"gloss":v.get("gloss","")}
     for k,v in ST.items() if not k.startswith("_")}
+PR=json.load(open(f"{ROOT}/data/premises.json",encoding="utf-8"))
+pr={k:v for k,v in PR.items() if not k.startswith("_")}
 GL={"G1":"계층 격차","G2":"금지된 사랑","G3":"승계·축취","G4":"귀환할 집","G5":"감금",
     "G6":"억압 권력","G7":"예언·운명","G8":"부패 권력","G9":"은폐된 진실","G10":"위장·이중정체",
     "G11":"마감","G12":"경제·부채","G13":"강압·조종","G14":"평판·명예","G15":"대리·유대",
@@ -64,6 +66,13 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   .met{border:1px solid #2a5f49;background:#0e2019;color:var(--good);border-radius:6px;padding:3px 8px;font:700 11.5px var(--sans);}
   .flow{padding:14px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
   .flow b{color:var(--ink);} .flow .arrow{color:var(--gold);}
+  .packet{margin-top:12px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#191622,var(--panel));}
+  .pk-h{padding:12px 18px;border-bottom:1px solid var(--line);font:800 11px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;}
+  .pk-tag{font-size:9.5px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:2px 8px;text-transform:none;}
+  .pk-row{display:grid;grid-template-columns:66px 1fr;gap:14px;padding:12px 18px;border-top:1px solid var(--line);}
+  .pk-k{font:800 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:3px;}
+  .pk-row p{margin:0;font-size:14px;color:var(--ink);line-height:1.72;}
+  .pk-comp{color:var(--cyan)!important;font-weight:700;}
 
   .ranklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:30px 0 10px;}
   .rows{display:flex;flex-direction:column;gap:6px;}
@@ -106,7 +115,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
 </div>
 
 <script>
-const SK=__SK__, ST=__ST__, GL=__GL__;
+const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__;
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven));
 const gname=c=>GL[c]||c;
 function rows(setKey){
@@ -137,6 +146,11 @@ function render(setKey){
       <div class="flow"><b>역할</b> ${top.roles.join(" · ")}<br><b>턴</b> ${top.turns.join(' <span class="arrow">→</span> ')}</div>
     </div>`;
   }
+  const pk=PR[setKey];
+  if(pk){ h+=`<div class="packet"><div class="pk-h">피칭 패킷 <span class="pk-tag">융합 · LLM 생성</span></div>
+    <div class="pk-row"><span class="pk-k">프리미스</span><p>${pk.p}</p></div>
+    <div class="pk-row"><span class="pk-k">로그라인</span><p>${pk.l}</p></div>
+    <div class="pk-row"><span class="pk-k">comp</span><p class="pk-comp">${pk.c}</p></div></div>`; }
   const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
   h+=`<p class="ranklbl">전체 순위 · 적합 ${matched.length} / 탈락 ${missed.length}</p><div class="rows">`;
   matched.forEach((r,i)=>{ h+=`<div class="row"><span class="num">${i+1}</span>
@@ -162,6 +176,7 @@ function render(setKey){
 
 out=(T.replace("__SK__", json.dumps(sk,ensure_ascii=False))
       .replace("__ST__", json.dumps(st,ensure_ascii=False))
-      .replace("__GL__", json.dumps(GL,ensure_ascii=False)))
+      .replace("__GL__", json.dumps(GL,ensure_ascii=False))
+      .replace("__PR__", json.dumps(pr,ensure_ascii=False)))
 open(f"{ROOT}/exhibits/match-explorer.html","w",encoding="utf-8").write(out)
 print("match-explorer.html", len(out), "bytes ·", len(sk),"skeletons ·",len(st),"settings")
