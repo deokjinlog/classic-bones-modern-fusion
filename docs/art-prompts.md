@@ -6,9 +6,8 @@
 ## ⚡ 자동 파이프라인 (권장) — 코드가 나노바나나를 호출
 수동 복붙 대신 **우리 파이프라인이 이미지 API를 직접 호출** = 엔드투엔드 우리 오케스트레이션(연출=우리, 렌더=이미지 모델).
 ```bash
-pip install google-genai
-export GEMINI_API_KEY=...      # 무료 키: https://aistudio.google.com/apikey
-python3 src/render_art.py       # data/art_shots.json 12컷 → assets/art/*.png (앞 컷 레퍼런스로 얼굴 유지)
+export GEMINI_API_KEY=...       # 무료 키: https://aistudio.google.com/apikey (결제 미연결이면 과금 불가)
+python3 src/render_art.py        # 의존성 0(표준 라이브러리 REST). 12컷 → assets/art/*.png (앞 컷 레퍼런스로 얼굴 유지)
 ```
 끝. 웹툰(`center.html`·`cargo.html`)이 **PNG 있으면 진짜 작화, 없으면 SVG** 자동 표시(말풍선·근거·그레인·먼지는 그대로 위에). Pages 반영은 `git add assets/art && commit`(기본 gitignore).
 
