@@ -62,6 +62,15 @@
   .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
     box-shadow:0 20px 55px -32px #000; }
   .scene svg{ display:block; width:100%; }
+  .scene::after{ content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.06;
+    mix-blend-mode:overlay; background-size:160px 160px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .motes{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  .motes i{ position:absolute; width:3px; height:3px; border-radius:50%; background:#ffe4b4;
+    opacity:.5; box-shadow:0 0 6px #ffcf80; animation:drift 8s linear infinite; }
+  .motes.cy i{ background:#bff0ff; box-shadow:0 0 6px #7fe9ff; }
+  @keyframes drift{ 0%{ transform:translateY(14px); opacity:0;} 16%{opacity:.65;} 84%{opacity:.5;} 100%{ transform:translateY(-78px); opacity:0;} }
+  @media(prefers-reduced-motion:reduce){ .motes i{ animation:none; opacity:.32; } }
   .wave{ display:flex; gap:4px; align-items:center; height:54px; }
   .wave i{ width:4px; border-radius:3px; background:var(--cyan); box-shadow:0 0 10px var(--cyan);
     animation:pulse 1.15s ease-in-out infinite; }
@@ -172,6 +181,7 @@
       </g>
       <rect width="800" height="500" fill="url(#c1vig)"/>
     </svg>
+    <div class="motes cy" aria-hidden="true"><i style="left:60%;top:26%;animation-delay:.4s"></i><i style="left:66%;top:34%;animation-delay:2.1s"></i><i style="left:58%;top:38%;animation-delay:3.8s"></i><i style="left:63%;top:22%;animation-delay:5.4s"></i></div>
     <div class="bubble holo tr" style="right:5%;top:12%;">회수만 하면, 그 배는 당신 겁니다. 딱 한 번.</div>
     <div class="bubble dark tl" style="left:5%;bottom:16%;">…‘마지막’이라고 했나.</div>
   </div><div class="cap"><span class="beatno">①</span><p><b>부름.</b> <span class="scene">엔진도 끄지 못할 만큼 파산 직전의 운송선. 도크의 어둠 속으로 회사 관제가 홀로그램을 띄운다 — 외행성 궤도의 유실 화물을 회수하면, 빚이 전액 청산된다. 화물이 무엇인지는, 끝내 말하지 않는다.</span></p></div></figure>
@@ -258,6 +268,7 @@
       </g>
       <rect width="800" height="500" fill="url(#c3vig)"/>
     </svg>
+    <div class="motes cy" aria-hidden="true"><i style="left:68%;top:28%;animation-delay:.6s"></i><i style="left:75%;top:36%;animation-delay:2.4s"></i><i style="left:71%;top:44%;animation-delay:4.1s"></i><i style="left:64%;top:32%;animation-delay:5.8s"></i></div>
     <div class="bubble siren tr" style="right:6%;top:10%;">여기서 쉬어가요. 돌아갈 곳, 없잖아요.</div>
     <div class="bubble alarm tl" style="left:5%;bottom:14%;">귀 막아. 저건 항구가 아니야.</div>
   </div><div class="cap"><span class="beatno">③</span><p><b>시련.</b> <span class="scene">버려진 정거장에서 사이렌 같은 조난 신호가 흘러나온다. 창 너머 누군가의 얼굴이 어른거리고, 루카가 홀린 듯 이끌린다. 선장이 그 팔을 붙든다 — 멈추는 순간, 이 항로의 잔해들처럼 끝이다.</span></p></div></figure>
@@ -299,6 +310,7 @@
       </g>
       <rect width="800" height="500" fill="url(#c4vig)"/>
     </svg>
+    <div class="motes" aria-hidden="true"><i style="left:46%;top:40%;animation-delay:.3s"></i><i style="left:54%;top:48%;animation-delay:2.2s"></i><i style="left:50%;top:34%;animation-delay:4s"></i><i style="left:44%;top:52%;animation-delay:5.6s"></i></div>
     <div class="bubble alarm tr" style="right:5%;bottom:14%;">이건 회수가 아니야 — 처음부터 우릴 지우려던 거였어.</div>
   </div><div class="cap"><span class="beatno">④</span><p><b>목표 도달.</b> <span class="scene">마침내 화물칸의 컨테이너가 열린다. 회수 지시서엔 없던 표식, 지워진 분류 코드. 회사가 숨긴 진실이 그 안에 있었다 — 이 항로는 회수가 아니라, 처음부터 그들을 지우기 위한 편도였다.</span></p></div></figure>
 
