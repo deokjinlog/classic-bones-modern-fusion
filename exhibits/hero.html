@@ -1,0 +1,67 @@
+<title>hero</title>
+<style>
+  *{box-sizing:border-box;margin:0;}
+  :root{--stage:#0c0b11;--panel:#16141d;--panel2:#1c1a26;--ink:#f3eff7;--muted:#9a94a6;--faint:#67626f;
+    --gold:#f6c453;--magenta:#ff2e88;--cyan:#35e6ff;--good:#54e0a0;--line:#242231;--line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;}
+  body{width:1280px;height:640px;background:
+      radial-gradient(70% 90% at 12% 0%,rgba(246,196,83,.12),transparent 55%),
+      radial-gradient(60% 80% at 100% 100%,rgba(255,46,136,.10),transparent 55%),var(--stage);
+    color:var(--ink);font-family:var(--sans);display:flex;align-items:center;gap:44px;padding:0 64px;overflow:hidden;}
+  .left{width:52%;}
+  .eyebrow{font:800 14px var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+  h1{font-size:52px;font-weight:900;line-height:1.08;letter-spacing:-.03em;}
+  h1 em{font-style:normal;color:var(--gold);}
+  .sub{margin-top:18px;font-size:18px;color:var(--muted);line-height:1.6;max-width:30ch;}
+  .sub b{color:var(--ink);}
+  .pipe{display:flex;align-items:center;gap:9px;margin-top:30px;flex-wrap:wrap;}
+  .step{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:8px 15px;font:700 14px var(--sans);color:var(--ink);}
+  .step.code{color:var(--cyan);border-color:#1f4b57;} .step.llm{color:var(--magenta);border-color:#4a1f34;}
+  .step.out{color:#241a06;background:var(--gold);border-color:var(--gold);}
+  .arw{color:var(--faint);font-weight:900;}
+
+  .right{width:48%;}
+  .card{border:1px solid var(--line2);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));box-shadow:0 40px 90px -50px #000;}
+  .ch{padding:18px 22px 15px;border-bottom:1px solid var(--line);}
+  .setk{font-size:13px;color:var(--faint);font-weight:700;}
+  .ch h2{font-size:26px;font-weight:900;margin-top:4px;}
+  .ch .eng{color:var(--muted);font-weight:600;font-size:15px;}
+  .bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:18px 22px;}
+  .bk{font:800 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;}
+  .bk b{color:var(--ink);font-size:14px;}
+  .track{height:9px;border-radius:6px;background:#26232f;margin-top:7px;overflow:hidden;}
+  .fill{height:100%;border-radius:6px;}
+  .f1{background:linear-gradient(90deg,#e6a53a,var(--gold));} .f2{background:linear-gradient(90deg,#1f9bb3,var(--cyan));} .f3{background:linear-gradient(90deg,#2f9e70,var(--good));}
+  .pk{padding:16px 22px;border-top:1px solid var(--line);background:linear-gradient(180deg,#191622,transparent);}
+  .pk .lab{font:800 10px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;display:flex;gap:9px;align-items:center;}
+  .pk .tag{font-size:9px;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:2px 8px;text-transform:none;}
+  .pk p{font-size:14.5px;line-height:1.6;color:var(--ink);}
+  .pk .comp{color:var(--cyan);font-weight:700;font-size:13.5px;margin-top:9px;}
+</style>
+<body>
+  <div class="left">
+    <div class="eyebrow">classic-bones-modern-fusion</div>
+    <h1>검증된 <em>고전 뼈대</em>를<br>현대 세팅에 이식한다</h1>
+    <p class="sub">신선하되 말 되는 이야기 프리미스 + <b>"진짜 덜 쓰였다"는 실데이터 근거</b>. 매칭은 코드가, 융합만 LLM이.</p>
+    <div class="pipe">
+      <span class="step">세팅</span><span class="arw">→</span>
+      <span class="step code">매칭 · 코드</span><span class="arw">→</span>
+      <span class="step llm">융합 · LLM</span><span class="arw">→</span>
+      <span class="step out">프리미스 + 근거</span>
+    </div>
+  </div>
+  <div class="right">
+    <div class="card">
+      <div class="ch"><div class="setk">아이돌 기획사 · 1등 매칭</div>
+        <h2>찬탈복수 <span class="eng">— 햄릿형</span></h2></div>
+      <div class="bars">
+        <div><div class="bk"><span>검증</span><b>33</b></div><div class="track"><div class="fill f1" style="width:53%"></div></div></div>
+        <div><div class="bk"><span>신선</span><b>75%</b></div><div class="track"><div class="fill f2" style="width:75%"></div></div></div>
+        <div><div class="bk"><span>양립</span><b>2/2</b></div><div class="track"><div class="fill f3" style="width:100%"></div></div></div>
+      </div>
+      <div class="pk"><div class="lab">피칭 패킷 <span class="tag">융합 · LLM</span></div>
+        <p>형의 자리를 뺏은 센터에게 복수하려는 신인이, 그 망설임으로 팀을 무너뜨린다.</p>
+        <div class="comp">햄릿 meets 아이돌 서바이벌</div></div>
+    </div>
+  </div>
+</body>

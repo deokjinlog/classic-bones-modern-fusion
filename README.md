@@ -1,5 +1,7 @@
 # classic-bones-modern-fusion
 
+[![검증된 고전 뼈대를 현대 세팅에 이식한다 — 세팅→매칭(코드)→융합(LLM)→프리미스+근거](assets/hero.png)](https://deokjinlog.github.io/classic-bones-modern-fusion/explore.html)
+
 > 수백 년 검증된 **고전 이야기의 뼈대**를, 아직 아무도 안 넣어본 **현대 세팅**에 이식해 —
 > 신선하되 말 되는 이야기 프리미스를 **"진짜 덜 쓰였다"는 실데이터 근거**와 함께 뽑아준다.
 
