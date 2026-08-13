@@ -1,16 +1,32 @@
 # 「센터」 작화 발주서 (art prompt pack)
 
-외부 이미지 모델(Midjourney / NijiJourney / SDXL 등)로 웹툰 컷을 뽑기 위한 프롬프트 팩.
-뽑은 이미지를 `exhibits/center-webtoon.html`의 벡터 자리에 얹으면 완성형 웹툰이 됨.
+외부 이미지 모델로 웹툰 컷을 뽑기 위한 프롬프트 팩. 뽑은 이미지를 `exhibits/center-webtoon.html`의
+벡터 자리에 얹으면 완성형 웹툰이 됨. **텍스트 없이** 그림만 뽑으면 됨(말풍선은 후작업).
+
+## 0) 실행 순서 (이대로만 하면 됨)
+1. 아래 **① 스타일 락**을 복사해 매 프롬프트 맨 앞에 붙인다.
+2. 먼저 **캐릭터 시트**부터 뽑아 서하·도경 얼굴을 **확정**한다(일관성 기준점).
+   - 미드저니/니지면 그 이미지를 `--cref <이미지URL>`로 각 컷에 물린다 → 얼굴 안 흔들림.
+   - 무료툴이면 같은 대화 세션에서 "same character as the previous image"로 이어 뽑는다.
+3. **③ 패널 프롬프트 6컷**을 하나씩 뽑는다(세로 3:4).
+4. 6장 나오면 **나한테 이미지(파일/URL) 주면** 벡터 자리에 얹어 완성형으로 조립한다.
+
+**툴 선택**
+| 툴 | 비용 | 웹툰 적합 | 일관성 |
+|---|---|---|---|
+| **NijiJourney 6** | 유료 | ★★★ (애니/웹툰 특화) | `--cref` 강력 |
+| Midjourney v6 | 유료 | ★★ | `--cref` 강력 |
+| ChatGPT(DALL·E 3)·Gemini·Bing | **무료권** | ★★ | 세션 내 "same character"로 유지 |
+
+> 무료로 먼저 감 잡고, 맘에 들면 니지로 퀄 올리는 걸 추천.
 
 ## 1) 스타일 락 (모든 프롬프트 앞에 붙이기)
 ```
 korean webtoon / manhwa illustration, full color, clean cel shading, bold rim lighting,
-cinematic K-pop stage, dramatic emotional mood, vertical webtoon panel, high detail
+cinematic K-pop stage, dramatic emotional mood, vertical webtoon panel, high detail, no text
 ```
-- **비율**: 세로 `--ar 3:4` (또는 2:3). NijiJourney면 `--niji 6`.
-- **네거티브**: `text, watermark, extra fingers, deformed hands, low quality, jpeg artifacts`
-- **일관성**: 캐릭터 참조(`--cref` / character sheet)를 매 컷에 고정 → 얼굴 안 흔들림.
+- **비율**: 세로 `--ar 3:4`. NijiJourney면 `--niji 6`.
+- **네거티브**: `text, letters, watermark, extra fingers, deformed hands, low quality, jpeg artifacts`
 
 ## 2) 캐릭터 시트 (프롬프트마다 해당 인물 설명 고정)
 - **서하**(주인공): 19yo Korean male K-pop trainee, black messy fringe partly over eyes, sharp shadowed intense gaze, oversized charcoal hoodie
@@ -44,5 +60,11 @@ cinematic K-pop stage, dramatic emotional mood, vertical webtoon panel, high det
 ```
 
 ## 4) 대사(말풍선)는 후작업으로 얹기
-이미지 모델은 한글 텍스트를 못 그리니 **작화는 텍스트 없이 뽑고**, 말풍선/대사는 나중에 합성.
-현재 에피소드 대사는 `exhibits/center-webtoon.html` 참고.
+이미지 모델은 한글을 못 그리니 **작화는 텍스트 없이 뽑고**, 말풍선/대사는 나중에 합성.
+현재 에피소드 대사·컷 순서는 `exhibits/center-webtoon.html` 참고.
+
+## 5) 나한테 넘기는 법
+6장(또는 일부)을 뽑으면 **파일 첨부 or 이미지 URL**로 주면 됨. 내가:
+- 각 컷을 해당 패널의 벡터 자리에 교체(비율·크롭 맞춤)
+- 말풍선·비트 캡션·근거 섹션은 그대로 유지
+- 아티팩트 + GitHub Pages 재배포
