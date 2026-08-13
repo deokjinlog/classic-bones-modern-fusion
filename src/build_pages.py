@@ -31,10 +31,13 @@ def wrap(exhibit, title, desc, nav):
 pages = {
     "index.html": wrap("center-webtoon.html", "센터 · classic-bones-modern-fusion",
         "고전 햄릿의 뼈대를 아이돌 기획사에 이식해 조준·생성한 웹툰 에피소드.",
-        [("매칭 탐색기 →", "explore.html"), ("GitHub 소스 →", GH)]),
+        [("웹툰 「화물」 →", "cargo.html"), ("매칭 탐색기 →", "explore.html"), ("GitHub 소스 →", GH)]),
+    "cargo.html": wrap("cargo-webtoon.html", "화물 · classic-bones-modern-fusion",
+        "고전 오디세이의 뼈대를 우주 운송선에 이식해 조준·생성한 웹툰 에피소드.",
+        [("웹툰 「센터」 →", "./"), ("매칭 탐색기 →", "explore.html"), ("GitHub 소스 →", GH)]),
     "explore.html": wrap("match-explorer.html", "매칭 탐색기 · classic-bones-modern-fusion",
         "세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 결정적으로 계산하는 인터랙티브 데모.",
-        [("웹툰 데모 →", "./"), ("GitHub 소스 →", GH)]),
+        [("웹툰 「센터」 →", "./"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub 소스 →", GH)]),
 }
 for name, html in pages.items():
     open(f"{ROOT}/{name}", "w", encoding="utf-8").write(html)

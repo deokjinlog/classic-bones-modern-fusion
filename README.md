@@ -8,7 +8,8 @@
 ### ▶︎ 바로 보기 (레포에서 바로 열림)
 - **🎯 매칭 탐색기** (인터랙티브 툴 데모): **https://deokjinlog.github.io/classic-bones-modern-fusion/explore.html**
   세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 코드가 결정적으로 계산 → **이게 GPT가 못 하는 부분.**
-- **👑 웹툰 데모** 「센터」(햄릿×아이돌): **https://deokjinlog.github.io/classic-bones-modern-fusion/**
+- **👑 웹툰** 「센터」(햄릿 × 아이돌 기획사): **https://deokjinlog.github.io/classic-bones-modern-fusion/**
+- **🚀 웹툰** 「화물」(오디세이 × 우주 운송선): **https://deokjinlog.github.io/classic-bones-modern-fusion/cargo.html** — 「센터」와 **같은 툴·다른 뼈대·다른 세팅**
 
 design-explosion의 **스토리판**. "AI가 이야기를 대신 쓴다"가 아니라, 실제 이야기를 **세어서** 조준하는 분석 도구.
 **매칭은 결정적(코드·취향 0), 융합만 창작(LLM).**
