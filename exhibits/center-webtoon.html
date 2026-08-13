@@ -47,29 +47,18 @@
   .role.ghost{ border-color:#1d3a44; background:linear-gradient(180deg,var(--panel),#0c1418); }
   .role.ghost .maps{ color:var(--cyan); }
 
-  .panel{ margin:0 0 26px; }
-  .stage{ position:relative; aspect-ratio:16/12; border-radius:16px; overflow:hidden;
-    background:radial-gradient(120% 100% at 50% 120%, #14121c, var(--stage));
-    border:1px solid var(--line); box-shadow:0 18px 50px -30px #000; filter:saturate(1.05) contrast(1.04); }
-  .stage::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
-    box-shadow:inset 0 0 76px 20px rgba(0,0,0,.55); }
-  .floor{ position:absolute; inset:auto 0 0 0; height:34%;
-    background:linear-gradient(180deg,transparent,rgba(0,0,0,.45)); }
-  .spot{ position:absolute; border-radius:50%; transform:translateX(-50%); filter:blur(3px); mix-blend-mode:screen; }
-  .char{ position:absolute; bottom:0; filter:drop-shadow(0 12px 18px rgba(0,0,0,.6)); z-index:1; }
-  .frame{ position:absolute; border:2px solid var(--gold); border-radius:6px;
-    background:linear-gradient(180deg,rgba(246,196,83,.12),transparent); box-shadow:0 0 24px rgba(246,196,83,.2);
-    overflow:hidden; z-index:1; }
-  .phone{ position:absolute; width:64px; height:120px; border-radius:12px; background:#05060a;
-    border:1px solid #143038; box-shadow:0 0 34px rgba(53,230,255,.5); display:flex; align-items:center; justify-content:center; z-index:1; }
+  .panel{ margin:0 0 30px; }
+  .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+    box-shadow:0 20px 55px -32px #000; }
+  .scene svg{ display:block; width:100%; }
   .wave{ display:flex; gap:4px; align-items:center; height:54px; }
   .wave i{ width:4px; border-radius:3px; background:var(--cyan); box-shadow:0 0 10px var(--cyan);
     animation:pulse 1.1s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ transform:scaleY(.3);} 50%{ transform:scaleY(1);} }
   @media(prefers-reduced-motion:reduce){ .wave i{ animation:none; transform:scaleY(.7);} }
 
-  .bubble{ position:absolute; max-width:62%; background:var(--ink); color:#14101a;
-    font-size:13.5px; font-weight:700; line-height:1.4; padding:9px 13px; border-radius:14px;
+  .bubble{ position:absolute; max-width:60%; background:var(--ink); color:#14101a;
+    font-size:14px; font-weight:700; line-height:1.42; padding:9px 13px; border-radius:14px;
     box-shadow:0 8px 22px -8px #000; z-index:4; }
   .bubble::after{ content:""; position:absolute; width:0; height:0; border:9px solid transparent; }
   .bubble.tl::after{ left:18px; bottom:-14px; border-top-color:var(--ink); }
@@ -77,13 +66,13 @@
   .bubble.dark{ background:#14121b; color:var(--ink); border:1px solid var(--line2); }
   .bubble.dark.tl::after{ border-top-color:#14121b; } .bubble.dark.tr::after{ border-top-color:#14121b; }
   .bubble.truth{ background:#0c1a20; color:var(--cyan); border:1px solid #1f4b57; font-weight:600; }
-  .bubble.truth.tr::after{ border-top-color:#0c1a20; }
-  .think{ position:absolute; max-width:72%; font-size:14px; font-weight:600; font-style:italic;
-    text-shadow:0 2px 14px #000, 0 0 3px #000; z-index:4; }
+  .bubble.truth.tr::after{ border-top-color:#0c1a20; } .bubble.truth.tl::after{ border-top-color:#0c1a20; }
+  .think{ position:absolute; max-width:72%; font-size:14.5px; font-weight:600; font-style:italic;
+    text-shadow:0 2px 16px #000, 0 0 4px #000; z-index:4; }
 
-  .cap{ display:flex; gap:14px; align-items:baseline; margin:12px 4px 0; }
+  .cap{ display:flex; gap:14px; align-items:baseline; margin:14px 4px 0; }
   .beatno{ font-weight:900; font-size:26px; line-height:1; color:var(--magenta); flex:none; width:34px; }
-  .cap p{ margin:0; font-size:14.5px; } .cap .scene{ color:var(--muted); }
+  .cap p{ margin:0; font-size:15px; line-height:1.72; } .cap b{ color:var(--ink); } .cap .scene{ color:var(--muted); }
 
   .receipt{ margin-top:48px; border:1px solid var(--line2); border-radius:16px; overflow:hidden; background:var(--panel); }
   .receipt h3{ margin:0; padding:16px 20px; font-size:12px; letter-spacing:.26em; text-transform:uppercase;
@@ -97,165 +86,6 @@
   .note{ margin-top:14px; font-size:12px; color:var(--faint); text-align:center; }
 </style>
 
-<!-- CHARACTER ART (flat vector, dramatic cel-shaded) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-<defs>
-<linearGradient id="rimG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ffe6b4" stop-opacity="0"/><stop offset="100%" stop-color="#ffe6b4" stop-opacity="1"/></linearGradient>
-<radialGradient id="skinS" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#f8d4ab"/><stop offset="58%" stop-color="#eebf94"/><stop offset="100%" stop-color="#d5966a"/></radialGradient>
-<linearGradient id="hairS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a352a"/><stop offset="48%" stop-color="#2a1d16"/><stop offset="100%" stop-color="#150e0b"/></linearGradient>
-<radialGradient id="irisS" cx="50%" cy="32%" r="70%"><stop offset="0%" stop-color="#9a6b48"/><stop offset="66%" stop-color="#553827"/><stop offset="100%" stop-color="#291a12"/></radialGradient>
-<linearGradient id="hoodS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#302c3a"/><stop offset="100%" stop-color="#1a1822"/></linearGradient>
-<radialGradient id="skinD" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#f9d6b3"/><stop offset="58%" stop-color="#efc6a2"/><stop offset="100%" stop-color="#d79f78"/></radialGradient>
-<linearGradient id="hairD" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4e6b6"/><stop offset="50%" stop-color="#e3cd86"/><stop offset="100%" stop-color="#bfa15c"/></linearGradient>
-<radialGradient id="irisD" cx="50%" cy="32%" r="70%"><stop offset="0%" stop-color="#8f7a58"/><stop offset="66%" stop-color="#5a4531"/><stop offset="100%" stop-color="#2f2417"/></radialGradient>
-<linearGradient id="jacketD" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5f4f9"/><stop offset="100%" stop-color="#d4d2df"/></linearGradient>
-<radialGradient id="skinM" cx="42%" cy="34%" r="72%"><stop offset="0%" stop-color="#efc79c"/><stop offset="58%" stop-color="#e0b184"/><stop offset="100%" stop-color="#c48d61"/></radialGradient>
-<linearGradient id="hairM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3742"/><stop offset="50%" stop-color="#222129"/><stop offset="100%" stop-color="#14131a"/></linearGradient>
-<radialGradient id="irisM" cx="50%" cy="32%" r="70%"><stop offset="0%" stop-color="#6f573b"/><stop offset="66%" stop-color="#3c2e21"/><stop offset="100%" stop-color="#1f150f"/></radialGradient>
-<linearGradient id="suitM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#243141"/><stop offset="100%" stop-color="#121a28"/></linearGradient>
-</defs>
-<symbol id="seoha" viewBox="0 0 200 250">
-<path d="M0,250 C0,180 42,155 72,149 L128,149 C158,155 200,180 200,250 Z" fill="url(#hoodS)"/>
-<path d="M72,149 C82,181 118,181 128,149 L133,250 L67,250 Z" fill="#141119"/>
-<path d="M87,136 h26 v15 q-13,9 -26,0 z" fill="#d89e70"/>
-<path d="M87,136 h26 v6 q-13,7 -26,0 z" fill="#b87f56" opacity=".55"/>
-<path d="M61,88 C61,55 79,43 100,43 C121,43 139,55 139,88 C139,117 121,141 100,153 C79,141 61,117 61,88 Z" fill="url(#skinS)"/>
-<path d="M112,50 C130,58 139,70 139,90 C139,117 121,141 100,153 C112,138 120,120 120,96 C120,74 117,60 112,50 Z" fill="#cf9066" opacity=".38"/>
-<path d="M120,60 C132,70 138,78 139,92 C140,112 126,134 104,150" stroke="url(#rimG)" stroke-width="3.4" fill="none" opacity=".8" stroke-linecap="round"/>
-<ellipse cx="77" cy="120" rx="10" ry="5.4" fill="#e07f5e" opacity=".16"/>
-<ellipse cx="123" cy="120" rx="9" ry="5" fill="#c56b4a" opacity=".14"/>
-<circle cx="61" cy="101" r="7" fill="url(#skinS)"/><circle cx="139" cy="101" r="7" fill="#d5966a"/>
-<path d="M56,100 C50,54 78,32 100,32 C122,32 150,54 144,100 C140,80 132,70 124,68 L130,90 C121,72 111,66 103,66 L109,86 C99,66 84,62 74,70 L80,86 C70,74 61,84 56,100 Z" fill="url(#hairS)"/>
-<path d="M74,42 C86,35 104,35 118,42 C110,44 96,44 86,48 C81,50 77,46 74,42 Z" fill="#6a4c3a" opacity=".55"/>
-<path d="M100,32 C122,32 150,54 144,100 C141,82 133,71 124,68 L130,90 C123,74 114,67 106,66 C118,58 116,44 100,40 Z" fill="#0d0908" opacity=".45"/>
-<path d="M70,94 Q81,90 92,93" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M108,93 Q119,90 130,94" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M72,106 Q82,99.5 92,105 Q82,111 72,106 Z" fill="#fcf8f4"/>
-<circle cx="82.4" cy="105.6" r="4.9" fill="url(#irisS)"/><circle cx="82.4" cy="106" r="2.2" fill="#160f12"/><circle cx="84.4" cy="103.6" r="1.7" fill="#fff"/><circle cx="80.6" cy="107.4" r="0.9" fill="#fff" opacity=".7"/>
-<path d="M71,102.6 Q82,97.6 93,102.6" stroke="#1c1216" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-<path d="M108,106 Q118,99.5 128,105 Q118,111 108,106 Z" fill="#f3e9df"/>
-<circle cx="117.6" cy="105.6" r="4.9" fill="url(#irisS)"/><circle cx="117.6" cy="106" r="2.2" fill="#160f12"/><circle cx="119.6" cy="103.6" r="1.7" fill="#fff"/><circle cx="115.8" cy="107.4" r="0.9" fill="#fff" opacity=".7"/>
-<path d="M107,102.6 Q118,97.6 129,102.6" stroke="#1c1216" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-<path d="M99,97 L99.5,111" stroke="#ffedcf" stroke-width="2" opacity=".28" stroke-linecap="round"/>
-<path d="M100,111 l-3.6,10 7.2,0 z" fill="#cf9068" opacity=".5"/>
-<ellipse cx="97" cy="121" rx="2" ry="1.4" fill="#a26a45" opacity=".45"/>
-<path d="M90,129.5 Q100,134 110,129.5" stroke="#8f5236" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path d="M92,131.5 Q100,133.5 108,131.5" stroke="#e79b74" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
-</symbol>
-<symbol id="seoha-shock" viewBox="0 0 200 250">
-<path d="M0,250 C0,180 42,155 72,149 L128,149 C158,155 200,180 200,250 Z" fill="url(#hoodS)"/>
-<path d="M72,149 C82,181 118,181 128,149 L133,250 L67,250 Z" fill="#141119"/>
-<path d="M87,136 h26 v15 q-13,9 -26,0 z" fill="#d89e70"/>
-<path d="M87,136 h26 v6 q-13,7 -26,0 z" fill="#b87f56" opacity=".55"/>
-<path d="M61,88 C61,55 79,43 100,43 C121,43 139,55 139,88 C139,117 121,141 100,153 C79,141 61,117 61,88 Z" fill="url(#skinS)"/>
-<path d="M112,50 C130,58 139,70 139,90 C139,117 121,141 100,153 C112,138 120,120 120,96 C120,74 117,60 112,50 Z" fill="#cf9066" opacity=".38"/>
-<path d="M120,60 C132,70 138,78 139,92 C140,112 126,134 104,150" stroke="url(#rimG)" stroke-width="3.4" fill="none" opacity=".8" stroke-linecap="round"/>
-<ellipse cx="77" cy="120" rx="10" ry="5.4" fill="#e07f5e" opacity=".16"/>
-<ellipse cx="123" cy="120" rx="9" ry="5" fill="#c56b4a" opacity=".14"/>
-<circle cx="61" cy="101" r="7" fill="url(#skinS)"/><circle cx="139" cy="101" r="7" fill="#d5966a"/>
-<path d="M56,100 C50,54 78,32 100,32 C122,32 150,54 144,100 C140,80 132,70 124,68 L130,90 C121,72 111,66 103,66 L109,86 C99,66 84,62 74,70 L80,86 C70,74 61,84 56,100 Z" fill="url(#hairS)"/>
-<path d="M74,42 C86,35 104,35 118,42 C110,44 96,44 86,48 C81,50 77,46 74,42 Z" fill="#6a4c3a" opacity=".55"/>
-<path d="M100,32 C122,32 150,54 144,100 C141,82 133,71 124,68 L130,90 C123,74 114,67 106,66 C118,58 116,44 100,40 Z" fill="#0d0908" opacity=".45"/>
-<path d="M70,87 Q81,82 92,86" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M108,86 Q119,82 130,87" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<ellipse cx="82.4" cy="105" rx="8.2" ry="9.4" fill="#fcf8f4"/>
-<circle cx="82.4" cy="105.6" r="5.1" fill="url(#irisS)"/><circle cx="82.4" cy="106" r="2.6" fill="#160f12"/><circle cx="84.6" cy="103.2" r="1.8" fill="#fff"/><circle cx="80.2" cy="108" r="1" fill="#fff" opacity=".7"/>
-<path d="M71,98 Q82,93.5 93,98" stroke="#1c1216" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-<ellipse cx="117.6" cy="105" rx="8.2" ry="9.4" fill="#f3e9df"/>
-<circle cx="117.6" cy="105.6" r="5.1" fill="url(#irisS)"/><circle cx="117.6" cy="106" r="2.6" fill="#160f12"/><circle cx="119.8" cy="103.2" r="1.8" fill="#fff"/><circle cx="115.4" cy="108" r="1" fill="#fff" opacity=".7"/>
-<path d="M107,98 Q118,93.5 129,98" stroke="#1c1216" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-<path d="M99,97 L99.5,111" stroke="#ffedcf" stroke-width="2" opacity=".28" stroke-linecap="round"/>
-<path d="M100,111 l-3.6,10 7.2,0 z" fill="#cf9068" opacity=".5"/>
-<ellipse cx="97" cy="121" rx="2" ry="1.4" fill="#a26a45" opacity=".45"/>
-<ellipse cx="100" cy="132" rx="5.4" ry="6.4" fill="#5f3b2b"/>
-<ellipse cx="100" cy="130" rx="3" ry="2" fill="#8a5a45"/>
-</symbol>
-<symbol id="seoha-torn" viewBox="0 0 200 250">
-<path d="M0,250 C0,180 42,155 72,149 L128,149 C158,155 200,180 200,250 Z" fill="url(#hoodS)"/>
-<path d="M72,149 C82,181 118,181 128,149 L133,250 L67,250 Z" fill="#141119"/>
-<path d="M87,136 h26 v15 q-13,9 -26,0 z" fill="#d89e70"/>
-<path d="M87,136 h26 v6 q-13,7 -26,0 z" fill="#b87f56" opacity=".55"/>
-<path d="M61,88 C61,55 79,43 100,43 C121,43 139,55 139,88 C139,117 121,141 100,153 C79,141 61,117 61,88 Z" fill="url(#skinS)"/>
-<path d="M112,50 C130,58 139,70 139,90 C139,117 121,141 100,153 C112,138 120,120 120,96 C120,74 117,60 112,50 Z" fill="#cf9066" opacity=".38"/>
-<path d="M120,60 C132,70 138,78 139,92 C140,112 126,134 104,150" stroke="url(#rimG)" stroke-width="3.4" fill="none" opacity=".8" stroke-linecap="round"/>
-<ellipse cx="77" cy="120" rx="10" ry="5.4" fill="#e07f5e" opacity=".16"/>
-<ellipse cx="123" cy="120" rx="9" ry="5" fill="#c56b4a" opacity=".14"/>
-<circle cx="61" cy="101" r="7" fill="url(#skinS)"/><circle cx="139" cy="101" r="7" fill="#d5966a"/>
-<path d="M56,100 C50,54 78,32 100,32 C122,32 150,54 144,100 C140,80 132,70 124,68 L130,90 C121,72 111,66 103,66 L109,86 C99,66 84,62 74,70 L80,86 C70,74 61,84 56,100 Z" fill="url(#hairS)"/>
-<path d="M74,42 C86,35 104,35 118,42 C110,44 96,44 86,48 C81,50 77,46 74,42 Z" fill="#6a4c3a" opacity=".55"/>
-<path d="M100,32 C122,32 150,54 144,100 C141,82 133,71 124,68 L130,90 C123,74 114,67 106,66 C118,58 116,44 100,40 Z" fill="#0d0908" opacity=".45"/>
-<path d="M70,90 Q81,89 92,95" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M108,95 Q119,89 130,90" stroke="#241a16" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M72,106 Q82,101.5 92,105 Q82,110 72,106 Z" fill="#fcf8f4"/>
-<circle cx="82.4" cy="105.8" r="4.1" fill="url(#irisS)"/><circle cx="82.4" cy="106.1" r="2" fill="#160f12"/><circle cx="84" cy="104.4" r="1.4" fill="#fff"/>
-<path d="M71,104 Q82,100.5 93,104" stroke="#1c1216" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-<path d="M108,106 Q118,101.5 128,105 Q118,110 108,106 Z" fill="#f3e9df"/>
-<circle cx="117.6" cy="105.8" r="4.1" fill="url(#irisS)"/><circle cx="117.6" cy="106.1" r="2" fill="#160f12"/><circle cx="119.2" cy="104.4" r="1.4" fill="#fff"/>
-<path d="M107,104 Q118,100.5 129,104" stroke="#1c1216" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-<path d="M99,97 L99.5,111" stroke="#ffedcf" stroke-width="2" opacity=".28" stroke-linecap="round"/>
-<path d="M100,111 l-3.6,10 7.2,0 z" fill="#cf9068" opacity=".5"/>
-<ellipse cx="97" cy="121" rx="2" ry="1.4" fill="#a26a45" opacity=".45"/>
-<path d="M91,132 Q100,129.5 109,132" stroke="#8f5236" stroke-width="3" fill="none" stroke-linecap="round"/>
-</symbol>
-<symbol id="dokyung" viewBox="0 0 200 250">
-<path d="M0,250 C0,182 44,156 72,150 L128,150 C156,156 200,182 200,250 Z" fill="url(#jacketD)"/>
-<path d="M76,150 L100,196 L124,150 L131,250 L69,250 Z" fill="#c4c2d2"/>
-<path d="M87,137 h26 v15 q-13,9 -26,0 z" fill="#d9a077"/>
-<path d="M87,137 h26 v6 q-13,7 -26,0 z" fill="#bb845c" opacity=".5"/>
-<path d="M62,88 C62,55 80,43 100,43 C122,43 138,54 138,88 C138,118 118,141 100,154 C82,141 62,118 62,88 Z" fill="url(#skinD)"/>
-<path d="M112,50 C129,58 138,70 138,90 C138,118 118,141 100,154 C112,138 119,120 119,96 C119,74 117,60 112,50 Z" fill="#d29469" opacity=".4"/>
-<path d="M119,60 C131,70 137,78 138,92 C139,113 124,135 103,151" stroke="url(#rimG)" stroke-width="3.4" fill="none" opacity=".85" stroke-linecap="round"/>
-<ellipse cx="78" cy="121" rx="9" ry="5" fill="#d98a63" opacity=".12"/>
-<circle cx="62" cy="101" r="6.5" fill="url(#skinD)"/><circle cx="138" cy="101" r="6.5" fill="#d79f78"/>
-<path d="M56,94 C52,50 82,28 106,30 C134,32 150,56 143,96 C138,72 126,63 108,63 C130,58 126,44 102,44 C82,44 68,54 60,72 C58,80 57,86 56,94 Z" fill="url(#hairD)"/>
-<path d="M60,60 C74,42 96,36 112,40 C98,44 82,50 70,66 C66,72 62,80 60,88 C58,78 58,68 60,60 Z" fill="#ffffff" opacity=".22"/>
-<path d="M106,30 C132,34 146,50 143,74 C128,58 114,58 104,60 C120,46 112,34 106,30 Z" fill="#a98a4e" opacity=".7"/>
-<path d="M71,96 L92,94" stroke="#8a6a44" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M108,94 L129,96" stroke="#8a6a44" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-<path d="M73,105 Q82,101.5 91,104 Q82,108.5 73,105 Z" fill="#fbf7f3"/>
-<circle cx="82.5" cy="105.2" r="4.1" fill="url(#irisD)"/><circle cx="82.5" cy="105.4" r="1.9" fill="#160f12"/><circle cx="84" cy="103.8" r="1.3" fill="#fff"/>
-<path d="M72,102.5 Q82,99.3 92,102" stroke="#2a1e18" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path d="M109,104 Q118,101.5 127,105 Q118,108.5 109,104 Z" fill="#efe4da"/>
-<circle cx="117.5" cy="105.2" r="4.1" fill="url(#irisD)"/><circle cx="117.5" cy="105.4" r="1.9" fill="#160f12"/><circle cx="119" cy="103.8" r="1.3" fill="#fff"/>
-<path d="M108,102 Q118,99.3 128,102.5" stroke="#2a1e18" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path d="M99,97 L99.5,111" stroke="#ffedcf" stroke-width="2" opacity=".26" stroke-linecap="round"/>
-<path d="M100,111 l-3.6,10 7.2,0 z" fill="#d29469" opacity=".5"/>
-<path d="M89,129 Q99,132 114,124" stroke="#a8663f" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path d="M92,130.5 Q100,132.5 110,127" stroke="#e7a074" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".55"/>
-</symbol>
-<symbol id="manager" viewBox="0 0 200 250">
-<path d="M4,250 C4,184 46,158 74,152 L126,152 C154,158 196,184 196,250 Z" fill="url(#suitM)"/>
-<path d="M84,150 L100,190 L116,150 L120,250 L80,250 Z" fill="#0f1622"/>
-<rect x="97" y="154" width="6" height="42" fill="#c94f6b"/><rect x="89" y="194" width="22" height="14" rx="2" fill="#0c1120"/>
-<path d="M88,137 h24 v15 q-12,9 -24,0 z" fill="#cf9970"/>
-<path d="M88,137 h24 v6 q-12,7 -24,0 z" fill="#a97a54" opacity=".5"/>
-<path d="M64,88 C64,56 82,46 100,46 C118,46 136,56 136,88 C136,110 120,134 100,152 C80,134 64,110 64,88 Z" fill="url(#skinM)"/>
-<path d="M112,52 C128,60 136,72 136,90 C136,110 120,134 100,152 C112,137 118,120 118,96 C118,74 116,62 112,52 Z" fill="#c8956a" opacity=".4"/>
-<path d="M118,62 C130,72 135,80 136,92 C137,112 122,133 102,150" stroke="url(#rimG)" stroke-width="3" fill="none" opacity=".7" stroke-linecap="round"/>
-<circle cx="64" cy="100" r="6.5" fill="url(#skinM)"/><circle cx="136" cy="100" r="6.5" fill="#c48d61"/>
-<path d="M74,120 C82,140 118,140 126,120 C124,133 112,143 100,143 C88,143 76,133 74,120 Z" fill="#4a3728" opacity=".18"/>
-<path d="M60,92 C56,58 80,40 100,40 C120,40 144,58 140,92 C135,72 122,63 100,63 C78,63 65,72 60,92 Z" fill="url(#hairM)"/>
-<path d="M70,52 C82,44 98,42 110,46 C98,48 84,52 74,64 C71,58 70,56 70,52 Z" fill="#54525e" opacity=".4"/>
-<path d="M71,95 Q82,92 92,95" stroke="#17151d" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-<path d="M108,95 Q118,92 129,95" stroke="#17151d" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-<path d="M73,106 Q82,101.5 91,105 Q82,109.5 73,106 Z" fill="#f3ece4"/>
-<circle cx="82.4" cy="105.8" r="3.8" fill="url(#irisM)"/><circle cx="82.4" cy="106" r="1.8" fill="#140f10"/><circle cx="83.8" cy="104.6" r="1.2" fill="#fff"/>
-<path d="M109,106 Q118,101.5 127,105 Q118,109.5 109,106 Z" fill="#e6dacf"/>
-<circle cx="117.6" cy="105.8" r="3.8" fill="url(#irisM)"/><circle cx="117.6" cy="106" r="1.8" fill="#140f10"/><circle cx="119" cy="104.6" r="1.2" fill="#fff"/>
-<path d="M74,110.5 Q82,112.5 90,110.5" stroke="#b07f52" stroke-width="1.4" fill="none" opacity=".5"/>
-<path d="M110,110.5 Q118,112.5 126,110.5" stroke="#b07f52" stroke-width="1.4" fill="none" opacity=".5"/>
-<rect x="69" y="99" width="26" height="15" rx="6" fill="none" stroke="#2c2935" stroke-width="2.4"/>
-<rect x="105" y="99" width="26" height="15" rx="6" fill="none" stroke="#2c2935" stroke-width="2.4"/>
-<path d="M95,105 h10" stroke="#2c2935" stroke-width="2.4"/>
-<path d="M69,104 L62,101" stroke="#2c2935" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-<path d="M131,104 L138,101" stroke="#2c2935" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-<path d="M73,101 L80,101" stroke="#8fb3c9" stroke-width="2" opacity=".3" stroke-linecap="round"/>
-<path d="M109,101 L116,101" stroke="#8fb3c9" stroke-width="2" opacity=".3" stroke-linecap="round"/>
-<path d="M100,111 l-3.4,10 6.8,0 z" fill="#c8895e" opacity=".45"/>
-<path d="M91,131 Q100,133.5 109,131" stroke="#8f5d3e" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-</symbol>
-</svg>
-
 <div class="reel">
   <header class="cover">
     <p class="kicker">classic-bones-modern-fusion · 웹툰 조준</p>
@@ -266,71 +96,283 @@
 
   <p class="lbl">등장인물 · 뼈대 역할 매핑</p>
   <div class="cast">
-    <div class="role"><div class="who">서준 <span class="maps">= 죽은 선대 권력자</span></div><div class="desc">원조 센터. ‘자진 탈퇴’로 무대에서 사라졌다.</div></div>
-    <div class="role"><div class="who">도경 <span class="maps">= 찬탈자</span></div><div class="desc">그 빈자리를 꿰차 리더·센터·메인을 독식한 멤버.</div></div>
+    <div class="role"><div class="who">서준 <span class="maps">= 죽은 선대 권력자</span></div><div class="desc">원조 센터. ‘자진 탈퇴’ 한 줄로 무대에서 지워졌다.</div></div>
+    <div class="role"><div class="who">도경 <span class="maps">= 찬탈자</span></div><div class="desc">빈자리를 꿰차 리더·센터·메인을 독식한 멤버. 웃으며 왕관을 쓴다.</div></div>
     <div class="role"><div class="who">서하 <span class="maps">= 후계자(햄릿)</span></div><div class="desc">뒤늦게 데뷔조에 든 신인. 아무도 그가 서준의 동생인 걸 모른다.</div></div>
-    <div class="role"><div class="who">김 매니저 <span class="maps">= 진실을 아는 자</span></div><div class="desc">퇴출의 진짜 이유를 캐고 있다.</div></div>
-    <div class="role ghost"><div class="who">그 녹취 <span class="maps">= 유령</span></div><div class="desc">삭제됐어야 할 연습실 파일. 형의 목소리가 남아 있다.</div></div>
+    <div class="role"><div class="who">김 매니저 <span class="maps">= 진실을 아는 자</span></div><div class="desc">퇴출의 진짜 이유를 홀로 캐고 있다. 곧 대가를 치른다.</div></div>
+    <div class="role ghost"><div class="who">그 녹취 <span class="maps">= 유령</span></div><div class="desc">삭제됐어야 할 연습실 파일. 형의 목소리가 아직 숨 쉰다.</div></div>
   </div>
 
   <p class="lbl">EP.01 — 빈 센터</p>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:58%; bottom:-16%; width:66%; height:66%; background:radial-gradient(closest-side,rgba(246,196,83,.55),transparent);"></div>
-    <svg class="char" style="left:34%; height:100%" viewBox="0 0 200 250" width="160" height="200" opacity="0.4"><use href="#seoha"/></svg>
-    <svg class="char" style="left:50%; height:104%" viewBox="0 0 200 250" width="167" height="208"><use href="#dokyung"/></svg>
-    <div class="floor"></div>
-    <div class="bubble dark tl" style="left:5%; top:9%;">…서준이가, 왜?</div>
-    <div class="bubble tr" style="right:5%; top:16%;">걱정 마세요. 무대는, 비지 않으니까.</div>
-  </div><div class="cap"><span class="beatno">①</span><p><b>살해·찬탈.</b> <span class="scene">헤드라인 “센터 서준, 자진 탈퇴.” 텅 빈 무대 중앙에 도경이 걸어 들어와 선다.</span></p></div></figure>
+  <!-- ① 살해·찬탈 : 빈 무대, 스포트라이트, 도경 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="텅 빈 무대 중앙 스포트라이트로 걸어 들어오는 도경">
+      <defs>
+        <linearGradient id="p1sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0b16"/><stop offset="1" stop-color="#08070f"/></linearGradient>
+        <linearGradient id="p1beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4d8" stop-opacity=".85"/><stop offset=".45" stop-color="#f6c453" stop-opacity=".2"/><stop offset="1" stop-color="#f6c453" stop-opacity="0"/></linearGradient>
+        <radialGradient id="p1pool" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe6a8" stop-opacity=".6"/><stop offset="1" stop-color="#ffe6a8" stop-opacity="0"/></radialGradient>
+        <linearGradient id="p1floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#131120"/><stop offset="1" stop-color="#070610"/></linearGradient>
+        <radialGradient id="p1haze" cx="50%" cy="14%" r="60%"><stop offset="0" stop-color="#2a2340" stop-opacity=".45"/><stop offset="1" stop-color="#2a2340" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p1vig" cx="50%" cy="44%" r="72%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#p1sky)"/>
+      <rect width="800" height="300" fill="url(#p1haze)"/>
+      <rect x="150" y="70" width="500" height="150" rx="4" fill="#0a0912" stroke="#191828" stroke-width="2"/>
+      <rect x="150" y="70" width="500" height="150" rx="4" fill="#12203a" opacity=".22"/>
+      <text x="400" y="132" text-anchor="middle" font-weight="800" font-size="27" fill="#8fb6e6" opacity=".5" letter-spacing="1">센터 서준, 자진 탈퇴</text>
+      <text x="400" y="162" text-anchor="middle" font-weight="600" font-size="13" fill="#4d5f80" opacity=".55" letter-spacing="3">BREAKING · LIVE</text>
+      <g stroke="#191826" stroke-width="4"><line x1="0" y1="40" x2="800" y2="40"/><line x1="0" y1="50" x2="800" y2="50"/></g>
+      <g><circle cx="120" cy="70" r="6" fill="#2a2740"/><circle cx="680" cy="70" r="6" fill="#2a2740"/>
+         <circle cx="400" cy="70" r="8" fill="#fff1cf"/><circle cx="400" cy="70" r="16" fill="#f6c453" opacity=".28"/></g>
+      <path d="M382,64 L418,64 L545,430 L255,430 Z" fill="url(#p1beam)" style="mix-blend-mode:screen"/>
+      <path d="M0,352 L800,352 L800,500 L0,500 Z" fill="url(#p1floor)"/>
+      <ellipse cx="400" cy="416" rx="150" ry="30" fill="url(#p1pool)"/>
+      <path d="M400,410 L452,500 L486,500 L406,410 Z" fill="#000" opacity=".45"/>
+      <g transform="translate(400,300)">
+        <path d="M-10,58 L-13,116 L-3,116 L-1,62 Z" fill="#14131e"/><path d="M10,58 L13,116 L3,116 L1,62 Z" fill="#100f18"/>
+        <path d="M-17,2 C-19,28 -14,56 -11,62 L11,62 C14,56 19,28 17,2 C17,-8 9,-14 0,-14 C-9,-14 -17,-8 -17,2 Z" fill="#eceaf2"/>
+        <path d="M0,-14 C9,-14 17,-8 17,2 C19,28 14,56 11,62 L3,62 C7,38 9,12 6,-4 Z" fill="#c9c7d6" opacity=".55"/>
+        <path d="M-6,-10 L0,12 L6,-10 Z" fill="#b7b5c6"/>
+        <path d="M17,2 C19,28 15,54 12,61" stroke="#ffe6a8" stroke-width="2" fill="none" opacity=".75"/>
+        <rect x="-4" y="-20" width="8" height="9" fill="#e2b184"/><circle cx="0" cy="-28" r="9.5" fill="#f0c99e"/>
+        <path d="M-9.5,-30 C-9.5,-38 -4,-42 0,-42 C4,-42 9.5,-38 9.5,-30 C9.5,-32.5 4,-35 0,-35 C-4,-35 -9.5,-32.5 -9.5,-30 Z" fill="#e6d29a"/>
+        <path d="M8,-33 C9.5,-29 7.5,-22 3.5,-19" stroke="#ffe6a8" stroke-width="1.6" fill="none" opacity=".7"/>
+      </g>
+      <g fill="#0a0a14"><ellipse cx="60" cy="470" rx="26" ry="30"/><ellipse cx="140" cy="474" rx="26" ry="30"/><ellipse cx="230" cy="470" rx="27" ry="31"/><ellipse cx="330" cy="476" rx="27" ry="31"/><ellipse cx="470" cy="476" rx="27" ry="31"/><ellipse cx="575" cy="470" rx="27" ry="31"/><ellipse cx="670" cy="474" rx="26" ry="30"/><ellipse cx="750" cy="470" rx="26" ry="30"/></g>
+      <g stroke="#3a3a55" stroke-width="2" fill="none" opacity=".45"><path d="M40,452 Q60,442 80,452"/><path d="M120,456 Q140,446 160,456"/><path d="M210,452 Q230,441 250,452"/><path d="M310,458 Q330,447 350,458"/><path d="M450,458 Q470,447 490,458"/><path d="M555,452 Q575,441 595,452"/><path d="M650,456 Q670,446 690,456"/></g>
+      <rect width="800" height="500" fill="url(#p1vig)"/>
+    </svg>
+    <div class="bubble dark tl" style="left:5%;top:33%;">…서준이가, 왜?</div>
+    <div class="bubble tr" style="right:6%;top:44%;">걱정 마세요. 무대는, 비지 않으니까.</div>
+  </div><div class="cap"><span class="beatno">①</span><p><b>살해·찬탈.</b> <span class="scene">스크린에 자막이 뜬다. 「센터 서준, 자진 탈퇴」. 식지 않은 스포트라이트 하나만 남은 텅 빈 무대 — 그 빛의 정중앙으로, 도경이 천천히 걸어 들어와 선다. 처음부터 제 자리였다는 듯이.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:40%; bottom:-10%; width:60%; height:56%; background:radial-gradient(closest-side,rgba(255,46,136,.26),transparent);"></div>
-    <div class="frame" style="right:9%; top:12%; width:26%; height:56%;"><svg style="width:130%; height:130%; margin:-8% 0 0 -12%" viewBox="0 0 200 250"><use href="#seoha"/></svg></div>
-    <svg class="char" style="left:11%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha"/></svg>
-    <div class="think" style="left:38%; bottom:12%; color:var(--ink)">형은 무대 위에서 죽는 사람이었어.<br>제 발로 내려갈 리가 없어.</div>
-  </div><div class="cap"><span class="beatno">②</span><p><b>후계자 등장.</b> <span class="scene">신인 서하, 데뷔조 합류. 대기실에 걸린 형의 사진 앞에 홀로 선다.</span></p></div></figure>
+  <!-- ② 후계자 등장 : 대기실, 형의 대형 추모 초상 앞 홀로 선 서하 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="대기실에 걸린 형의 대형 초상 앞에 홀로 선 서하">
+      <defs>
+        <linearGradient id="p2bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0d18"/><stop offset="1" stop-color="#070810"/></linearGradient>
+        <radialGradient id="p2glow" cx="50%" cy="42%" r="60%"><stop offset="0" stop-color="#ff2e88" stop-opacity=".28"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
+        <linearGradient id="p2port" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241726"/><stop offset="1" stop-color="#160f18"/></linearGradient>
+        <radialGradient id="p2vig" cx="50%" cy="44%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".74"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#p2bg)"/>
+      <ellipse cx="410" cy="210" rx="300" ry="220" fill="url(#p2glow)"/>
+      <!-- vanity bulbs top -->
+      <g fill="#3a3550"><circle cx="255" cy="46" r="4"/><circle cx="315" cy="46" r="4"/><circle cx="375" cy="46" r="4"/><circle cx="435" cy="46" r="4"/><circle cx="495" cy="46" r="4"/><circle cx="555" cy="46" r="4"/></g>
+      <g fill="#ffdca8"><circle cx="255" cy="46" r="2.4" opacity=".8"/><circle cx="375" cy="46" r="2.4" opacity=".8"/><circle cx="495" cy="46" r="2.4" opacity=".8"/></g>
+      <!-- large memorial portrait frame -->
+      <rect x="300" y="78" width="220" height="270" rx="6" fill="url(#p2port)" stroke="#5a3f52" stroke-width="3"/>
+      <rect x="300" y="78" width="220" height="270" rx="6" fill="none" stroke="#ff9ecb" stroke-width="1" opacity=".35"/>
+      <!-- 서준 face inside portrait (warm-lit, revered) -->
+      <g transform="translate(410,205)">
+        <path d="M-46,86 C-46,40 -22,20 0,20 C22,20 46,40 46,86 C46,120 24,150 0,168 C-24,150 -46,120 -46,86 Z" fill="#e7b98c"/>
+        <path d="M0,20 C22,20 46,40 46,86 C46,120 24,150 0,168 Z" fill="#c88a62" opacity=".4"/>
+        <path d="M-46,74 C-50,20 -18,-12 0,-12 C18,-12 50,20 46,74 C42,44 30,30 0,30 C-30,30 -42,44 -46,74 Z" fill="#241b18"/>
+        <path d="M-30,72 Q-14,66 -2,72" stroke="#161019" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M2,72 Q14,66 30,72" stroke="#161019" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M-30,86 Q-16,80 -4,86 Q-16,92 -30,86 Z" fill="#f3ece4"/><circle cx="-17" cy="86" r="4.5" fill="#4a3226"/>
+        <path d="M4,86 Q16,80 30,86 Q16,92 4,86 Z" fill="#e9ded3"/><circle cx="17" cy="86" r="4.5" fill="#4a3226"/>
+        <path d="M0,94 l-5,14 10,0 z" fill="#c88a62" opacity=".5"/>
+        <path d="M-14,122 Q0,116 14,122" stroke="#9c6642" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M28,40 C36,64 34,110 24,150" stroke="#ffd9a0" stroke-width="2" fill="none" opacity=".5"/>
+      </g>
+      <text x="410" y="332" text-anchor="middle" font-weight="700" font-size="15" fill="#c9a0b6" letter-spacing="6" opacity=".7">SEO&#8226;JUN</text>
+      <!-- floor -->
+      <path d="M0,410 L800,410 L800,500 L0,500 Z" fill="#05060c"/>
+      <ellipse cx="410" cy="412" rx="240" ry="18" fill="#ff2e88" opacity=".08"/>
+      <!-- 서하: small, from behind, looking up -->
+      <g transform="translate(410,404)">
+        <ellipse cx="0" cy="4" rx="34" ry="8" fill="#000" opacity=".4"/>
+        <path d="M-15,-52 C-17,-30 -18,-6 -16,0 L16,0 C18,-6 17,-30 15,-52 C15,-64 8,-70 0,-70 C-8,-70 -15,-64 -15,-52 Z" fill="#161520"/>
+        <path d="M12,-52 C14,-30 15,-8 14,0" stroke="#ff8fc4" stroke-width="1.6" fill="none" opacity=".35"/>
+        <circle cx="0" cy="-80" r="11" fill="#14121b"/>
+        <path d="M8,-84 C10,-80 9,-74 5,-71" stroke="#ff8fc4" stroke-width="1.4" fill="none" opacity=".4"/>
+      </g>
+      <rect width="800" height="500" fill="url(#p2vig)"/>
+    </svg>
+    <div class="think" style="left:6%;bottom:16%;color:var(--ink)">형은 무대 위에서 죽는 사람이었어.<br>제 발로 내려갈 리가, 없어.</div>
+  </div><div class="cap"><span class="beatno">②</span><p><b>후계자 등장.</b> <span class="scene">데뷔조 명단에 신인 서하의 이름이 올랐다. 텅 빈 대기실, 벽에 걸린 형의 대형 초상 아래 그는 홀로 선다. 아무도 둘이 형제인 걸 모른다 — 그래서 그는, 아무에게도 슬퍼할 수 없다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:62%; bottom:0%; width:60%; height:76%; background:radial-gradient(closest-side,rgba(53,230,255,.30),transparent);"></div>
-    <svg class="char" style="left:5%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha-shock"/></svg>
-    <div class="phone" style="right:16%; top:24%;"><div class="wave" aria-hidden="true"><i style="height:16px"></i><i style="height:38px;animation-delay:.1s"></i><i style="height:52px;animation-delay:.2s"></i><i style="height:28px;animation-delay:.3s"></i><i style="height:44px;animation-delay:.15s"></i></div></div>
-    <div class="bubble truth tr" style="right:6%; bottom:11%;">이건 자진이 아니라 — 도려내는 거잖아요.</div>
-  </div><div class="cap"><span class="beatno">③</span><p><b>유령의 폭로.</b> <span class="scene">삭제됐어야 할 연습실 녹취. 형의 목소리 — 퇴출은 조작된 계약사고였다.</span></p></div></figure>
+  <!-- ③ 유령의 폭로 : 어두운 연습실, 폰 시안 파형, 유령처럼 떠오르는 형 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="어두운 연습실 바닥의 폰에서 흐르는 유령 같은 형의 목소리">
+      <defs>
+        <radialGradient id="p3glow" cx="50%" cy="72%" r="52%"><stop offset="0" stop-color="#35e6ff" stop-opacity=".55"/><stop offset=".5" stop-color="#1596b8" stop-opacity=".22"/><stop offset="1" stop-color="#35e6ff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p3ghost" cx="50%" cy="40%" r="55%"><stop offset="0" stop-color="#bff0ff" stop-opacity=".5"/><stop offset="1" stop-color="#bff0ff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p3vig" cx="50%" cy="60%" r="70%"><stop offset=".4" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#04060a"/>
+      <!-- faint mirror wall reflections -->
+      <g stroke="#0e2a33" stroke-width="2" opacity=".6"><line x1="120" y1="60" x2="120" y2="360"/><line x1="300" y1="50" x2="300" y2="360"/><line x1="500" y1="50" x2="500" y2="360"/><line x1="680" y1="60" x2="680" y2="360"/></g>
+      <!-- ghost of seojun rising in the glow -->
+      <g transform="translate(400,150)" opacity=".9">
+        <ellipse cx="0" cy="0" rx="120" ry="150" fill="url(#p3ghost)"/>
+        <g opacity=".5" fill="none" stroke="#bff0ff" stroke-width="2.2">
+          <path d="M-30,-6 C-46,-52 -16,-84 0,-84 C16,-84 46,-52 30,-6 C24,-30 14,-40 0,-40 C-14,-40 -24,-30 -30,-6 Z"/>
+          <path d="M-24,4 Q-12,-2 -2,4" stroke-linecap="round"/><path d="M2,4 Q12,-2 24,4" stroke-linecap="round"/>
+          <path d="M-9,52 Q0,58 9,52" stroke-linecap="round"/>
+        </g>
+        <circle cx="-13" cy="6" r="3" fill="#eafcff" opacity=".8"/><circle cx="13" cy="6" r="3" fill="#eafcff" opacity=".8"/>
+      </g>
+      <!-- floor -->
+      <path d="M0,360 L800,360 L800,500 L0,500 Z" fill="#03050a"/>
+      <ellipse cx="470" cy="392" rx="230" ry="70" fill="url(#p3glow)"/>
+      <!-- phone on floor -->
+      <rect x="452" y="378" width="30" height="56" rx="6" fill="#04121a" stroke="#1c5a68" stroke-width="1.5" transform="rotate(-16 467 406)"/>
+      <!-- 서하 kneeling, uplit cyan, reaching -->
+      <g transform="translate(300,330)">
+        <ellipse cx="10" cy="86" rx="52" ry="12" fill="#000" opacity=".4"/>
+        <path d="M-34,60 C-30,20 -6,6 14,10 C40,16 56,44 58,74 L60,86 L-40,86 Z" fill="#12141c"/>
+        <path d="M40,20 C58,34 62,58 60,80" stroke="#48d6ee" stroke-width="2" fill="none" opacity=".55"/>
+        <path d="M20,26 L86,44" stroke="#12141c" stroke-width="12" stroke-linecap="round"/>
+        <path d="M78,40 L96,44" stroke="#e2b184" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="22" cy="-4" r="17" fill="#1a1c24"/>
+        <path d="M22,-16 C10,-16 4,-6 6,4 C10,-4 16,-8 24,-8 C18,-2 20,8 30,10 C40,10 42,-2 40,-10 C36,-16 30,-18 22,-16 Z" fill="#0e0f16"/>
+        <path d="M8,0 Q16,4 22,2" stroke="#8fe6f7" stroke-width="2" fill="none" opacity=".7"/>
+        <ellipse cx="14" cy="6" rx="5" ry="4" fill="#3a6b78" opacity=".6"/>
+      </g>
+      <rect width="800" height="500" fill="url(#p3vig)"/>
+    </svg>
+    <div class="bubble truth tr" style="right:6%;top:12%;">이건 자진이 아니라 — 도려내는 거잖아요.</div>
+  </div><div class="cap"><span class="beatno">③</span><p><b>유령의 폭로.</b> <span class="scene">삭제됐어야 할 연습실 녹취 하나가 바닥에서 파랗게 숨 쉰다. 재생 버튼 위로 뻗은 손 — 흘러나오는 건 형의 목소리다. 퇴출은 자진이 아니라, 조작된 계약 사고였다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:28%; bottom:-10%; width:58%; height:60%; background:radial-gradient(closest-side,rgba(255,46,136,.34),transparent);"></div>
-    <div class="spot" style="left:72%; bottom:-10%; width:58%; height:60%; background:radial-gradient(closest-side,rgba(53,230,255,.30),transparent);"></div>
-    <svg class="char" style="left:50%; transform:translateX(-50%); height:104%" viewBox="0 0 200 250" width="167" height="208"><use href="#seoha-torn"/></svg>
-    <div class="think" style="left:50%; transform:translateX(-50%); text-align:center; bottom:11%; max-width:84%; color:var(--ink)">터뜨리면 그룹도 나도 끝나. 덮으면 — 형이 두 번 죽고.</div>
-  </div><div class="cap"><span class="beatno">④</span><p><b>망설임.</b> <span class="scene">폭로하면 그룹은 해체되고, 자기 데뷔도 끝난다. 조명 반, 어둠 반.</span></p></div></figure>
+  <!-- ④ 망설임 : 마젠타/시안 반반 분할 조명, 서하 정면 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="마젠타와 시안으로 반반 갈린 조명 속 망설이는 서하">
+      <defs>
+        <linearGradient id="p4L" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff2e88" stop-opacity=".42"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></linearGradient>
+        <linearGradient id="p4R" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#35e6ff" stop-opacity=".4"/><stop offset="1" stop-color="#35e6ff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="p4vig" cx="50%" cy="46%" r="70%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#0a0910"/>
+      <rect x="0" y="0" width="400" height="500" fill="url(#p4L)"/>
+      <rect x="400" y="0" width="400" height="500" fill="url(#p4R)"/>
+      <!-- symbolic: left shattered group, right lone grave -->
+      <g opacity=".22" fill="#ff8fc4"><rect x="70" y="250" width="14" height="90"/><rect x="96" y="230" width="14" height="110"/><rect x="122" y="262" width="14" height="78"/><path d="M60,250 L150,250" stroke="#ff8fc4" stroke-width="2"/></g>
+      <g opacity=".2" fill="#8fe6f7"><path d="M690,300 h40 v40 h-40 z"/><path d="M700,300 v-16 a10 10 0 0 1 20 0 v16" fill="none" stroke="#8fe6f7" stroke-width="4"/></g>
+      <path d="M400,0 L400,500" stroke="#000" stroke-width="2" opacity=".4"/>
+      <!-- 서하 front, tall, split-lit -->
+      <g transform="translate(400,250)">
+        <ellipse cx="0" cy="176" rx="70" ry="16" fill="#000" opacity=".5"/>
+        <path d="M-20,60 L-24,176 L-6,176 L-3,66 Z" fill="#121118"/><path d="M20,60 L24,176 L6,176 L3,66 Z" fill="#0e0d14"/>
+        <path d="M-30,0 C-33,40 -26,70 -22,66 L22,66 C26,70 33,40 30,0 C30,-16 16,-26 0,-26 C-16,-26 -30,-16 -30,0 Z" fill="#1a1922"/>
+        <path d="M-30,0 C-33,40 -26,66 -22,66 L-6,66 C-10,40 -12,10 -10,-14 C-20,-20 -30,-12 -30,0 Z" fill="#ff2e88" opacity=".22"/>
+        <path d="M30,0 C33,40 26,66 22,66 L6,66 C10,40 12,10 10,-14 C20,-20 30,-12 30,0 Z" fill="#35e6ff" opacity=".2"/>
+        <circle cx="0" cy="-42" r="20" fill="#e7bd93"/>
+        <path d="M-20,-44 C-22,-64 -8,-74 0,-74 C8,-74 22,-64 20,-44 C16,-58 8,-62 0,-62 C-8,-62 -16,-58 -20,-44 Z" fill="#1b1a22"/>
+        <path d="M0,-62 C-8,-62 -16,-58 -20,-44 C-22,-56 -18,-66 0,-72 Z" fill="#ff2e88" opacity=".3"/>
+        <path d="M0,-62 C8,-62 16,-58 20,-44 C22,-56 18,-66 0,-72 Z" fill="#35e6ff" opacity=".28"/>
+        <path d="M-13,-40 Q-6,-44 0,-41" stroke="#0e0b12" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M0,-41 Q6,-44 13,-40" stroke="#0e0b12" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M-6,-24 Q0,-21 6,-24" stroke="#7a5238" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      </g>
+      <rect width="800" height="500" fill="url(#p4vig)"/>
+    </svg>
+    <div class="think" style="left:50%;transform:translateX(-50%);text-align:center;bottom:12%;max-width:80%;color:var(--ink)">터뜨리면 그룹도, 나도 끝난다.<br>덮으면 — 형이 두 번 죽고.</div>
+  </div><div class="cap"><span class="beatno">④</span><p><b>망설임.</b> <span class="scene">왼쪽엔 폭로가, 오른쪽엔 침묵이 있다. 진실을 켜면 무대가 무너지고 자기 데뷔도 끝난다. 끄면 형은 두 번 죽는다. 조명 반, 어둠 반 — 그는 어느 쪽으로도 발을 떼지 못한다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage">
-    <div class="spot" style="left:70%; bottom:-12%; width:56%; height:54%; background:radial-gradient(closest-side,rgba(255,255,255,.13),transparent);"></div>
-    <div class="frame" style="right:5%; top:0; width:20%; height:92%; border-color:var(--line2); background:linear-gradient(180deg,rgba(255,255,255,.05),transparent); box-shadow:none;"></div>
-    <svg class="char" style="left:16%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#manager"/></svg>
-    <div class="bubble dark tl" style="left:5%; top:11%; max-width:70%;">나까지 잘린 건, 네가 맞다는 뜻이야. …그러니까 넌, 무대에 서.</div>
-  </div><div class="cap"><span class="beatno">⑤</span><p><b>곁가지의 죽음.</b> <span class="scene">진실을 캐던 김 매니저가 ‘재계약 불가’ 통보를 받고 짐을 싼다.</span></p></div></figure>
+  <!-- ⑤ 곁가지의 죽음 : 복도, 상자 든 매니저가 돌아본다 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 500" role="img" aria-label="짐 상자를 든 김 매니저가 복도 끝에서 돌아본다">
+      <defs>
+        <linearGradient id="p5wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e131f"/><stop offset="1" stop-color="#080a12"/></linearGradient>
+        <radialGradient id="p5door" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#ffdca0" stop-opacity=".9"/><stop offset="1" stop-color="#ffb454" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p5vig" cx="42%" cy="50%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".76"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#p5wall)"/>
+      <!-- perspective corridor: converging floor + ceiling to a door -->
+      <path d="M0,90 L560,215 L560,300 L0,430 Z" fill="#0b0f19"/>
+      <path d="M800,70 L560,215 L560,300 L800,450 Z" fill="#0a0d16"/>
+      <path d="M0,430 L560,300 L800,450 L800,500 L0,500 Z" fill="#060810"/>
+      <path d="M0,90 L560,215 M0,430 L560,300 M800,70 L560,215 M800,450 L560,300" stroke="#1a2130" stroke-width="1.5" opacity=".7"/>
+      <!-- open door with warm light spilling -->
+      <rect x="536" y="150" width="48" height="185" fill="#1a1206"/>
+      <ellipse cx="560" cy="250" rx="150" ry="150" fill="url(#p5door)"/>
+      <path d="M560,215 L560,300 L640,360 L610,150 Z" fill="#ffcf80" opacity=".14"/>
+      <!-- 김 매니저: mid corridor, box, turned back, warm rim -->
+      <g transform="translate(505,262)">
+        <ellipse cx="0" cy="60" rx="30" ry="7" fill="#000" opacity=".4"/>
+        <path d="M-14,-14 C-16,10 -16,44 -14,58 L14,58 C16,44 16,10 14,-14 C14,-24 7,-30 0,-30 C-7,-30 -14,-24 -14,-14 Z" fill="#141922"/>
+        <path d="M-14,-2 h28 v22 h-28 z" fill="#3a2f1e" stroke="#6a4a1e" stroke-width="1.5"/>
+        <path d="M-14,8 h28" stroke="#6a4a1e" stroke-width="1.2"/>
+        <circle cx="0" cy="-40" r="10" fill="#cf9970"/>
+        <path d="M-9,-42 C-9,-50 -4,-53 0,-53 C4,-53 9,-50 9,-42 C9,-45 4,-47 0,-47 C-4,-47 -9,-45 -9,-42 Z" fill="#211f29"/>
+        <path d="M9,-44 C11,-38 9,-30 4,-27" stroke="#ffcf80" stroke-width="2" fill="none" opacity=".7"/>
+        <path d="M12,-10 C15,14 14,42 12,56" stroke="#ffcf80" stroke-width="2" fill="none" opacity=".5"/>
+      </g>
+      <!-- 서하 foreground silhouette, watching -->
+      <g transform="translate(150,360)">
+        <path d="M-40,140 C-44,60 -16,20 20,26 C64,34 84,90 86,150 L86,160 L-46,160 Z" fill="#05060c"/>
+        <circle cx="18" cy="-6" r="30" fill="#070810"/>
+      </g>
+      <rect width="800" height="500" fill="url(#p5vig)"/>
+    </svg>
+    <div class="bubble dark tr" style="right:5%;top:12%;max-width:56%;">나까지 잘린 건, 네가 맞다는 뜻이야. …그러니까 넌, 무대에 서.</div>
+  </div><div class="cap"><span class="beatno">⑤</span><p><b>곁가지의 죽음.</b> <span class="scene">진실을 캐던 김 매니저에게 ‘재계약 불가’가 통보된다. 짐을 싼 상자를 안고 복도 끝에서 그는 딱 한 번 돌아본다. 자기가 잘려나간다는 건, 서하가 옳다는 뜻이었다.</span></p></div></figure>
 
-  <figure class="panel"><div class="stage" style="aspect-ratio:16/13;">
-    <div class="spot" style="left:50%; bottom:-8%; width:72%; height:74%; background:radial-gradient(closest-side,rgba(246,196,83,.5),transparent);"></div>
-    <div class="wave" style="position:absolute; left:50%; top:22%; transform:translateX(-50%); height:44px; opacity:.85; z-index:1;" aria-hidden="true"><i style="height:14px"></i><i style="height:32px;animation-delay:.1s"></i><i style="height:44px;animation-delay:.2s"></i><i style="height:24px;animation-delay:.3s"></i><i style="height:38px;animation-delay:.15s"></i><i style="height:18px;animation-delay:.25s"></i></div>
-    <svg class="char" style="left:8%; height:78%" viewBox="0 0 200 250" width="125" height="156" opacity="0.4"><use href="#dokyung"/></svg>
-    <svg class="char" style="left:72%; height:78%" viewBox="0 0 200 250" width="125" height="156" opacity="0.4"><use href="#manager"/></svg>
-    <svg class="char" style="left:41%; height:100%" viewBox="0 0 200 250" width="160" height="200"><use href="#seoha"/></svg>
-    <div class="bubble tr" style="right:6%; bottom:9%;">이 무대는, 원래 제 형의 자리였습니다.</div>
-  </div><div class="cap"><span class="beatno">⑥</span><p><b>파국서 복수·공멸.</b> <span class="scene">컴백 생방송. 인이어에서 반주 대신 그 녹취가 흐른다. 카메라도, 관객도, 도경도 멈춘다. — 그리고 방송은, 아직 꺼지지 않았다.</span></p></div></figure>
+  <!-- ⑥ 파국·공멸 : 컴백 생방송, 인이어에 그 녹취, 모두 정지 -->
+  <figure class="panel"><div class="scene">
+    <svg viewBox="0 0 800 520" role="img" aria-label="컴백 생방송 무대에서 그 녹취가 흐르고 모두 멈춘다">
+      <defs>
+        <linearGradient id="p6sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e0b16"/><stop offset="1" stop-color="#08070f"/></linearGradient>
+        <linearGradient id="p6beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0cf" stop-opacity=".55"/><stop offset="1" stop-color="#f6c453" stop-opacity="0"/></linearGradient>
+        <linearGradient id="p6cyan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9af0ff" stop-opacity=".5"/><stop offset="1" stop-color="#35e6ff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="p6pool" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe6a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe6a8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p6vig" cx="50%" cy="44%" r="74%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
+      </defs>
+      <rect width="800" height="520" fill="url(#p6sky)"/>
+      <!-- multiple stage beams -->
+      <path d="M120,30 L180,30 L120,300 L20,300 Z" fill="url(#p6beam)" style="mix-blend-mode:screen"/>
+      <path d="M680,30 L620,30 L680,300 L780,300 Z" fill="url(#p6beam)" style="mix-blend-mode:screen"/>
+      <path d="M370,20 L430,20 L520,360 L280,360 Z" fill="url(#p6beam)" style="mix-blend-mode:screen"/>
+      <!-- big screen + ON AIR -->
+      <rect x="250" y="44" width="300" height="120" rx="4" fill="#0a0912" stroke="#191828" stroke-width="2"/>
+      <rect x="250" y="44" width="300" height="120" rx="4" fill="#0e2438" opacity=".3"/>
+      <circle cx="596" cy="60" r="7" fill="#ff3b52"/><text x="612" y="65" font-weight="800" font-size="13" fill="#ff6274" letter-spacing="2">ON AIR</text>
+      <!-- cyan waveform scattering in the air -->
+      <g fill="#7fe9ff"><rect x="300" y="150" width="4" height="24" rx="2" opacity=".8"/><rect x="312" y="140" width="4" height="44" rx="2" opacity=".7"/><rect x="324" y="158" width="4" height="18" rx="2"/><rect x="470" y="145" width="4" height="34" rx="2" opacity=".7"/><rect x="482" y="135" width="4" height="52" rx="2" opacity=".8"/><rect x="494" y="152" width="4" height="26" rx="2"/><rect x="360" y="130" width="4" height="60" rx="2" opacity=".5"/><rect x="440" y="128" width="4" height="64" rx="2" opacity=".5"/></g>
+      <!-- floor -->
+      <path d="M0,360 L800,360 L800,520 L0,520 Z" fill="#0a0812"/>
+      <ellipse cx="400" cy="428" rx="160" ry="30" fill="url(#p6pool)"/>
+      <!-- frozen member silhouettes behind -->
+      <g fill="#0c0b16" opacity=".9">
+        <g transform="translate(250,300)"><path d="M-16,80 C-18,30 -6,6 12,10 C34,16 44,48 44,80 Z" /><circle cx="12" cy="-6" r="16"/></g>
+        <g transform="translate(560,300)"><path d="M-44,80 C-44,48 -34,16 -12,10 C6,6 18,30 16,80 Z"/><circle cx="-12" cy="-6" r="16"/></g>
+        <g transform="translate(180,320)"><path d="M-14,64 C-14,30 -2,10 14,14 L30,64 Z"/><circle cx="10" cy="-4" r="13"/></g>
+      </g>
+      <!-- 서하 at mic, center, spotlit -->
+      <g transform="translate(400,296)">
+        <path d="M400,410 L452,520" fill="none"/>
+        <path d="M-12,66 L-15,132 L-4,132 L-2,70 Z" fill="#141019"/><path d="M12,66 L15,132 L4,132 L2,70 Z" fill="#0f0c14"/>
+        <path d="M-19,4 C-22,36 -16,62 -13,68 L13,68 C16,62 22,36 19,4 C19,-8 10,-16 0,-16 C-10,-16 -19,-8 -19,4 Z" fill="#1c1a26"/>
+        <path d="M19,4 C22,36 16,62 13,68" stroke="#ffe6a8" stroke-width="2" fill="none" opacity=".7"/>
+        <path d="M-19,4 C-22,36 -16,62 -13,68 L-4,68 C-8,40 -10,14 -8,-8 C-16,-14 -19,-6 -19,4 Z" fill="#35e6ff" opacity=".14"/>
+        <circle cx="0" cy="-34" r="15" fill="#eec19a"/>
+        <path d="M-15,-36 C-16,-52 -6,-60 0,-60 C6,-60 16,-52 15,-36 C11,-48 6,-52 0,-52 C-6,-52 -11,-48 -15,-36 Z" fill="#1a1720"/>
+        <path d="M13,-40 C15,-32 12,-24 7,-21" stroke="#ffe6a8" stroke-width="1.6" fill="none" opacity=".7"/>
+        <!-- mic stand -->
+        <line x1="-30" y1="132" x2="-30" y2="-6" stroke="#2a2836" stroke-width="3"/>
+        <circle cx="-30" cy="-12" r="6" fill="#3a3746"/>
+      </g>
+      <!-- cameras foreground silhouettes -->
+      <g fill="#05060c"><g transform="translate(90,470)"><rect x="-24" y="-20" width="60" height="34" rx="4"/><circle cx="42" cy="-3" r="10"/><rect x="-8" y="14" width="8" height="34"/></g>
+        <g transform="translate(710,470)"><rect x="-36" y="-20" width="60" height="34" rx="4"/><circle cx="-42" cy="-3" r="10"/><rect x="0" y="14" width="8" height="34"/></g></g>
+      <rect width="800" height="520" fill="url(#p6vig)"/>
+    </svg>
+    <div class="bubble tr" style="right:6%;top:40%;">이 무대는, 원래 제 형의 자리였습니다.</div>
+  </div><div class="cap"><span class="beatno">⑥</span><p><b>파국 — 복수·공멸.</b> <span class="scene">컴백 생방송. 인이어에서 반주 대신 그 녹취가 흐른다. 형의 목소리가 전국에 송출되는 순간, 카메라도 관객도 도경도 얼어붙는다. 진실은 밝혀졌지만 무대는 그와 함께 무너진다 — 그리고 방송은, 아직 꺼지지 않았다.</span></p></div></figure>
 
   <section class="receipt">
     <h3>근거 · 왜 이 조합인가</h3>
     <div class="rrow"><span class="k">로그라인</span><span class="v">형의 자리를 뺏은 센터에게 복수하려는 신인이, 그룹을 죽이지 않고 진실을 밝힐 길을 찾다가 — 그 망설임이 팀 전체를 무너뜨린다.</span></div>
-    <div class="rrow"><span class="k">검증</span><span class="v">뼈대 ‘찬탈복수(햄릿형)’ = 캐논 <b>34편</b>에서 반복된 구조. 수백 년 살아남음.</span></div>
-    <div class="rrow"><span class="k">신선</span><span class="v">궁정 → 아이돌 기획사 <b>이식 신선도 상</b> (현대 소진 0.25). 아이돌×신데렐라는 닳도록 됐지만, 아이돌×햄릿은 거의 없다.</span></div>
+    <div class="rrow"><span class="k">검증</span><span class="v">뼈대 ‘찬탈복수(햄릿형)’ = 캐논 <b>34편</b>에서 반복된 구조(햄릿·라이온킹·맥베스…). 수백 년 살아남았다.</span></div>
+    <div class="rrow"><span class="k">신선</span><span class="v">궁정 → 아이돌 기획사 <b>이식 신선도 상</b>(현대 소진 0.25). 아이돌×신데렐라는 닳도록 됐지만, 아이돌×햄릿은 거의 없다.</span></div>
     <div class="rrow"><span class="k">양립</span><span class="v">요구 <b>2/2 충족</b> — 센터 자리(<span class="cyan">G3 승계·축취</span>) · 계약 은폐(<span class="cyan">G9 은폐된 진실</span>).</span></div>
-    <div class="rrow"><span class="k">순위</span><span class="v">아이돌 기획사에서 <b>1등 매칭</b> (신데렐라형은 뻔해서 최하위, 오디세이·프랑켄슈타인은 여정·괴물 없어 자동 탈락).</span></div>
+    <div class="rrow"><span class="k">순위</span><span class="v">아이돌 기획사에서 <b>1등 매칭</b>. 신데렐라형은 뻔해서 최하위, 오디세이·프랑켄슈타인은 여정·괴물이 없어 자동 탈락.</span></div>
     <div class="stamp">이 에피소드는 <b>classic-bones-modern-fusion</b>이 매칭(코드·결정적) → 융합(LLM)으로 조준·생성. 매칭은 취향 0, 창작만 LLM. <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></div>
   </section>
 
-  <p class="note">※ 캐릭터 그림은 벡터(SVG) 스타일라이즈드 아트 — 완성형 컬러 작화는 이미지 생성 모델(docs/art-prompts.md)을 거칩니다.</p>
+  <p class="note">※ 장면은 코드로 구성한 시네마틱 벡터(SVG) 아트 — 완성형 컬러 작화는 이미지 생성 모델(docs/art-prompts.md)을 거칩니다.</p>
   <p class="foot">AI가 이야기를 대신 쓰지 않는다. 실데이터로 조준한다.</p>
 </div>
