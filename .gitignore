@@ -10,4 +10,4 @@ __pycache__/
 .DS_Store
 
 # generated real art (run src/render_art.py with a Gemini key)
-assets/art/
+assets/art/_*.png
