@@ -87,6 +87,10 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   .row .sc .lab{color:var(--faint);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;}
   .row.miss .sc b{color:var(--bad);font-size:12px;}
   .row .missc{color:var(--bad);}
+  .row.aug{border-color:#4a3a1e;background:linear-gradient(90deg,rgba(246,196,83,.08),var(--panel));align-items:start;}
+  .augtip{margin-top:5px;font-size:12px;color:var(--muted);line-height:1.5;} .augtip b{color:var(--gold);}
+  .row.aug .num{color:var(--gold);font-size:15px;}
+  .augb{color:var(--gold)!important;font-size:12px!important;}
 
   .note{margin-top:26px;border:1px solid var(--line2);border-radius:14px;padding:16px 18px;background:var(--panel);font-size:13.5px;color:var(--muted);}
   .note b{color:var(--ink);} .note .k{color:var(--gold);font-weight:800;}
@@ -117,6 +121,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
 
 <script>
 const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__;
+const GADD={G1:"명확한 서열·계급 라인 만들기",G2:"규칙·장벽으로 갈린 관계 넣기",G3:"뺏고 뺏길 자리·상속 라인 만들기",G4:"떠났다 돌아올 원점(본진·고향) 두기",G5:"물리·사회적으로 갇힌 상태 넣기",G6:"감시·통제하는 상위 권력 두기",G7:"구속력 있는 예언·정해진 운명 넣기",G8:"쥐면 타락하는 자리·이권 두기",G9:"밝혀질 숨겨진 사실 하나 심기",G10:"정체를 숨기거나 쪼갤 여지(가면·이중신분) 넣기",G11:"절정을 강제하는 시한·데드라인 넣기",G12:"돈·빚·생계 압박 걸기",G13:"의지를 꺾는 계략·회유 넣기",G14:"공적 평판이 무기가 되는 판 만들기",G15:"비혈연 든든한 유대(팀·의형제) 넣기",G16:"목적지로 이동하는 원정·출장 구조 넣기",G17:"세계에 풀린 비인간 치명 위협 넣기",G18:"얻을·지킬·부술 특정 대상(맥거핀) 두기",G19:"사사받을 스승·전통 넣기",G20:"오를 사다리·일생일대 기회 넣기",G21:"맞닿는 두 영역(현실/가상 등) 넣기"};
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven));
 const gname=c=>GL[c]||c;
 function rows(setKey){
@@ -153,11 +158,17 @@ function render(setKey){
     <div class="pk-row"><span class="pk-k">로그라인</span><p>${pk.l}</p></div>
     <div class="pk-row"><span class="pk-k">comp</span><p class="pk-comp">${pk.c}</p></div></div>`; }
   const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
-  h+=`<p class="ranklbl">전체 순위 · 적합 ${matched.length} / 탈락 ${missed.length}</p><div class="rows">`;
+  const near=missed.filter(r=>r.miss.length===1), far=missed.filter(r=>r.miss.length>1);
+  h+=`<p class="ranklbl">적합 ${matched.length} · 보강하면 가능 ${near.length} · 탈락 ${far.length}</p><div class="rows">`;
   matched.forEach((r,i)=>{ h+=`<div class="row"><span class="num">${i+1}</span>
     <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
     <span class="sc"><b>${r.score.toFixed(1)}</b><span class="lab">점수</span></span></div>`; });
-  missed.slice(0,6).forEach(r=>{ h+=`<div class="row miss"><span class="num">—</span>
+  near.forEach(r=>{ const c=r.miss[0];
+    h+=`<div class="row aug"><span class="num">🔧</span>
+      <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span>
+        <div class="augtip">한 끗 부족: <b>${c} ${gname(c)}</b> — ${GADD[c]||"이 조건을 세팅에 더하기"}</div></span>
+      <span class="sc"><b class="augb">보강 시</b><span class="lab">가능</span></span></div>`; });
+  far.slice(0,5).forEach(r=>{ h+=`<div class="row miss"><span class="num">—</span>
     <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
     <span class="sc"><b>탈락</b><span class="lab missc">${r.miss.map(gname).slice(0,2).join(" · ")} 없음</span></span></div>`; });
   h+=`</div>`;
