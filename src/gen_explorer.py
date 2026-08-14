@@ -90,6 +90,10 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   .pk-k{font:800 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:3px;}
   .pk-row p{margin:0;min-width:0;font-size:14px;color:var(--ink);line-height:1.72;overflow-wrap:anywhere;}
   .pk-comp{color:var(--cyan)!important;font-weight:700;}
+  .pk-deep{border-top:1px solid var(--line2);margin-top:2px;padding:14px 18px 6px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,rgba(255,46,136,.045),transparent);}
+  .pk-deep>div{display:grid;grid-template-columns:48px 1fr;gap:12px;}
+  .pk-deep .dk{font:800 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--magenta);padding-top:3px;}
+  .pk-deep p{margin:0;font-size:13.5px;line-height:1.66;color:var(--ink);}
   .pk-map{display:grid;gap:5px;font-size:13px;line-height:1.4;}
   .pk-map>div{display:flex;align-items:baseline;gap:2px;flex-wrap:wrap;}
   .pk-map .rl{color:var(--faint);min-width:92px;} .pk-map .ar{color:var(--gold);margin:0 7px;} .pk-map b{color:var(--ink);}
@@ -182,7 +186,14 @@ function render(setKey){
     <div class="pk-row"><span class="pk-k">로그라인</span><p>${pk.l}</p></div>
     ${(top&&pk.rm)?`<div class="pk-row"><span class="pk-k">인물</span><div class="pk-map">${top.roles.map((r,i)=>`<div><span class="rl">${r}</span><span class="ar">→</span><b>${pk.rm[i]||'—'}</b></div>`).join("")}</div></div>`:''}
     ${pk.a?`<div class="pk-row"><span class="pk-k">전개</span><ol class="pk-arc">${pk.a.map(b=>`<li>${b}</li>`).join("")}</ol></div>`:''}
-    <div class="pk-row"><span class="pk-k">comp</span><p class="pk-comp">${pk.c}</p></div></div>`; }
+    <div class="pk-row"><span class="pk-k">comp</span><p class="pk-comp">${pk.c}</p></div>
+    ${(pk.hk||pk.tw||pk.th||pk.wn)?`<div class="pk-deep">
+      ${pk.hk?`<div><span class="dk">훅</span><p>${pk.hk}</p></div>`:''}
+      ${pk.tw?`<div><span class="dk">반전</span><p>${pk.tw}</p></div>`:''}
+      ${pk.th?`<div><span class="dk">주제</span><p>${pk.th}</p></div>`:''}
+      ${pk.wn?`<div><span class="dk">욕망</span><p>${pk.wn}</p></div>`:''}
+    </div>`:''}
+    </div>`; }
   const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
   const near=missed.filter(r=>r.miss.length===1), far=missed.filter(r=>r.miss.length>1);
   h+=`<p class="ranklbl">적합 ${matched.length} · 보강하면 가능 ${near.length} · 탈락 ${far.length}</p><div class="rows">`;
