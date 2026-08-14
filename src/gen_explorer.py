@@ -4,9 +4,13 @@ ROOT="/home/djchoi/deokjinlog/classic-bones-modern-fusion"
 SK=json.load(open(f"{ROOT}/data/skeletons.json",encoding="utf-8"))
 ST=json.load(open(f"{ROOT}/data/settings.json",encoding="utf-8"))
 sk={k:{"name":v.get("name",k),"engine":v.get("engine",""),"req":v.get("req",[]),
-       "proven":v.get("proven",0),"md":v.get("modern_done",0.5),
+       "proven":v.get("proven",0),"md":v.get("modern_done",0.5),"freq":v.get("freq",0),"cf":v.get("canon_freq",0),
        "roles":v.get("roles",[]),"turns":v.get("turns",[])}
     for k,v in SK.items() if not k.startswith("_")}
+# 검증도(proven) 내림차순 순위 (동점은 공동)
+_pr_sorted=sorted({s["proven"] for s in sk.values()}, reverse=True)
+_provrank={p:i+1 for i,p in enumerate(_pr_sorted)}
+for s in sk.values(): s["prank"]=_provrank[s["proven"]]
 st={k:{"name":v.get("name",k),"affords":v.get("affords",[]),"gloss":v.get("gloss","")}
     for k,v in ST.items() if not k.startswith("_")}
 PR=json.load(open(f"{ROOT}/data/premises.json",encoding="utf-8"))
@@ -66,6 +70,15 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   .met{border:1px solid #2a5f49;background:#0e2019;color:var(--good);border-radius:6px;padding:3px 8px;font:700 11.5px var(--sans);}
   .flow{padding:14px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
   .flow b{color:var(--ink);} .flow .arrow{color:var(--gold);}
+  code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;color:var(--cyan);background:rgba(53,230,255,.07);padding:1px 6px;border-radius:5px;}
+  .metrics{padding:14px 18px 4px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px;font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .metrics>div{overflow-wrap:anywhere;}
+  .metrics .mk{display:inline-block;min-width:44px;font:800 10px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);}
+  .metrics b{color:var(--ink);font-variant-numeric:tabular-nums;} .metrics .dim{color:var(--faint);}
+  .metrics .met,.metrics .missc{margin-right:4px;}
+  .rmid{min-width:0;} .rbar{height:4px;border-radius:3px;background:#26232f;margin-top:7px;overflow:hidden;max-width:280px;}
+  .rfill{height:100%;background:linear-gradient(90deg,#8a6a2a,var(--gold));border-radius:3px;}
+  .row .sc .lab{white-space:nowrap;}
   .packet{margin-top:12px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#191622,var(--panel));}
   .pk-h{padding:12px 18px;border-bottom:1px solid var(--line);font:800 11px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;}
   .pk-tag{font-size:9.5px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:2px 8px;text-transform:none;}
@@ -112,11 +125,8 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   <div id="result"></div>
 
   <div class="note">
-    <b>이 화면이 GPT와 다른 점.</b> "신선한 이야기 줘"엔 누구나 답한다. 여기가 하는 건 —
-    <span class="k">검증</span>(실제 이야기에서 몇 번 반복된 구조인가·<span class="k">proven</span>) ·
-    <span class="k">신선</span>(이 세팅엔 얼마나 안 쓰였나) ·
-    <span class="k">양립</span>(뼈대의 요구 조건을 세팅이 다 갖췄나) 을 <b>세어서 숫자로 증명</b>하는 것.
-    프리미스는 아무나 쓰지만, <b>근거는 데이터만 준다.</b>
+    <code>score = (1 − 소진) × proven</code> &nbsp;·&nbsp; 양립(요구 ⊆ 보유) 통과만 후보 &nbsp;·&nbsp; <code>proven = 일반 빈도 + 캐논 × 8</code>
+    &nbsp;·&nbsp; 매칭·순위는 코드가 결정, 프리미스 문장만 LLM.
   </div>
   <p class="foot">classic-bones-modern-fusion · <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></p>
 </div>
@@ -124,7 +134,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
 <script>
 const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__;
 const GADD={G1:"명확한 서열·계급 라인 만들기",G2:"규칙·장벽으로 갈린 관계 넣기",G3:"뺏고 뺏길 자리·상속 라인 만들기",G4:"떠났다 돌아올 원점(본진·고향) 두기",G5:"물리·사회적으로 갇힌 상태 넣기",G6:"감시·통제하는 상위 권력 두기",G7:"구속력 있는 예언·정해진 운명 넣기",G8:"쥐면 타락하는 자리·이권 두기",G9:"밝혀질 숨겨진 사실 하나 심기",G10:"정체를 숨기거나 쪼갤 여지(가면·이중신분) 넣기",G11:"절정을 강제하는 시한·데드라인 넣기",G12:"돈·빚·생계 압박 걸기",G13:"의지를 꺾는 계략·회유 넣기",G14:"공적 평판이 무기가 되는 판 만들기",G15:"비혈연 든든한 유대(팀·의형제) 넣기",G16:"목적지로 이동하는 원정·출장 구조 넣기",G17:"세계에 풀린 비인간 치명 위협 넣기",G18:"얻을·지킬·부술 특정 대상(맥거핀) 두기",G19:"사사받을 스승·전통 넣기",G20:"오를 사다리·일생일대 기회 넣기",G21:"맞닿는 두 영역(현실/가상 등) 넣기"};
-const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven));
+const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
 function rows(setKey){
   const aff=ST[setKey].affords;
@@ -132,7 +142,7 @@ function rows(setKey){
     const s=SK[k], met=s.req.filter(c=>aff.includes(c)), miss=s.req.filter(c=>!aff.includes(c));
     const rate=s.req.length?met.length/s.req.length:0, fresh=1-s.md;
     const score=rate>=0.999?fresh*s.proven:0;
-    return {k,name:s.name,engine:s.engine,req:s.req,met,miss,rate,fresh,proven:s.proven,score,roles:s.roles,turns:s.turns};
+    return {k,name:s.name,engine:s.engine,req:s.req,met,miss,rate,fresh,proven:s.proven,prank:s.prank,freq:s.freq,cf:s.cf,score,roles:s.roles,turns:s.turns};
   }).sort((a,b)=> b.score-a.score || b.rate-a.rate);
 }
 function bar(lab,val,disp,cls){return `<div class="bar"><div class="bk"><span>${lab}</span><b>${disp}</b></div><div class="track"><div class="fill ${cls}" style="width:${Math.round(val*100)}%"></div></div></div>`;}
@@ -150,7 +160,11 @@ function render(setKey){
         ${bar("신선 freshness", top.fresh, Math.round(top.fresh*100)+"%", "f-cyan")}
         ${bar("양립 fit", top.met.length/top.req.length, top.met.length+"/"+top.req.length, "f-good")}
       </div>
-      <div class="reqline">양립 조건 &nbsp; ${metchips}</div>
+      <div class="metrics">
+        <div><span class="mk">검증</span> <code>proven ${top.proven} = 빈도 ${top.freq} + 캐논 ${top.cf}×8</code> · 전체 <b>${top.prank}/${NSK}위</b></div>
+        <div><span class="mk">양립</span> ${metchips}</div>
+        <div><span class="mk">신선</span> <code>1 − 소진 ${(1-top.fresh).toFixed(2)}</code> = <b>${Math.round(top.fresh*100)}%</b> <span class="dim">(현대 이식 소진, 수기 추정)</span></div>
+      </div>
       <div class="flow"><b>역할</b> ${top.roles.join(" · ")}<br><b>턴</b> ${top.turns.join(' <span class="arrow">→</span> ')}</div>
     </div>`;
   }
@@ -163,9 +177,11 @@ function render(setKey){
   const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
   const near=missed.filter(r=>r.miss.length===1), far=missed.filter(r=>r.miss.length>1);
   h+=`<p class="ranklbl">적합 ${matched.length} · 보강하면 가능 ${near.length} · 탈락 ${far.length}</p><div class="rows">`;
-  matched.forEach((r,i)=>{ h+=`<div class="row"><span class="num">${i+1}</span>
-    <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span></span>
-    <span class="sc"><b>${r.score.toFixed(1)}</b><span class="lab">점수</span></span></div>`; });
+  matched.forEach((r,i)=>{ const gap=matched[0].score-r.score, lab=i===0?"점수":`Δ${gap.toFixed(1)} ${gap<2?"근소":gap<8?"우위":"압도"}`;
+    h+=`<div class="row"><span class="num">${i+1}</span>
+    <span class="rmid"><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span>
+      <div class="rbar"><div class="rfill" style="width:${Math.round(r.score/maxSc*100)}%"></div></div></span>
+    <span class="sc"><b>${r.score.toFixed(1)}</b><span class="lab">${lab}</span></span></div>`; });
   near.forEach(r=>{ const c=r.miss[0];
     h+=`<div class="row aug"><span class="num">🔧</span>
       <span><span class="rn">${r.name}</span> <span class="re">· ${r.engine}</span>
