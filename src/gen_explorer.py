@@ -73,6 +73,8 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   .pk-k{font:800 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:3px;}
   .pk-row p{margin:0;min-width:0;font-size:14px;color:var(--ink);line-height:1.72;overflow-wrap:anywhere;}
   .pk-comp{color:var(--cyan)!important;font-weight:700;}
+  .pk-arc{margin:2px 0 0;padding-left:20px;font-size:13.5px;color:var(--ink);line-height:1.68;}
+  .pk-arc li{margin:3px 0;} .pk-arc li::marker{color:var(--gold);font-weight:800;}
 
   .ranklbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:30px 0 10px;}
   .rows{display:flex;flex-direction:column;gap:6px;}
@@ -156,6 +158,7 @@ function render(setKey){
   if(pk){ h+=`<div class="packet"><div class="pk-h">피칭 패킷 <span class="pk-tag">융합 · LLM 생성</span></div>
     <div class="pk-row"><span class="pk-k">프리미스</span><p>${pk.p}</p></div>
     <div class="pk-row"><span class="pk-k">로그라인</span><p>${pk.l}</p></div>
+    ${pk.a?`<div class="pk-row"><span class="pk-k">전개</span><ol class="pk-arc">${pk.a.map(b=>`<li>${b}</li>`).join("")}</ol></div>`:''}
     <div class="pk-row"><span class="pk-k">comp</span><p class="pk-comp">${pk.c}</p></div></div>`; }
   const matched=rs.filter(r=>r.score>0), missed=rs.filter(r=>r.score===0);
   const near=missed.filter(r=>r.miss.length===1), far=missed.filter(r=>r.miss.length>1);
