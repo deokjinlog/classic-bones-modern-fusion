@@ -32,17 +32,15 @@ def wrap(exhibit, title, desc, nav=None):
     return head + (bar(nav) + "\n" if nav else "") + src + "\n</body>\n</html>\n"
 
 pages = {
-    "index.html": wrap("constellation.html", "매칭 성좌 · classic-bones-modern-fusion",
-        "고전 뼈대와 현대 세팅이 살아 움직이는 인터랙티브 지도 — 세팅에 다가가면 맞는 뼈대로 별이 이어진다."),
+    "index.html": wrap("match-explorer.html", "매칭 탐색기 · classic-bones-modern-fusion",
+        "세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 결정적으로 계산하는 인터랙티브 도구.",
+        [("웹툰 「센터」 →", "center.html"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
     "center.html": wrap("center-webtoon.html", "센터 · classic-bones-modern-fusion",
         "고전 햄릿의 뼈대를 아이돌 기획사에 이식해 조준·생성한 웹툰 에피소드.",
-        [("성좌 홈 →", "./"), ("웹툰 「화물」 →", "cargo.html"), ("매칭 탐색기 →", "explore.html"), ("GitHub →", GH)]),
+        [("매칭 탐색기 →", "./"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
     "cargo.html": wrap("cargo-webtoon.html", "화물 · classic-bones-modern-fusion",
         "고전 오디세이의 뼈대를 우주 운송선에 이식해 조준·생성한 웹툰 에피소드.",
-        [("성좌 홈 →", "./"), ("웹툰 「센터」 →", "center.html"), ("매칭 탐색기 →", "explore.html"), ("GitHub →", GH)]),
-    "explore.html": wrap("match-explorer.html", "매칭 탐색기 · classic-bones-modern-fusion",
-        "세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 결정적으로 계산하는 인터랙티브 데모.",
-        [("성좌 홈 →", "./"), ("웹툰 「센터」 →", "center.html"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
+        [("매칭 탐색기 →", "./"), ("웹툰 「센터」 →", "center.html"), ("GitHub →", GH)]),
 }
 for name, html in pages.items():
     open(f"{ROOT}/{name}", "w", encoding="utf-8").write(html)
