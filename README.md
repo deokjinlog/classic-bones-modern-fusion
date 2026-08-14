@@ -56,14 +56,14 @@ GPT에 "신선한 이야기 줘" 하면 제일 흔한 **클리셰로 회귀**한
 ```bash
 python3 src/match.py 아이돌기획사   # 매칭만 미리 보기 (뼈대 순위)
 ```
-현재 규모: **뼈대 23종 · 세팅 32종 · 스키마 27속성** — 전부 실데이터 도출.
+현재 규모: **뼈대 23종 · 세팅 34종 · 스키마 27속성** — 전부 실데이터 도출.
 
 ## 레포 구조
 
 | 경로 | 내용 |
 |---|---|
 | `docs/schema.md` | 스키마 27속성 (하드게이트/보편 조건/전개 태그) |
-| `data/skeletons.json` · `data/settings.json` | 뼈대 23 · 세팅 32 (req·home·proven·affords) |
+| `data/skeletons.json` · `data/settings.json` | 뼈대 23 · 세팅 34 (req·home·proven·affords) |
 | `src/match.py` | 결정적 매칭 엔진 |
 | `.claude/skills/classic-bones-fusion/` | 스킬 |
 | `exhibits/` · `index.html` | 웹툰 쇼케이스 (아티팩트 + GitHub Pages) |
