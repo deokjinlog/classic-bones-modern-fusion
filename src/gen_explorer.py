@@ -106,7 +106,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   <p class="lead">현대 <b>세팅</b>을 하나 고르면 — 수백 년 검증된 <b>고전 뼈대</b> 중 무엇이 맞는지, <b>왜</b>인지를
     코드가 <b>결정적으로</b> 계산한다. <b>매칭은 취향 0</b>(요구 ⊆ 보유), 점수 = 신선도 × 검증도. 프리미스(융합)만 LLM이 쓴다.</p>
 
-  <p class="picklbl">세팅 고르기 · 27</p>
+  <p class="picklbl">세팅 고르기 · __NSET__</p>
   <div class="picker" id="picker"></div>
 
   <div id="result"></div>
@@ -192,6 +192,7 @@ function render(setKey){
 out=(T.replace("__SK__", json.dumps(sk,ensure_ascii=False))
       .replace("__ST__", json.dumps(st,ensure_ascii=False))
       .replace("__GL__", json.dumps(GL,ensure_ascii=False))
-      .replace("__PR__", json.dumps(pr,ensure_ascii=False)))
+      .replace("__PR__", json.dumps(pr,ensure_ascii=False))
+      .replace("__NSET__", str(len(st))))
 open(f"{ROOT}/exhibits/match-explorer.html","w",encoding="utf-8").write(out)
 print("match-explorer.html", len(out), "bytes ·", len(sk),"skeletons ·",len(st),"settings")
