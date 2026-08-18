@@ -12,6 +12,7 @@
   - **🧪 내 세팅으로 해보기**: 아무 현대 세팅이나 입력하면 조건을 자동 제안하고(클릭해 켜고 끄기), **맞는 고전 뼈대를 코드가 실시간·결정적으로** 찾아준다. 프리미스 프로즈만 아래 스킬 몫.
 - 웹툰 「센터」 (햄릿 × 아이돌): [center.html](https://deokjinlog.github.io/classic-bones-modern-fusion/center.html)
 - 웹툰 「화물」 (오디세이 × 우주선): [cargo.html](https://deokjinlog.github.io/classic-bones-modern-fusion/cargo.html)
+- 만드는 법 (방법론): [method.html](https://deokjinlog.github.io/classic-bones-modern-fusion/method.html) — 결정적 매칭·근거·6레버 깊이가 어떻게 작동하는지
 
 design-explosion의 스토리 버전. 모델에 "신선한 이야기 줘"라고 하면 대개 흔한 클리셰가 나오는데,
 이 도구는 실제 이야기를 세어서 "이 조합이 덜 쓰였다"는 근거를 붙여준다. 무엇을 쓸지는 코드가 고르고, 문장은 LLM이 쓴다.
