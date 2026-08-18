@@ -24,7 +24,9 @@ GL={"G1":"계층 격차","G2":"금지된 사랑","G3":"승계·축취","G4":"귀
     "G11":"마감","G12":"경제·부채","G13":"강압·조종","G14":"평판·명예","G15":"대리·유대",
     "G16":"여정·원정","G17":"괴물·위협","G18":"탐색물","G19":"사부·수련","G20":"신분 상승","G21":"두 세계"}
 
-T = r'''<title>고전 뼈대 매칭 탐색기</title>
+T = r'''<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고전 뼈대 매칭 탐색기</title>
 <style>
   :root{
     --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26; --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
