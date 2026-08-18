@@ -8,7 +8,8 @@
 ## 바로 보기 (레포에서 바로 열림)
 
 - 매칭 탐색기 (랜딩): https://deokjinlog.github.io/classic-bones-modern-fusion/
-  세팅을 고르면 맞는 고전 뼈대와 그 근거, 프리미스를 보여준다.
+  - 34개 세팅 중 하나를 고르면 맞는 고전 뼈대·근거·프리미스가 나온다. **⭐ 표시 5개**는 훅·반전까지 깊게 완성한 사례 — 먼저 눌러볼 것.
+  - **🧪 내 세팅으로 해보기**: 아무 현대 세팅이나 입력하면 조건을 자동 제안하고(클릭해 켜고 끄기), **맞는 고전 뼈대를 코드가 실시간·결정적으로** 찾아준다. 프리미스 프로즈만 아래 스킬 몫.
 - 웹툰 「센터」 (햄릿 × 아이돌): [center.html](https://deokjinlog.github.io/classic-bones-modern-fusion/center.html)
 - 웹툰 「화물」 (오디세이 × 우주선): [cargo.html](https://deokjinlog.github.io/classic-bones-modern-fusion/cargo.html)
 
