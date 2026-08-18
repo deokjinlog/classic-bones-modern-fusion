@@ -1,0 +1,179 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>만드는 법 · classic-bones-modern-fusion</title>
+<style>
+  :root{
+    --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26;
+    --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
+    --gold:#f6c453; --magenta:#ff2e88; --cyan:#35e6ff; --good:#54e0a0;
+    --line:#242231; --line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .wrap{max-width:800px;margin:0 auto;padding:40px 20px 90px;}
+  code{font-family:var(--mono);font-size:.9em;background:#0a0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--cyan);}
+  b{color:#fff;}
+  .kicker{font:800 12px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px;}
+  h1{font-size:clamp(30px,7vw,46px);line-height:1.12;margin:0 0 18px;letter-spacing:-.01em;}
+  .lead{font-size:16.5px;color:var(--muted);margin:0 0 6px;}
+  .lead b{color:var(--ink);}
+  section{margin-top:52px;}
+  .sn{font:800 12px var(--sans);color:var(--faint);letter-spacing:.15em;}
+  h2{font-size:23px;margin:6px 0 14px;letter-spacing:-.01em;}
+  p{font-size:15px;color:#d9d4e2;margin:0 0 14px;}
+  p .m{color:var(--muted);}
+  .hl-g{color:var(--gold);font-weight:700;} .hl-c{color:var(--cyan);font-weight:700;} .hl-p{color:var(--magenta);font-weight:700;}
+
+  /* 3-layer */
+  .layers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0 12px;}
+  .lay{background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:15px 15px 16px;position:relative;}
+  .lay .t{font-weight:800;font-size:15px;margin-bottom:4px;}
+  .lay .d{font-size:12.5px;color:var(--muted);line-height:1.55;}
+  .lay.b .t{color:var(--gold);} .lay.s .t{color:var(--cyan);} .lay.e .t{color:var(--magenta);}
+  .lay .x{position:absolute;right:-9px;top:50%;transform:translateY(-50%);z-index:2;color:var(--faint);font-weight:800;font-size:15px;}
+  .formula{background:#0a0910;border:1px solid var(--line);border-radius:10px;padding:13px 16px;font-family:var(--mono);font-size:13.5px;color:var(--muted);line-height:1.9;}
+  .formula b{color:var(--good);}
+
+  /* pipeline */
+  .pipe{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:16px 0 8px;}
+  .step{flex:1;min-width:128px;background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:12px 13px;}
+  .step .k{font-weight:800;font-size:13.5px;margin-bottom:3px;}
+  .step .who{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;}
+  .step .who.code{color:var(--good);} .step .who.llm{color:var(--magenta);} .step .who.human{color:var(--gold);}
+  .step .dd{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5;}
+  .arrow{align-self:center;color:var(--faint);font-weight:800;}
+
+  /* evidence */
+  .ev{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0;}
+  .evc{background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:15px;}
+  .evc .h{font-weight:800;font-size:14px;margin-bottom:6px;}
+  .evc.p .h{color:var(--gold);} .evc.c .h{color:var(--cyan);} .evc.f .h{color:var(--good);}
+  .evc .f2{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:7px;}
+  .evc .d{font-size:12.5px;color:var(--muted);line-height:1.55;}
+
+  /* levers */
+  .levers{counter-reset:l;margin:16px 0;padding:0;list-style:none;}
+  .levers li{counter-increment:l;position:relative;padding:11px 0 11px 42px;border-bottom:1px solid var(--line);}
+  .levers li:last-child{border-bottom:0;}
+  .levers li::before{content:counter(l);position:absolute;left:0;top:9px;width:27px;height:27px;border-radius:50%;background:var(--panel2);border:1px solid var(--line2);color:var(--gold);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .levers b{color:var(--ink);}
+  .levers .s{color:var(--muted);font-size:13.5px;}
+
+  /* before/after */
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+  .bac{border-radius:12px;padding:14px 15px;font-size:13.5px;line-height:1.65;}
+  .bac.before{background:#141019;border:1px solid var(--line2);color:var(--muted);}
+  .bac.after{background:linear-gradient(180deg,rgba(255,46,136,.07),transparent);border:1px solid #4a2740;color:#e9dfe8;}
+  .bac .lbl{font-weight:800;font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px;}
+  .bac.before .lbl{color:var(--faint);} .bac.after .lbl{color:var(--magenta);}
+
+  /* boundaries */
+  .bounds{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0;}
+  .bnd{border-radius:12px;padding:15px;border:1px solid var(--line2);background:var(--panel);}
+  .bnd .h{font-weight:800;font-size:14px;margin-bottom:6px;}
+  .bnd.code{border-color:#2a4a3a;} .bnd.code .h{color:var(--good);}
+  .bnd.llm{border-color:#4a2740;} .bnd.llm .h{color:var(--magenta);}
+  .bnd.heur{border-color:#4a4230;} .bnd.heur .h{color:var(--gold);}
+  .bnd .d{font-size:12.5px;color:var(--muted);line-height:1.6;}
+  .note{margin-top:14px;font-size:13px;color:var(--faint);border-left:2px solid var(--line2);padding-left:13px;}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+  .foot a{color:var(--magenta);text-decoration:none;font-weight:700;font-size:14px;}
+  .tag{color:var(--faint);font-size:13px;}
+  @media(max-width:640px){ .layers,.ev,.bounds,.ba{grid-template-columns:1fr;} .lay .x{display:none;} }
+</style>
+
+<div class="wrap">
+  <p class="kicker">classic-bones-modern-fusion · 방법론</p>
+  <h1>어떻게 만드나</h1>
+  <p class="lead"><b>“신선한 이야기 줘”</b>라고 하면 모델은 학습에서 흔한 쪽으로 회귀한다.</p>
+  <p class="lead">이 도구는 <span class="hl-g">수백 년 검증된 고전 구조</span>를 <span class="hl-c">아무도 안 써본 현대 세팅</span>에 이식하고, <b>왜 신선한지 데이터로 증명</b>한다. 무엇을 쓸지는 코드가 결정하고, 문장만 LLM이 쓴다.</p>
+
+  <section>
+    <span class="sn">01 — 문제</span>
+    <h2>무엇이 덜 쓰였는지는, 세보기 전엔 모른다</h2>
+    <p>백지에서 “참신한 걸” 뽑으라 하면 결국 본 적 있는 조합이 나온다. 신선함은 <b>느낌</b>이 아니라 <b>희소성</b>이고, 희소성은 재보기 전엔 알 수 없다. 그래서 이 도구는 <span class="m">먼저 세고</span>, 그 위에 쓴다.</p>
+  </section>
+
+  <section>
+    <span class="sn">02 — 발상</span>
+    <h2>뼈대는 훔치고, 세팅은 바꾼다</h2>
+    <p>고전이 살아남은 건 표면(왕·검·궁정)이 아니라 <b>구조</b> 덕이다. 표면을 벗기고 구조만 남기면 아무 현대 무대에나 옮겨진다. <span class="hl-g">햄릿</span>의 구조 = <b>찬탈복수</b>(자리를 뺏긴 후계자의 복수). 이걸 <span class="hl-c">아이돌 기획사</span>에 얹으면 — 자진 탈퇴로 밀려난 센터, 그 자리를 꿰찬 멤버, 진실을 아는 신인. <span class="m">닳은 건 왕궁이지, 구조가 아니다.</span></p>
+  </section>
+
+  <section>
+    <span class="sn">03 — 3층 구조</span>
+    <h2>뼈대 × 스키마 × 세팅</h2>
+    <div class="layers">
+      <div class="lay b"><div class="t">뼈대</div><div class="d">이야기의 구조 — 엔진·역할·턴. WikiPlots에서 추출한 23종.</div><span class="x">×</span></div>
+      <div class="lay s"><div class="t">스키마</div><div class="d">뼈대가 <b>요구</b>하는 조건의 공통 어휘 21개(G1–G21). 실제 이야기에서 도출.</div><span class="x">=</span></div>
+      <div class="lay e"><div class="t">세팅</div><div class="d">이식할 현대 무대. 어떤 조건을 <b>보유</b>하는지 태깅. 34종.</div></div>
+    </div>
+    <div class="formula"><b>매칭</b> = 뼈대의 <span style="color:var(--cyan)">요구</span> ⊆ 세팅의 <span style="color:var(--magenta)">보유</span> &nbsp;(집합 연산 · 취향 0 · 재현 가능)<br><b>점수</b> = 신선도 × 검증도 &nbsp;<span style="color:var(--faint)">— 양립하는 뼈대들만 이 점수로 순위</span></div>
+    <p class="note">스키마가 “내용물”이 아니라 “조건”만 담는 게 핵심이다. <code>왕좌</code>가 아니라 <code>뺏을 자리</code>, <code>살인</code>이 아니라 <code>밝혀질 진실</code>. 그래야 궁정에서 기획사로 옮겨진다.</p>
+  </section>
+
+  <section>
+    <span class="sn">04 — 파이프라인</span>
+    <h2>역할이 분리돼 있다</h2>
+    <div class="pipe">
+      <div class="step"><div class="who human">사람+휴리스틱</div><div class="k">태깅</div><div class="dd">세팅→조건 자동 제안, 사람이 편집</div></div>
+      <span class="arrow">→</span>
+      <div class="step"><div class="who code">코드</div><div class="k">매칭</div><div class="dd">요구 ⊆ 보유, 결정적 순위</div></div>
+      <span class="arrow">→</span>
+      <div class="step"><div class="who code">코드</div><div class="k">근거</div><div class="dd">검증·실측·양립을 펼쳐 보임</div></div>
+      <span class="arrow">→</span>
+      <div class="step"><div class="who llm">LLM</div><div class="k">융합</div><div class="dd">프리미스·전개·반전 프로즈</div></div>
+    </div>
+    <p><b>차별점(매칭·근거)은 애초에 LLM이 필요 없다.</b> <span class="m">그래서 탐색기의 <span class="hl-c">🧪 내 세팅으로 해보기</span>는 정적 웹에서 API·키 없이 실시간으로 돈다 — 아무 세팅이나 넣으면 맞는 뼈대를 코드가 즉시 찾아준다. 프로즈만 스킬이 쓴다.</span></p>
+  </section>
+
+  <section>
+    <span class="sn">05 — 근거</span>
+    <h2>vibes 말고 숫자</h2>
+    <p>“이 조합이 신선하다”를 주장하지 않고 <b>보여준다</b>. 세 축을 한 화면에 펼친다 — 아무 생성 도구도 이걸 재지 않는다.</p>
+    <div class="ev">
+      <div class="evc p"><div class="h">검증 proven</div><div class="f2">빈도 + 캐논 × 8</div><div class="d">얼마나 반복돼 살아남은 구조인가. 랜덤 표본은 캐논을 과소평가하므로 명작 빈도에 8배 가중.</div></div>
+      <div class="evc c"><div class="h">실측 census</div><div class="f2">WikiPlots 112,937편</div><div class="d">이 배경이 실제 이야기 몇 편에 나오나 직접 셈. 희소할수록 미개척(프로게임단 5편 vs 교도소 14,788편).</div></div>
+      <div class="evc f"><div class="h">신선 freshness</div><div class="f2">1 − 소진</div><div class="d">그 구조가 현대에 얼마나 닳았나의 추정. 검증도와 곱해 순위를 낸다.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="sn">06 — 깊이</span>
+    <h2>얕음 → 깊음: 6개 레버</h2>
+    <p>한 줄짜리 반전은 <b>설명(telling)</b>이지 경험이 아니다. 읽는 맛은 필드 하나 더가 아니라, 한 이야기를 끝까지 파는 데서 나온다.</p>
+    <ol class="levers">
+      <li><b>넓게 말고 하나를 3배 깊게</b> <span class="s">— 34개 조금씩 ❌, 한 세팅 끝까지 ⭕</span></li>
+      <li><b>설명 말고 장면으로</b> <span class="s">— 반전을 요약하지 말고, 그 반전이 앞 비트를 다시 읽게 만들기</span></li>
+      <li><b>왜 재미없는지 먼저 비평</b> <span class="s">— 편의주의·클리셰를 깎아내고 그걸 근거로 고침</span></li>
+      <li><b>레퍼런스로 톤 지정</b> <span class="s">— “○○처럼 서늘하게”</span></li>
+      <li><b>인과로 굴러가게</b> <span class="s">— “그리고 나서” → “~때문에 / 그래서”</span></li>
+      <li><b>근거를 붙여</b> <span class="s">— 각 비트가 뼈대의 어느 turn을 비트는지 + census 실수치</span></li>
+    </ol>
+    <div class="ba">
+      <div class="bac before"><span class="lbl">얕음</span>회수할 화물은 사실 선장의 대체 크루 — 회사는 그가 안 돌아올 걸 계산했다.</div>
+      <div class="bac after"><span class="lbl">깊음 (우주기업)</span>컨테이너를 열자 잠든 얼굴은 <b>자기 자신</b>. 그는 47번째 반복이었고, 항로의 잔해도 사이렌의 익숙한 목소리도 <b>먼저 죽은 자기들</b>이다 — 1번 비트가 다르게 읽힌다.</div>
+    </div>
+  </section>
+
+  <section>
+    <span class="sn">07 — 정직한 경계</span>
+    <h2>무엇을 무엇이 하나</h2>
+    <div class="bounds">
+      <div class="bnd code"><div class="h">코드가 한다</div><div class="d">매칭·순위·근거. 집합 연산이라 <b>결정적·재현 가능·취향 0</b>.</div></div>
+      <div class="bnd llm"><div class="h">LLM이 한다</div><div class="d">프리미스·전개·반전 프로즈. <b>창작</b>은 모델 몫 — 조준이 끝난 뒤에만.</div></div>
+      <div class="bnd heur"><div class="h">휴리스틱이 한다</div><div class="d">세팅→조건 태깅. 키워드 제안 + <b>사람이 편집</b>. 매칭의 엄밀함과 분리.</div></div>
+    </div>
+    <p class="note">한계도 밝힌다 — 웹툰 작화는 무료 이미지모델(Pollinations)이라 <b>픽셀 정밀도·인물 일관성엔 한계</b>가 있다. 우리가 하는 건 연출·조준·조립이고, 렌더 픽셀만 모델을 호출한다.</p>
+  </section>
+
+  <div class="foot">
+    <div>
+      <a href="./">매칭 탐색기 →</a> &nbsp; <a href="center.html">웹툰 「센터」 →</a> &nbsp; <a href="cargo.html">웹툰 「화물」 →</a> &nbsp; <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">GitHub →</a>
+    </div>
+    <span class="tag">구조는 데이터로 고르고, 이야기는 모델이 쓴다.</span>
+  </div>
+</div>

@@ -34,13 +34,16 @@ def wrap(exhibit, title, desc, nav=None):
 pages = {
     "index.html": wrap("match-explorer.html", "매칭 탐색기 · classic-bones-modern-fusion",
         "세팅을 고르면 어떤 고전 뼈대가 맞는지·왜인지를 결정적으로 계산하는 인터랙티브 도구.",
-        [("웹툰 「센터」 →", "center.html"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
+        [("웹툰 「센터」 →", "center.html"), ("웹툰 「화물」 →", "cargo.html"), ("방법론 →", "method.html"), ("GitHub →", GH)]),
     "center.html": wrap("center-webtoon.html", "센터 · classic-bones-modern-fusion",
         "고전 햄릿의 뼈대를 아이돌 기획사에 이식해 조준·생성한 웹툰 에피소드.",
-        [("매칭 탐색기 →", "./"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
+        [("매칭 탐색기 →", "./"), ("웹툰 「화물」 →", "cargo.html"), ("방법론 →", "method.html"), ("GitHub →", GH)]),
     "cargo.html": wrap("cargo-webtoon.html", "화물 · classic-bones-modern-fusion",
         "고전 오디세이의 뼈대를 우주 운송선에 이식해 조준·생성한 웹툰 에피소드.",
-        [("매칭 탐색기 →", "./"), ("웹툰 「센터」 →", "center.html"), ("GitHub →", GH)]),
+        [("매칭 탐색기 →", "./"), ("웹툰 「센터」 →", "center.html"), ("방법론 →", "method.html"), ("GitHub →", GH)]),
+    "method.html": wrap("method.html", "만드는 법 · classic-bones-modern-fusion",
+        "결정적 매칭·근거·6레버 깊이 — 이 도구가 어떻게 작동하는지의 메이킹 문서.",
+        [("매칭 탐색기 →", "./"), ("웹툰 「센터」 →", "center.html"), ("웹툰 「화물」 →", "cargo.html"), ("GitHub →", GH)]),
 }
 for name, html in pages.items():
     open(f"{ROOT}/{name}", "w", encoding="utf-8").write(html)
