@@ -68,6 +68,9 @@ T = r'''<meta charset="utf-8">
   .btag.on{background:var(--gold);color:#241a06;border-color:var(--gold);font-weight:800;}
   .pk-note{margin:0;font-size:13.5px;color:var(--muted);line-height:1.75;}
   .pk-note b{color:var(--ink);}
+  .sharebar{display:flex;justify-content:flex-end;margin-bottom:6px;}
+  .copyl{background:var(--panel);border:1px solid var(--line2);color:var(--muted);border-radius:8px;padding:5px 11px;font:700 11.5px var(--sans);cursor:pointer;white-space:nowrap;transition:.12s;}
+  .copyl:hover{border-color:var(--gold);color:var(--ink);}
   .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
   .rnd:hover{border-color:var(--gold);}
 
@@ -206,10 +209,14 @@ function paintTags(){
   const box=document.getElementById('byotags'); box.hidden=false;
   box.innerHTML='<span class="byhint">조건(입력에서 자동 제안 · 클릭해 켜고 끄면 매칭이 실시간으로 바뀝니다):</span>'+
     Object.keys(GADD).map(g=>`<button class="btag${byoAff.includes(g)?' on':''}" data-g="${g}">${g} ${gname(g)}</button>`).join('');
-  box.querySelectorAll('.btag').forEach(b=>b.onclick=()=>{const g=b.dataset.g; byoAff=byoAff.includes(g)?byoAff.filter(x=>x!==g):[...byoAff,g]; paintTags(); runByo();});
+  box.querySelectorAll('.btag').forEach(b=>b.onclick=()=>{const g=b.dataset.g; byoAff=byoAff.includes(g)?byoAff.filter(x=>x!==g):[...byoAff,g]; paintTags(); runByo(); byoURL();});
 }
 function runByo(){const q=(document.getElementById('byoq').value||'').trim()||'내 세팅'; paint({name:q, gloss:'직접 입력한 세팅 · 태그로 조건 지정', aff:byoAff, cs:null, pk:null, key:null});}
-function submitByo(){const q=(document.getElementById('byoq').value||'').trim(); if(!q)return; byoAff=autotag(q); paintTags(); runByo();}
+function submitByo(){const q=(document.getElementById('byoq').value||'').trim(); if(!q)return; byoAff=autotag(q); paintTags(); runByo(); byoURL();}
+function updateURL(qs){ try{history.replaceState(null,'',location.pathname+'?'+qs);}catch(e){} }
+function pick(k){ render(k); updateURL('s='+encodeURIComponent(k)); }
+function byoURL(){ updateURL('q='+encodeURIComponent((document.getElementById('byoq').value||'').trim())+'&g='+byoAff.join('.')); }
+function copyLink(b){ try{navigator.clipboard.writeText(location.href).then(()=>{const t=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=t,1300);},()=>{}); }catch(e){} }
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
 function rows(aff){
@@ -225,7 +232,8 @@ function render(setKey){ paint({name:ST[setKey].name, gloss:ST[setKey].gloss, af
 function paint(cfg){
   const aff=cfg.aff, rs=rows(aff), top=rs[0], maxSc=Math.max(...rs.map(r=>r.score))||1;
   const affh=aff.map(c=>`<span class="gtag">${c} ${gname(c)}</span>`).join("");
-  let h=`<div class="setline"><span class="setname">${cfg.name}</span><span class="setgloss">${cfg.gloss||''}</span></div>
+  let h=`<div class="sharebar"><button class="copyl" onclick="copyLink(this)">🔗 이 매칭 링크 복사</button></div>
+    <div class="setline"><span class="setname">${cfg.name}</span><span class="setgloss">${cfg.gloss||''}</span></div>
     <div class="affords">보유 조건 ${aff.length} · ${affh||'<span class="dim">아직 조건이 없어요 — 아래 태그를 켜보세요</span>'}</div>`;
   if(top && top.score>0){
     const metchips=top.req.map(c=> top.met.includes(c)?`<span class="met">✓ ${c} ${gname(c)}</span>`:`<span class="gtag missc">✗ ${c} ${gname(c)}</span>`).join("");
@@ -285,12 +293,19 @@ function paint(cfg){
   const p=document.getElementById("picker");
   Object.keys(ST).forEach(k=>{ const b=document.createElement("button"); const feat=FEAT.includes(k);
     b.className="chip"+(feat?" feat":""); b.dataset.k=k; b.textContent=(feat?"⭐ ":"")+ST[k].name; b.setAttribute("aria-pressed","false");
-    b.onclick=()=>render(k); p.appendChild(b); });
+    b.onclick=()=>pick(k); p.appendChild(b); });
   const r=document.createElement("button"); r.className="rnd"; r.textContent="🎲 자동 제안";
-  r.onclick=()=>{ const ks=Object.keys(ST); render(ks[Math.floor(Math.random()*ks.length)]); }; p.appendChild(r);
+  r.onclick=()=>{ const ks=Object.keys(ST); pick(ks[Math.floor(Math.random()*ks.length)]); }; p.appendChild(r);
   document.getElementById("byob").onclick=submitByo;
   document.getElementById("byoq").addEventListener("keydown",e=>{if(e.key==="Enter")submitByo();});
-  render("아이돌기획사" in ST ? "아이돌기획사" : Object.keys(ST)[0]);
+  // 딥링킹: ?s=<세팅> 프리셋 · ?q=<입력>(&g=G1.G8 조건) BYOS
+  const P=new URLSearchParams(location.search);
+  if(P.get('s') && ST[P.get('s')]) render(P.get('s'));
+  else if(P.get('q')){ document.getElementById('byoq').value=P.get('q');
+    const g=(P.get('g')||'').split('.').filter(x=>GADD[x]);
+    if(g.length){ byoAff=g; paintTags(); runByo(); } else submitByo();
+    document.querySelector('.byos').scrollIntoView({block:'start'}); }
+  else render("아이돌기획사" in ST ? "아이돌기획사" : Object.keys(ST)[0]);
 })();
 </script>'''
 
