@@ -47,6 +47,9 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
     padding:7px 13px;font:600 13px var(--sans);cursor:pointer;transition:.14s;}
   .chip:hover{border-color:var(--gold);color:var(--ink);}
   .chip[aria-pressed="true"]{background:var(--gold);color:#241a06;border-color:var(--gold);font-weight:800;}
+  .chip.feat{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset;color:var(--ink);}
+  .chip.feat[aria-pressed="true"]{box-shadow:none;}
+  .feathint{font-size:.82em;color:var(--gold);font-weight:700;letter-spacing:0;}
   .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
   .rnd:hover{border-color:var(--gold);}
 
@@ -130,7 +133,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
   <p class="lead">현대 <b>세팅</b>을 하나 고르면 — 수백 년 검증된 <b>고전 뼈대</b> 중 무엇이 맞는지, <b>왜</b>인지를
     코드가 <b>결정적으로</b> 계산한다. <b>매칭은 취향 0</b>(요구 ⊆ 보유), 점수 = 신선도 × 검증도. 프리미스(융합)만 LLM이 쓴다.</p>
 
-  <p class="picklbl">세팅 고르기 · __NSET__</p>
+  <p class="picklbl">세팅 고르기 · __NSET__ &nbsp;<span class="feathint">⭐ 깊이 완성 사례 — 먼저 눌러보세요</span></p>
   <div class="picker" id="picker"></div>
 
   <div id="result"></div>
@@ -143,7 +146,7 @@ T = r'''<title>고전 뼈대 매칭 탐색기</title>
 </div>
 
 <script>
-const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__, CS=__CS__, CTOT=__CTOT__, CNS=__CNS__;
+const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__, CS=__CS__, CTOT=__CTOT__, CNS=__CNS__, FEAT=__FEAT__;
 const GADD={G1:"명확한 서열·계급 라인 만들기",G2:"규칙·장벽으로 갈린 관계 넣기",G3:"뺏고 뺏길 자리·상속 라인 만들기",G4:"떠났다 돌아올 원점(본진·고향) 두기",G5:"물리·사회적으로 갇힌 상태 넣기",G6:"감시·통제하는 상위 권력 두기",G7:"구속력 있는 예언·정해진 운명 넣기",G8:"쥐면 타락하는 자리·이권 두기",G9:"밝혀질 숨겨진 사실 하나 심기",G10:"정체를 숨기거나 쪼갤 여지(가면·이중신분) 넣기",G11:"절정을 강제하는 시한·데드라인 넣기",G12:"돈·빚·생계 압박 걸기",G13:"의지를 꺾는 계략·회유 넣기",G14:"공적 평판이 무기가 되는 판 만들기",G15:"비혈연 든든한 유대(팀·의형제) 넣기",G16:"목적지로 이동하는 원정·출장 구조 넣기",G17:"세계에 풀린 비인간 치명 위협 넣기",G18:"얻을·지킬·부술 특정 대상(맥거핀) 두기",G19:"사사받을 스승·전통 넣기",G20:"오를 사다리·일생일대 기회 넣기",G21:"맞닿는 두 영역(현실/가상 등) 넣기"};
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
@@ -216,8 +219,8 @@ function render(setKey){
 }
 (function(){
   const p=document.getElementById("picker");
-  Object.keys(ST).forEach(k=>{ const b=document.createElement("button");
-    b.className="chip"; b.dataset.k=k; b.textContent=ST[k].name; b.setAttribute("aria-pressed","false");
+  Object.keys(ST).forEach(k=>{ const b=document.createElement("button"); const feat=FEAT.includes(k);
+    b.className="chip"+(feat?" feat":""); b.dataset.k=k; b.textContent=(feat?"⭐ ":"")+ST[k].name; b.setAttribute("aria-pressed","false");
     b.onclick=()=>render(k); p.appendChild(b); });
   const r=document.createElement("button"); r.className="rnd"; r.textContent="🎲 자동 제안";
   r.onclick=()=>{ const ks=Object.keys(ST); render(ks[Math.floor(Math.random()*ks.length)]); }; p.appendChild(r);
@@ -232,6 +235,7 @@ out=(T.replace("__SK__", json.dumps(sk,ensure_ascii=False))
       .replace("__CS__", json.dumps(cs,ensure_ascii=False))
       .replace("__CTOT__", str(cmeta.get("total",0)))
       .replace("__CNS__", str(cmeta.get("n_settings",0)))
-      .replace("__NSET__", str(len(st))))
+      .replace("__NSET__", str(len(st)))
+      .replace("__FEAT__", json.dumps(["아이돌기획사","우주기업","AI연구소","코인판","셰어하우스"],ensure_ascii=False)))
 open(f"{ROOT}/exhibits/match-explorer.html","w",encoding="utf-8").write(out)
 print("match-explorer.html", len(out), "bytes ·", len(sk),"skeletons ·",len(st),"settings")
