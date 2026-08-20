@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장부 · classic-bones-modern-fusion</title>
+<meta name="description" content="고전 조사 미스터리(오이디푸스형)의 뼈대를 코인판에 이식해 조준·생성한 웹툰 에피소드.">
+</head>
+<body style="margin:0;background:#07060e">
+<div style="position:sticky;top:0;z-index:99;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;padding:9px 14px;background:#0b0b12;border-bottom:1px solid #242230;font:600 12.5px system-ui,sans-serif;color:#928ca1"><span style="color:#f6c453">classic-bones-modern-fusion</span><span style="color:#5f5a6d">·</span><a href="./" style="color:#ff2e88;text-decoration:none">매칭 탐색기 →</a><span style="color:#5f5a6d">·</span><a href="center.html" style="color:#ff2e88;text-decoration:none">웹툰 「센터」 →</a><span style="color:#5f5a6d">·</span><a href="cargo.html" style="color:#ff2e88;text-decoration:none">웹툰 「화물」 →</a><span style="color:#5f5a6d">·</span><a href="method.html" style="color:#ff2e88;text-decoration:none">방법론 →</a><span style="color:#5f5a6d">·</span><a href="https://github.com/deokjinlog/classic-bones-modern-fusion" style="color:#ff2e88;text-decoration:none">GitHub →</a></div>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장부</title>
+<style>
+  :root{
+    --stage:#060a09; --panel:#0c1512;
+    --ink:#e8f5ee; --muted:#7e9789; --faint:#4d6357;
+    --term:#39f0a0; --amber:#f6b23c; --alarm:#ff5a7a; --cyan:#3fe0ff;
+    --line:#16281f; --line2:#22392d;
+    --serif:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--stage); color:var(--ink); font-family:var(--serif);
+    line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .reel{ max-width:720px; margin:0 auto; padding:0 18px 80px; }
+
+  .cover{ position:relative; min-height:540px; display:flex; flex-direction:column;
+    justify-content:flex-end; padding:40px 0 44px; overflow:hidden; }
+  .cover::before{ content:""; position:absolute; inset:-10% -30% auto -30%; height:92%;
+    background:radial-gradient(60% 70% at 50% 6%, rgba(57,240,160,.14), transparent 62%),
+               radial-gradient(50% 60% at 50% 12%, rgba(63,224,255,.08), transparent 60%); }
+  .cover::after{ content:""; position:absolute; left:50%; bottom:6%; width:78%; height:140px;
+    transform:translateX(-50%); border-radius:50%;
+    background:radial-gradient(closest-side, rgba(57,240,160,.20), transparent); filter:blur(6px); }
+  .kicker{ position:relative; font-size:12px; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--term); font-weight:700; margin:0 0 6px; }
+  .title{ position:relative; margin:0; font-weight:900; font-size:clamp(84px,25vw,180px);
+    line-height:.86; letter-spacing:-.03em;
+    background:linear-gradient(180deg,#fff 0%,#39f0a0 55%,#127a4c 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 60px rgba(57,240,160,.20); }
+  .subtitle{ position:relative; margin:12px 0 0; font-size:clamp(15px,3.5vw,19px); font-weight:600; }
+  .subtitle b{ color:var(--term); }
+  .srcchip{ position:relative; margin-top:20px; display:inline-flex; gap:9px; flex-wrap:wrap;
+    align-items:center; font-size:12.5px; color:var(--muted); border:1px solid var(--line2);
+    border-radius:999px; padding:8px 14px; background:rgba(255,255,255,.02); width:max-content; max-width:100%; }
+  .srcchip b{ color:var(--ink); font-weight:700; } .srcchip .dot{ color:var(--faint); }
+  .grid i{ position:absolute; width:2px; height:2px; border-radius:50%; background:#8ff5c8; opacity:.4; }
+
+  .lbl{ font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; color:var(--faint);
+    font-weight:700; margin:52px 0 16px; display:flex; align-items:center; gap:12px; }
+  .lbl::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line2),transparent); }
+
+  .cast{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media(max-width:520px){ .cast{ grid-template-columns:1fr; } }
+  .role{ border:1px solid var(--line); border-radius:12px; padding:13px 15px; background:var(--panel); }
+  .role .who{ font-weight:800; font-size:15.5px; }
+  .role .maps{ font-size:12px; color:var(--term); font-weight:700; }
+  .role .desc{ font-size:13px; color:var(--muted); margin-top:5px; }
+  .role.ledger{ border-color:#1d573f; background:linear-gradient(180deg,var(--panel),#08160f); }
+
+  .panel{ margin:0 0 30px; }
+  .scene{ position:relative; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+    box-shadow:0 20px 55px -32px #000; }
+  .scene svg{ display:block; width:100%; }
+  .scene .art{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .scene::after{ content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.06;
+    mix-blend-mode:overlay; background-size:160px 160px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .motes{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  .motes i{ position:absolute; width:3px; height:3px; border-radius:50%; background:#8ff5c8;
+    opacity:.5; box-shadow:0 0 6px #39f0a0; animation:drift 8s linear infinite; }
+  @keyframes drift{ 0%{ transform:translateY(14px); opacity:0;} 16%{opacity:.6;} 84%{opacity:.45;} 100%{ transform:translateY(-78px); opacity:0;} }
+  @media(prefers-reduced-motion:reduce){ .motes i{ animation:none; opacity:.3; } }
+
+  .bubble{ position:absolute; max-width:62%; background:var(--ink); color:#08130d;
+    font-size:14px; font-weight:700; line-height:1.42; padding:9px 13px; border-radius:14px;
+    box-shadow:0 8px 22px -8px #000; z-index:4; }
+  .bubble::after{ content:""; position:absolute; width:0; height:0; border:9px solid transparent; }
+  .bubble.tl::after{ left:18px; bottom:-14px; border-top-color:var(--ink); }
+  .bubble.tr::after{ right:18px; bottom:-14px; border-top-color:var(--ink); }
+  .bubble.dark{ background:#0d1a14; color:var(--ink); border:1px solid var(--line2); }
+  .bubble.dark.tl::after{ border-top-color:#0d1a14; } .bubble.dark.tr::after{ border-top-color:#0d1a14; }
+  .bubble.term{ background:#052016; color:var(--term); border:1px solid #1f664a; font-family:var(--mono); font-weight:600; font-size:13px; }
+  .bubble.term.tl::after{ border-top-color:#052016; } .bubble.term.tr::after{ border-top-color:#052016; }
+  .bubble.alarm{ background:#2a0c15; color:#ff9db1; border:1px solid #6e2337; }
+  .bubble.alarm.tr::after{ border-top-color:#2a0c15; } .bubble.alarm.tl::after{ border-top-color:#2a0c15; }
+  .think{ position:absolute; max-width:74%; font-size:14.5px; font-weight:600; font-style:italic;
+    text-shadow:0 2px 16px #000, 0 0 4px #000; z-index:4; }
+
+  .cap{ display:flex; gap:14px; align-items:baseline; margin:14px 4px 0; }
+  .beatno{ font-weight:900; font-size:26px; line-height:1; color:var(--term); flex:none; width:34px; }
+  .cap p{ margin:0; font-size:15px; line-height:1.72; } .cap b{ color:var(--ink); } .cap .scene{ color:var(--muted); }
+
+  .receipt{ margin-top:48px; border:1px solid var(--line2); border-radius:16px; overflow:hidden; background:var(--panel); }
+  .receipt h3{ margin:0; padding:16px 20px; font-size:12px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--stage); font-weight:800; background:linear-gradient(90deg,var(--term),#1e9d68); }
+  .rrow{ display:grid; grid-template-columns:88px 1fr; gap:14px; padding:14px 20px; border-top:1px solid var(--line); font-size:14px; }
+  .rrow .k{ color:var(--faint); font-weight:700; font-size:12.5px; }
+  .rrow .v b{ color:var(--term); } .rrow .v .cyan{ color:var(--cyan); }
+  .stamp{ padding:16px 20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+  .stamp b{ color:var(--ink); } .stamp a{ color:var(--term); text-decoration:none; }
+  .foot{ text-align:center; margin-top:34px; font-size:11.5px; letter-spacing:.06em; color:var(--faint); }
+  .note{ margin-top:14px; font-size:12px; color:var(--faint); text-align:center; }
+</style>
+
+<div class="reel">
+  <header class="cover">
+    <div class="grid" aria-hidden="true">
+      <i style="left:12%;top:22%"></i><i style="left:28%;top:12%"></i><i style="left:44%;top:30%"></i>
+      <i style="left:66%;top:16%"></i><i style="left:82%;top:26%"></i><i style="left:90%;top:40%"></i>
+      <i style="left:20%;top:44%"></i><i style="left:74%;top:52%"></i>
+    </div>
+    <p class="kicker">classic-bones-modern-fusion · 웹툰 조준</p>
+    <h1 class="title">장부</h1>
+    <p class="subtitle">지울 수 없는 장부가 모두를 기록한다 — <b>수백 년 검증된 조사 미스터리</b>를 온체인에 이식하다.</p>
+    <div class="srcchip"><b>뼈대</b> 조사·미스터리 <span class="dot">×</span> <b>세팅</b> 코인/크립토 판 <span class="dot">·</span> comp <b>오이디푸스 meets 온체인 수사</b></div>
+  </header>
+
+  <p class="lbl">등장인물 · 뼈대 역할 매핑</p>
+  <div class="cast">
+    <div class="role"><div class="who">제로 <span class="maps">= 수사자</span></div><div class="desc">익명 온체인 수사자. 스캠을 폭로해 이름을 얻었다.</div></div>
+    <div class="role"><div class="who">배후 <span class="maps">= 은폐하는 자</span></div><div class="desc">러그풀을 터뜨린 자. 열기 전까진 얼굴이 없다.</div></div>
+    <div class="role"><div class="who">세탁 흔적 <span class="maps">= 거짓 단서</span></div><div class="desc">믹서·브리지로 흩뿌린 자금. 쫓을수록 흩어진다.</div></div>
+    <div class="role ledger"><div class="who">장부 <span class="maps">= 진실을 아는 목격자</span></div><div class="desc">지울 수 없는 온체인 기록. 배후도, 수사자도 똑같이 기록한다.</div></div>
+  </div>
+
+  <p class="lbl">EP.01 — 지울 수 없는 장부</p>
+
+  <!-- ① 사건 발생 : 붉은 손실 스크린 벽 + 후드 실루엣 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-1.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 500" role="img" aria-label="붉게 폭락한 차트 스크린 앞에 홀로 앉은 후드 쓴 익명 수사자">
+      <defs>
+        <linearGradient id="c1bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1310"/><stop offset="1" stop-color="#05090c"/></linearGradient>
+        <radialGradient id="c1red" cx="50%" cy="38%" r="60%"><stop offset="0" stop-color="#ff3b5c" stop-opacity=".28"/><stop offset="1" stop-color="#ff3b5c" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c1vig" cx="50%" cy="46%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".78"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#c1bg)"/>
+      <rect width="800" height="360" fill="url(#c1red)"/>
+      <!-- monitor wall -->
+      <g stroke="#1a2a22" stroke-width="2" fill="#070d0b">
+        <rect x="80" y="46" width="200" height="120" rx="4"/><rect x="300" y="40" width="230" height="130" rx="4"/><rect x="550" y="46" width="180" height="120" rx="4"/>
+        <rect x="150" y="188" width="230" height="120" rx="4"/><rect x="410" y="188" width="240" height="120" rx="4"/>
+      </g>
+      <!-- crashing candlesticks (red) -->
+      <g fill="#ff4d6a">
+        <rect x="316" y="60" width="7" height="44"/><rect x="330" y="66" width="7" height="52"/><rect x="344" y="72" width="7" height="64"/><rect x="358" y="86" width="7" height="60"/><rect x="372" y="100" width="7" height="52"/>
+        <path d="M312,60 L390,150" stroke="#ff4d6a" stroke-width="2.5" fill="none" opacity=".8"/>
+      </g>
+      <text x="415" y="150" font-family="monospace" font-weight="800" font-size="34" fill="#ff5a7a">-98.4%</text>
+      <g font-family="monospace" font-size="12" fill="#ff8095" opacity=".8"><text x="95" y="80">LIQUIDITY</text><text x="95" y="98" fill="#ff4d6a" font-weight="800">REMOVED</text><text x="170" y="215">holders 6,214</text><text x="170" y="235" fill="#ff4d6a">rekt.</text><text x="430" y="215">pool 0.00</text></g>
+      <!-- floor -->
+      <path d="M0,360 L800,360 L800,500 L0,500 Z" fill="#04080a"/>
+      <!-- desk -->
+      <rect x="150" y="392" width="500" height="10" rx="3" fill="#0e1a15"/>
+      <!-- hooded figure from behind, uplit red -->
+      <g transform="translate(400,392)">
+        <ellipse cx="0" cy="8" rx="66" ry="12" fill="#000" opacity=".5"/>
+        <path d="M-52,4 C-54,-60 -30,-104 0,-104 C30,-104 54,-60 52,4 Z" fill="#0a120e"/>
+        <path d="M-40,4 C-42,-52 -22,-90 0,-90 C22,-90 42,-52 40,4" stroke="#ff5a7a" stroke-width="1.6" fill="none" opacity=".35"/>
+        <!-- hood peak -->
+        <path d="M-30,-70 C-24,-96 -10,-108 0,-108 C10,-108 24,-96 30,-70 C22,-84 12,-90 0,-90 C-12,-90 -22,-84 -30,-70 Z" fill="#0d1712"/>
+        <ellipse cx="0" cy="-76" rx="15" ry="17" fill="#060b09"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c1vig)"/>
+    </svg>
+    <div class="motes" aria-hidden="true"><i style="left:46%;top:30%;animation-delay:.4s"></i><i style="left:54%;top:22%;animation-delay:2.3s"></i><i style="left:50%;top:38%;animation-delay:4.1s"></i></div>
+    <div class="bubble dark tl" style="left:5%;top:12%;">6천 명이 물렸어요. …제로님, 누가 그랬는지 찾아줘요.</div>
+    <div class="bubble term tr" style="right:5%;bottom:14%;">장부는 안 지워져. 지갑은 도망 못 가.</div>
+  </div><div class="cap"><span class="beatno">①</span><p><b>사건 발생.</b> <span class="scene">하룻밤 새 유동성이 통째로 빠진 대형 러그풀. 수천 명이 물렸고, 피해자들은 스캠을 폭로해 이름을 얻은 익명 수사자 ‘제로’에게 매달린다. 모니터 벽이 온통 붉은 가운데, 후드 속 얼굴 없는 그가 자판에 손을 얹는다.</span></p></div></figure>
+
+  <!-- ② 단서 추적 : 지갑 노드 그래프, 믹서로 흩어지는 자금 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-2.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 500" role="img" aria-label="지갑 노드들이 믹서를 통해 수십 갈래로 흩어지는 온체인 자금 흐름 그래프">
+      <defs>
+        <radialGradient id="c2glow" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#39f0a0" stop-opacity=".16"/><stop offset="1" stop-color="#39f0a0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c2vig" cx="50%" cy="50%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".76"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#050b09"/>
+      <rect width="800" height="500" fill="url(#c2glow)"/>
+      <!-- edges -->
+      <g stroke="#1e6a49" stroke-width="1.6" fill="none" opacity=".85">
+        <path d="M120,250 L330,250"/><path d="M330,250 L520,110"/><path d="M330,250 L560,200"/><path d="M330,250 L560,300"/><path d="M330,250 L520,390"/>
+        <path d="M520,110 L680,90"/><path d="M560,200 L700,180"/><path d="M560,300 L700,320"/><path d="M520,390 L680,410"/>
+      </g>
+      <g stroke="#39f0a0" stroke-width="2" fill="none" opacity=".9"><path d="M120,250 L330,250"/></g>
+      <!-- MIXER hub -->
+      <circle cx="330" cy="250" r="34" fill="#07160f" stroke="#39f0a0" stroke-width="2"/>
+      <text x="330" y="255" text-anchor="middle" font-family="monospace" font-size="12" font-weight="800" fill="#39f0a0">MIXER</text>
+      <!-- source wallet -->
+      <circle cx="120" cy="250" r="20" fill="#0a1a12" stroke="#39f0a0" stroke-width="2"/>
+      <text x="120" y="292" text-anchor="middle" font-family="monospace" font-size="11" fill="#8ff5c8">0x9f…c1</text>
+      <!-- scattered wallets -->
+      <g fill="#0a1a12" stroke="#1e6a49" stroke-width="1.5">
+        <circle cx="520" cy="110" r="13"/><circle cx="560" cy="200" r="13"/><circle cx="560" cy="300" r="13"/><circle cx="520" cy="390" r="13"/>
+        <circle cx="680" cy="90" r="10"/><circle cx="700" cy="180" r="10"/><circle cx="700" cy="320" r="10"/><circle cx="680" cy="410" r="10"/>
+      </g>
+      <g font-family="monospace" font-size="10" fill="#5f7a6d"><text x="470" y="70">bridge →</text><text x="595" y="205">···</text><text x="595" y="305">···</text></g>
+      <!-- cursor tracing -->
+      <path d="M250,250 l14,0 m-7,-7 l0,14" stroke="#fff" stroke-width="2" opacity=".8"/>
+      <rect width="800" height="500" fill="url(#c2vig)"/>
+    </svg>
+    <div class="motes" aria-hidden="true"><i style="left:30%;top:50%;animation-delay:.6s"></i><i style="left:66%;top:38%;animation-delay:2.6s"></i></div>
+    <div class="bubble term tr" style="right:5%;top:10%;">믹서로 쪼갰지만 — 들어온 씨앗 자금은 하나야.</div>
+  </div><div class="cap"><span class="beatno">②</span><p><b>단서 추적.</b> <span class="scene">제로는 믹서와 브리지를 건너뛴 자금을 온체인으로 되짚는다. 수십 갈래로 흩어진 세탁 흔적은 거짓 단서일 뿐 — 지울 수 없는 장부를 거꾸로 거슬러 오르면, 러그풀에 <b>씨앗 자금을 댄 지갑 하나</b>로 전부 수렴한다.</span></p></div></figure>
+
+  <!-- ③ 반전 : 씨앗 지갑 = 자기 자신의 옛 지갑 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-3.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 500" role="img" aria-label="추적의 끝, 붉게 빛나는 씨앗 지갑에 뜬 자기 자신의 주소">
+      <defs>
+        <radialGradient id="c3red" cx="50%" cy="46%" r="46%"><stop offset="0" stop-color="#ff3b5c" stop-opacity=".55"/><stop offset=".5" stop-color="#ff3b5c" stop-opacity=".18"/><stop offset="1" stop-color="#ff3b5c" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c3vig" cx="50%" cy="46%" r="70%"><stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".82"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#060b09"/>
+      <!-- faint converging edges to center -->
+      <g stroke="#163a2a" stroke-width="1.4" fill="none" opacity=".7"><path d="M120,120 L400,250"/><path d="M700,110 L400,250"/><path d="M110,400 L400,250"/><path d="M710,410 L400,250"/><path d="M400,60 L400,250"/></g>
+      <ellipse cx="400" cy="250" rx="240" ry="180" fill="url(#c3red)"/>
+      <!-- the seed wallet node, big, red -->
+      <circle cx="400" cy="250" r="46" fill="#1a0a10" stroke="#ff4d6a" stroke-width="3"/>
+      <circle cx="400" cy="250" r="46" fill="none" stroke="#ff8095" stroke-width="1" opacity=".6"/>
+      <text x="400" y="243" text-anchor="middle" font-family="monospace" font-size="13" font-weight="800" fill="#ff8095">SEED</text>
+      <text x="400" y="262" text-anchor="middle" font-family="monospace" font-size="12" font-weight="800" fill="#fff">0x…3E0</text>
+      <!-- label -->
+      <rect x="300" y="330" width="200" height="30" rx="6" fill="#1a0a10" stroke="#6e2337"/>
+      <text x="400" y="350" text-anchor="middle" font-family="monospace" font-size="12" fill="#ff9db1">label: ZERO — genesis</text>
+      <!-- small recoiling figure at edge -->
+      <g transform="translate(120,420)" opacity=".92">
+        <path d="M-26,20 C-28,-24 -14,-46 6,-42 C26,-38 32,-6 30,20 Z" fill="#0a120e"/>
+        <circle cx="4" cy="-40" r="13" fill="#0a120e"/>
+        <path d="M-8,-46 C-10,-58 0,-64 6,-62" stroke="#ff8095" stroke-width="1.6" fill="none" opacity=".4"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c3vig)"/>
+    </svg>
+    <div class="bubble alarm tr" style="right:5%;top:12%;">이 지갑… 내 거야. 손 씻기 전의.</div>
+  </div><div class="cap"><span class="beatno">③</span><p><b>반전.</b> <span class="scene">씨앗 자금의 출처를 붉게 밝힌 순간, 화면이 얼어붙는다. 라벨에 뜬 건 낯선 범인이 아니라 — <b>손 씻기 전, 제로 자신의 옛 지갑</b>이다. 스캠을 쫓던 손이, 자기 과거의 주소를 가리키고 있었다.</span></p></div></figure>
+
+  <!-- ④ 배신 : 배후의 컨트랙트 코드 + 유리에 비친 자기 얼굴 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-4.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 500" role="img" aria-label="배후의 컨트랙트 코드가 뜬 화면, 어두운 유리에 겹쳐 비친 제로 자신의 후드 얼굴">
+      <defs>
+        <linearGradient id="c4scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#06231a"/><stop offset="1" stop-color="#04140e"/></linearGradient>
+        <radialGradient id="c4vig" cx="50%" cy="50%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#050a08"/>
+      <!-- code screen -->
+      <rect x="120" y="60" width="560" height="380" rx="8" fill="url(#c4scr)" stroke="#1f664a" stroke-width="2"/>
+      <g font-family="monospace" font-size="13" fill="#39f0a0" opacity=".9">
+        <text x="150" y="100">contract RugV2 is <tspan fill="#8ff5c8">ZeroPresale</tspan> {</text>
+        <text x="150" y="126" fill="#5f7a6d">  // forked from 0x…3E0</text>
+        <text x="150" y="152">  function pull() external {</text>
+        <text x="150" y="178" fill="#ff8095">    _drain(liquidity);</text>
+        <text x="150" y="204">  }</text>
+        <text x="150" y="230">}</text>
+      </g>
+      <text x="150" y="410" font-family="monospace" font-size="12" fill="#f6b23c">origin: forked ← ZERO/presale.sol</text>
+      <!-- reflection of hooded face overlaid on the dark glass -->
+      <g transform="translate(520,260)" opacity=".38">
+        <path d="M-70,120 C-74,-10 -40,-96 0,-96 C40,-96 74,-10 70,120 Z" fill="#0a120e"/>
+        <path d="M-46,-40 C-46,-70 -22,-88 0,-88 C22,-88 46,-70 46,-40 C46,-60 24,-72 0,-72 C-24,-72 -46,-60 -46,-40 Z" fill="#0d1712"/>
+        <ellipse cx="0" cy="-30" rx="26" ry="30" fill="#081410"/>
+        <ellipse cx="-11" cy="-34" rx="4" ry="5" fill="#8ff5c8"/><ellipse cx="11" cy="-34" rx="4" ry="5" fill="#8ff5c8"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c4vig)"/>
+    </svg>
+    <div class="bubble term tl" style="left:5%;bottom:14%;">배후는 남이 아니었어. 내 옛 코드를 포크했을 뿐.</div>
+  </div><div class="cap"><span class="beatno">④</span><p><b>배신.</b> <span class="scene">배후의 컨트랙트를 열자 헤더에 남은 흔적 — <b>제로가 스캠 시절 짠 프리세일 코드를 그대로 포크</b>했다. 어두운 화면 유리에 그의 후드 얼굴이 겹쳐 비친다. 쫓던 범인은 그의 옛 자신을 베껴 만든 그림자였다.</span></p></div></figure>
+
+  <!-- ⑤ 진실 근접의 위협 : 익명 DM 경고 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-5.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 500" role="img" aria-label="어두운 화면에 뜬 익명의 협박 메시지, 작아진 수사자의 실루엣">
+      <defs>
+        <radialGradient id="c5red" cx="62%" cy="34%" r="50%"><stop offset="0" stop-color="#ff3b5c" stop-opacity=".26"/><stop offset="1" stop-color="#ff3b5c" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c5vig" cx="50%" cy="50%" r="72%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>
+      </defs>
+      <rect width="800" height="500" fill="#060b09"/>
+      <rect width="800" height="500" fill="url(#c5red)"/>
+      <!-- DM window -->
+      <rect x="300" y="70" width="420" height="200" rx="12" fill="#0c1512" stroke="#22392d" stroke-width="2"/>
+      <circle cx="330" cy="102" r="11" fill="#1a0a10" stroke="#6e2337"/><text x="352" y="106" font-family="monospace" font-size="12" fill="#7e9789">anon.eth</text>
+      <rect x="322" y="126" width="376" height="1" fill="#1a2a22"/>
+      <g font-family="monospace" font-size="14" fill="#ff9db1"><text x="330" y="162">계속 파면,</text><text x="330" y="192" fill="#ff5a7a" font-weight="800">네 최초 지갑을 공개한다.</text><text x="330" y="228" fill="#5f7a6d" font-size="12">— 0x…3E0 은 너도 알잖아.</text></g>
+      <!-- small figure at desk, lower left -->
+      <g transform="translate(150,430)">
+        <ellipse cx="0" cy="6" rx="44" ry="9" fill="#000" opacity=".4"/>
+        <path d="M-34,4 C-36,-46 -18,-78 6,-74 C30,-70 38,-30 36,4 Z" fill="#0a120e"/>
+        <path d="M-20,-58 C-14,-80 0,-90 6,-88" stroke="#ff8095" stroke-width="1.6" fill="none" opacity=".35"/>
+        <ellipse cx="4" cy="-58" rx="15" ry="17" fill="#060b09"/>
+      </g>
+      <rect width="800" height="500" fill="url(#c5vig)"/>
+    </svg>
+    <div class="think" style="right:5%;bottom:16%;text-align:right;color:var(--ink)">장부는 배후를 가리키는데 —<br>같은 장부가, 내 과거도 지우질 못한다.</div>
+  </div><div class="cap"><span class="beatno">⑤</span><p><b>진실 근접의 위협.</b> <span class="scene">진실에 다가갈수록 익명의 배후가 DM을 보낸다 — <b>“더 파면, 네 최초 지갑을 공개한다.”</b> 지울 수 없는 장부가 이번엔 위협이 된다. 범인을 사슬에 올리는 그 기록이, 제로 자신의 죄도 똑같이 영원히 새긴다.</span></p></div></figure>
+
+  <!-- ⑥ 폭로 : 자기 지갑 포함 전체 추적을 게시, 두 주소가 장부에 새겨진다 -->
+  <figure class="panel"><div class="scene">
+    <img class="art" src="assets/art/coin-6.png" alt="" onerror="this.remove()">
+    <svg viewBox="0 0 800 520" role="img" aria-label="자기 지갑까지 포함한 전체 추적을 게시하는 순간, 장부에 새겨지는 두 개의 주소">
+      <defs>
+        <radialGradient id="c6glow" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#39f0a0" stop-opacity=".3"/><stop offset=".6" stop-color="#39f0a0" stop-opacity=".08"/><stop offset="1" stop-color="#39f0a0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="c6vig" cx="50%" cy="44%" r="74%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".76"/></radialGradient>
+      </defs>
+      <rect width="800" height="520" fill="#050b09"/>
+      <ellipse cx="400" cy="210" rx="320" ry="240" fill="url(#c6glow)"/>
+      <!-- broadcast rings -->
+      <g stroke="#39f0a0" fill="none" opacity=".5"><circle cx="400" cy="210" r="120" stroke-width="1.5"/><circle cx="400" cy="210" r="180" stroke-width="1" opacity=".3"/><circle cx="400" cy="210" r="240" stroke-width="1" opacity=".16"/></g>
+      <!-- ledger block with two addresses -->
+      <rect x="250" y="150" width="300" height="120" rx="10" fill="#07160f" stroke="#1f664a" stroke-width="2"/>
+      <text x="270" y="182" font-family="monospace" font-size="13" fill="#8ff5c8">TRACE · published</text>
+      <g font-family="monospace" font-size="14" font-weight="800">
+        <circle cx="278" cy="208" r="5" fill="#39f0a0"/><text x="294" y="213" fill="#39f0a0">0x…RUG  배후</text>
+        <circle cx="278" cy="240" r="5" fill="#ff5a7a"/><text x="294" y="245" fill="#ff8095">0x…3E0  ZERO</text>
+      </g>
+      <!-- publish button glow -->
+      <rect x="330" y="316" width="140" height="40" rx="8" fill="#0a2318" stroke="#39f0a0" stroke-width="2"/>
+      <text x="400" y="341" text-anchor="middle" font-family="monospace" font-size="14" font-weight="800" fill="#39f0a0">PUBLISH ▸</text>
+      <!-- figure, standing, lowering hood -->
+      <g transform="translate(400,392)">
+        <ellipse cx="0" cy="106" rx="52" ry="12" fill="#000" opacity=".5"/>
+        <path d="M-30,110 L-34,110 M-38,30 C-40,88 -30,110 -24,110 L24,110 C30,110 40,88 38,30 C38,-2 22,-22 0,-22 C-22,-22 -38,-2 -38,30 Z" fill="#0a120e"/>
+        <path d="M32,20 C36,60 30,96 26,108" stroke="#39f0a0" stroke-width="1.6" fill="none" opacity=".5"/>
+        <!-- head, hood down -->
+        <circle cx="0" cy="-40" r="18" fill="#0e1b14"/>
+        <path d="M-15,-44 C-16,-62 -6,-70 0,-70 C6,-70 16,-62 15,-44 C11,-58 6,-62 0,-62 C-6,-62 -11,-58 -15,-44 Z" fill="#132318"/>
+        <path d="M13,-46 C15,-38 12,-30 7,-27" stroke="#8ff5c8" stroke-width="1.6" fill="none" opacity=".6"/>
+      </g>
+      <rect width="800" height="520" fill="url(#c6vig)"/>
+    </svg>
+    <div class="motes" aria-hidden="true"><i style="left:48%;top:34%;animation-delay:.3s"></i><i style="left:53%;top:44%;animation-delay:2s"></i><i style="left:44%;top:40%;animation-delay:3.6s"></i></div>
+    <div class="bubble tr" style="right:5%;top:9%;">배후를 올리려면 — 내 이름부터 올려야 한다.</div>
+  </div><div class="cap"><span class="beatno">⑥</span><p><b>폭로.</b> <span class="scene">배후를 사슬에 올리는 유일한 길은, <b>자기 지갑까지 포함한 전체 추적을 공개</b>하는 것. 제로는 후드를 내리고 게시 버튼을 누른다. 장부엔 두 개의 주소가 나란히 영원히 새겨진다 — 범인의 것, 그리고 자기 것. 자기 신화를 태워, 범인을 잡는다.</span></p></div></figure>
+
+  <section class="receipt">
+    <h3>근거 · 왜 이 조합인가</h3>
+    <div class="rrow"><span class="k">로그라인</span><span class="v">지울 수 없는 온체인 장부로 러그풀 배후를 쫓던 익명 수사자가, 그 사슬이 손 씻기 전 자기 지갑으로 이어지는 걸 발견한다 — 배후를 폭로하는 건, 자기 과거를 폭로하는 일이다.</span></div>
+    <div class="rrow"><span class="k">반전</span><span class="v">씨앗 자금을 댄 지갑은 손 씻기 전 <b>제로 자신의 것</b> — 배후는 그의 옛 스캠 컨트랙트를 포크했다. 진실을 지울 수 없는 장부는, <span class="cyan">결백도 지울 수 없다.</span></span></div>
+    <div class="rrow"><span class="k">검증</span><span class="v">뼈대 ‘조사·미스터리’ = <b>proven 57 = 빈도 33 + 캐논 3×8</b>. 사건→추적→반전→진실근접→폭로의 탐정 구조는 수없이 반복돼 살아남았다.</span></div>
+    <div class="rrow"><span class="k">신선</span><span class="v">탐정 구조는 닳도록 됐지만(구조 신선 20%), 세팅은 아무도 안 올려봤다 — <span class="cyan">코인/크립토 판 census 17편·실제 이야기 0.015%·희소도 2/34위</span>. “장부가 곧 목격자”라는 온체인 오이디푸스는 거의 없다.</span></div>
+    <div class="rrow"><span class="k">양립</span><span class="v">요구 <b>3/3 충족</b> — 은폐된 진실(<span class="cyan">G9</span>) · 부패 이권(<span class="cyan">G8</span>) · 익명 위장(<span class="cyan">G10</span>).</span></div>
+    <div class="stamp">이 에피소드는 <b>classic-bones-modern-fusion</b>이 매칭(코드·결정적) → 융합(LLM)으로 조준·생성. 「센터」(햄릿)·「화물」(오디세이)과 <b>또 다른 뼈대</b>(탐정) — 같은 엔진이 여러 무대에 옮겨짐을 보여준다. <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></div>
+  </section>
+
+  <p class="note">※ 작화는 이미지 모델로 자동 생성(src/render_art.py). 이미지가 없는 컷은 코드로 만든 벡터 장면으로 대체됩니다.</p>
+  <p class="foot">구조는 데이터로 고르고, 이야기는 모델이 쓴다.</p>
+</div>
+
+</body>
+</html>

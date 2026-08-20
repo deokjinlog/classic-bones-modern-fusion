@@ -11,6 +11,7 @@
 - 🧭 **매칭 탐색기** (랜딩): <https://deokjinlog.github.io/classic-bones-modern-fusion/>
 - 📖 웹툰 「센터」 (햄릿 × 아이돌): [center.html](https://deokjinlog.github.io/classic-bones-modern-fusion/center.html)
 - 📖 웹툰 「화물」 (오디세이 × 우주선): [cargo.html](https://deokjinlog.github.io/classic-bones-modern-fusion/cargo.html)
+- 📖 웹툰 「장부」 (조사 미스터리 × 코인판): [coin.html](https://deokjinlog.github.io/classic-bones-modern-fusion/coin.html)
 - 🛠 **만드는 법** (방법론): [method.html](https://deokjinlog.github.io/classic-bones-modern-fusion/method.html)
 
 ---
