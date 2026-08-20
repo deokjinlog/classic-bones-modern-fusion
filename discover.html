@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소재 발굴 · classic-bones-modern-fusion</title>
+<meta name="description" content="검증된 고전 뼈대 × 안 써본 현대 세팅 — 말 되는 조합 전체를 신선순으로 세운 소재 발굴 엔진.">
+</head>
+<body style="margin:0;background:#07060e">
+<div style="position:sticky;top:0;z-index:99;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;padding:9px 14px;background:#0b0b12;border-bottom:1px solid #242230;font:600 12.5px system-ui,sans-serif;color:#928ca1"><span style="color:#f6c453">classic-bones-modern-fusion</span><span style="color:#5f5a6d">·</span><a href="./" style="color:#ff2e88;text-decoration:none">매칭 탐색기 →</a><span style="color:#5f5a6d">·</span><a href="method.html" style="color:#ff2e88;text-decoration:none">방법론 →</a><span style="color:#5f5a6d">·</span><a href="center.html" style="color:#ff2e88;text-decoration:none">웹툰 「센터」 →</a><span style="color:#5f5a6d">·</span><a href="cargo.html" style="color:#ff2e88;text-decoration:none">웹툰 「화물」 →</a><span style="color:#5f5a6d">·</span><a href="coin.html" style="color:#ff2e88;text-decoration:none">웹툰 「장부」 →</a><span style="color:#5f5a6d">·</span><a href="https://github.com/deokjinlog/classic-bones-modern-fusion" style="color:#ff2e88;text-decoration:none">GitHub →</a></div>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소재 발굴 · classic-bones-modern-fusion</title>
+<style>
+  :root{ --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26; --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
+    --gold:#f6c453; --magenta:#ff2e88; --cyan:#35e6ff; --good:#54e0a0; --line:#242231; --line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    --mono:"SFMono-Regular",Consolas,monospace; }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--stage); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  .wrap{ max-width:860px; margin:0 auto; padding:34px 20px 90px; }
+  code{ font-family:var(--mono); font-size:.9em; color:var(--cyan); }
+  .kicker{ font:800 12px var(--sans); letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin:0 0 10px; }
+  h1{ font-size:clamp(26px,6vw,40px); line-height:1.12; margin:0 0 14px; letter-spacing:-.01em; }
+  .lead{ font-size:15px; color:var(--muted); margin:0 0 4px; } .lead b{ color:var(--ink); }
+  .stats{ display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 8px; }
+  .stat{ background:var(--panel); border:1px solid var(--line2); border-radius:11px; padding:11px 15px; }
+  .stat b{ display:block; font-size:22px; color:var(--gold); font-weight:800; } .stat span{ font-size:11.5px; color:var(--faint); }
+  .toggle{ display:flex; gap:7px; margin:20px 0 14px; }
+  .tg{ border:1px solid var(--line2); background:var(--panel); color:var(--muted); border-radius:999px; padding:7px 14px; font:700 12.5px var(--sans); cursor:pointer; }
+  .tg[aria-pressed="true"]{ background:var(--gold); color:#241a06; border-color:var(--gold); }
+  .tglbl{ margin-left:auto; align-self:center; font-size:11.5px; color:var(--faint); }
+
+  .dcard{ display:grid; grid-template-columns:40px 1fr 132px; gap:14px; align-items:start; padding:15px 16px; border:1px solid var(--line); border-radius:13px; background:var(--panel); margin-bottom:9px; }
+  @media(max-width:560px){ .dcard{ grid-template-columns:32px 1fr; } .dside{ grid-column:2; align-items:flex-start!important; margin-top:6px; } }
+  .dcard.feat{ border-color:#4a3f1e; }
+  .drank{ font:800 17px var(--mono); color:var(--faint); padding-top:2px; }
+  .dcombo{ font-size:16px; } .dcombo b{ color:var(--ink); font-weight:800; } .dx{ color:var(--faint); margin:0 4px; } .dsk{ color:var(--gold); font-weight:700; }
+  .dfeat{ font-size:11px; color:var(--gold); border:1px solid #4a3f1e; border-radius:6px; padding:1px 6px; margin-left:6px; }
+  .dengine{ font-size:12.5px; color:var(--muted); margin-top:3px; }
+  .dmeta{ font-size:12px; color:var(--muted); margin-top:7px; } .dmeta .dm{ color:var(--cyan); }
+  .dturns{ font-size:11.5px; color:var(--faint); margin-top:6px; font-family:var(--mono); overflow-wrap:anywhere; }
+  .dside{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .dscore{ font:800 22px var(--sans); color:var(--gold); } .dscore small{ font-size:11px; color:var(--faint); font-weight:600; }
+  .dopen{ font-size:11.5px; font-weight:700; color:var(--magenta); text-decoration:none; white-space:nowrap; }
+  .note{ margin-top:22px; font-size:12.5px; color:var(--faint); border-left:2px solid var(--line2); padding-left:13px; line-height:1.7; }
+  .foot{ margin-top:30px; font-size:12px; color:var(--faint); } .foot a{ color:var(--magenta); text-decoration:none; }
+</style>
+
+<div class="wrap">
+  <p class="kicker">classic-bones-modern-fusion · 소재 발굴 엔진</p>
+  <h1>안 써본 신선 조합</h1>
+  <p class="lead"><b>검증된 고전 뼈대 × 아무도 안 올려본 현대 세팅.</b> 전체 조합을 코드가 훑어, 말 되는 것만 골라 신선순으로 세웠다.</p>
+  <p class="lead">각 줄이 <b>기획안 한 편의 씨앗</b> — 열어서 근거를 보고, 스킬로 깊게 개발한다.</p>
+  <div class="stats">
+    <div class="stat"><b id="s-total">—</b><span>전체 조합 (세팅×뼈대)</span></div>
+    <div class="stat"><b id="s-valid">—</b><span>말 되는 조합 (양립)</span></div>
+    <div class="stat"><b id="s-sk">—</b><span>쓰이는 뼈대 종류</span></div>
+  </div>
+  <div class="toggle">
+    <button class="tg" id="tg-rep" aria-pressed="true">뼈대별 대표 (다양)</button>
+    <button class="tg" id="tg-all" aria-pressed="false">전체 랭킹</button>
+    <span class="tglbl">신선순 = 신선도 × 검증도 · 동점은 세팅 희소</span>
+  </div>
+  <div id="list"></div>
+  <p class="note">신선도는 그 고전 구조가 현대에 얼마나 닳았는지의 추정, 검증도(proven)는 그 구조가 얼마나 반복돼 살아남았는지, census는 그 세팅이 실제 이야기에 얼마나 드물게 나오는지의 실측이다. 셋 다 코드가 잰다 — 매칭은 취향 0.</p>
+  <p class="foot"><a href="./">← 매칭 탐색기</a> &nbsp;·&nbsp; <a href="method.html">만드는 법</a> &nbsp;·&nbsp; <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">GitHub</a><br>구조는 데이터로 고르고, 이야기는 모델이 쓴다.</p>
+</div>
+
+<script>
+const SK={"조사미스터리": {"name": "조사·미스터리", "engine": "은폐된 진실을 파헤치다 자신마저 휘말린다", "req": ["G9", "G8", "G10"], "proven": 57, "md": 0.8, "freq": 33, "cf": 3, "roles": ["수사자", "은폐하는 자", "거짓 단서", "진실을 아는 목격자"], "turns": ["사건 발생", "단서 추적", "반전·배신", "진실 근접의 위협", "폭로"], "prank": 2}, "괴물퇴치": {"name": "괴물 퇴치", "engine": "세계를 위협하는 존재를 무리가 사냥한다", "req": ["G17", "G9"], "proven": 54, "md": 0.6, "freq": 22, "cf": 4, "roles": ["위협받는 공동체", "괴물", "사냥꾼 무리", "규칙을 아는 현자"], "turns": ["위협 등장", "부정·피해", "규칙 파악", "사냥", "희생 끝 격퇴"], "prank": 3}, "로맨스결합": {"name": "로맨스 결합", "engine": "장벽을 넘어 두 사람이 결합한다", "req": ["G15", "G2"], "proven": 52, "md": 0.85, "freq": 20, "cf": 4, "roles": ["연인 A", "연인 B", "방해 장벽/라이벌", "조력자"], "turns": ["만남", "끌림·오해", "장벽", "시련", "결합"], "prank": 4}, "성장": {"name": "성장담", "engine": "미숙한 자가 시련을 거쳐 어른이 된다", "req": ["G15", "G19", "G6"], "proven": 43, "md": 0.8, "freq": 19, "cf": 3, "roles": ["미숙한 주인공", "멘토", "또래", "상실의 계기"], "turns": ["순진한 세계", "계기·상실", "시행착오", "각성", "성숙"], "prank": 5}, "복수": {"name": "복수", "engine": "당한 잘못을 갚으려 파멸을 향해 간다", "req": ["G9", "G15", "G8", "G14"], "proven": 30, "md": 0.4, "freq": 14, "cf": 2, "roles": ["피해자·복수자", "가해자들", "조력자", "치를 대가"], "turns": ["당함", "결심·준비", "하나씩 갚음", "회의·대가", "파국"], "prank": 9}, "원정탐색": {"name": "원정·탐색", "engine": "무언가를 얻거나 부수러 험지를 건넌다", "req": ["G16", "G18", "G9"], "proven": 62, "md": 0.5, "freq": 14, "cf": 6, "roles": ["탐색자", "동료", "길의 시련", "목표물"], "turns": ["부름", "여정", "시련", "목표 도달", "귀환·대가"], "prank": 1}, "조종파멸": {"name": "조종당한 파멸", "engine": "측근의 조종에 놀아나 스스로 무너진다", "req": ["G13", "G9", "G15"], "proven": 29, "md": 0.45, "freq": 13, "cf": 2, "roles": ["표적", "조종자", "무고한 희생자", "거짓 증거"], "turns": ["신뢰", "계략", "심어진 의심", "폭주", "파멸"], "prank": 10}, "금지된사랑": {"name": "금지된 사랑", "engine": "넘지 말 벽 너머의 사랑이 파국을 부른다", "req": ["G2", "G14", "G15"], "proven": 52, "md": 0.55, "freq": 12, "cf": 5, "roles": ["연인 A", "연인 B", "금지하는 세력", "중재자"], "turns": ["끌림", "금기", "비밀", "발각", "파국"], "prank": 4}, "언더독증명": {"name": "언더독의 증명", "engine": "무명이 일생일대 기회로 자신을 증명한다", "req": ["G20", "G14"], "proven": 19, "md": 0.85, "freq": 11, "cf": 1, "roles": ["무명", "사부", "강자", "조력자"], "turns": ["밑바닥", "기회", "수련", "시합", "증명"], "prank": 13}, "생존": {"name": "생존", "engine": "적대적 환경에서 살아 돌아온다", "req": ["G16", "G15", "G11", "G17", "G6"], "proven": 27, "md": 0.55, "freq": 11, "cf": 2, "roles": ["고립된 자", "동료/짐", "환경·위협", "구원의 실마리"], "turns": ["고립", "자원 고갈", "갈등", "결단", "생환"], "prank": 12}, "하이스트사기": {"name": "하이스트·사기", "engine": "치밀한 계획으로 판을 털거나 속인다", "req": ["G12", "G10", "G18"], "proven": 9, "md": 0.6, "freq": 9, "cf": 0, "roles": ["설계자", "팀", "표적·보안", "배신 변수"], "turns": ["판 포착", "팀 구성", "실행", "반전", "정산"], "prank": 18}, "신분상승": {"name": "신분 상승", "engine": "낮은 신분이 사다리를 올라 인정받는다", "req": ["G20", "G1", "G16", "G10", "G12"], "proven": 39, "md": 0.75, "freq": 7, "cf": 4, "roles": ["주인공", "억압", "기회", "조력자"], "turns": ["밑바닥", "기회", "상승", "정체 위기", "확정"], "prank": 6}, "재난": {"name": "재난 생존", "engine": "닥친 재난 속에서 목숨을 건다", "req": ["G11", "G17", "G16", "G7"], "proven": 7, "md": 0.6, "freq": 7, "cf": 0, "roles": ["일상의 사람들", "재난", "구조자", "마감"], "turns": ["평온", "재난 발생", "혼돈", "탈출·구조", "여파"], "prank": 19}, "부당감금탈출": {"name": "부당한 감금·탈출", "engine": "억울하게 갇힌 자가 유대·계략으로 탈출한다", "req": ["G5", "G10", "G9", "G12", "G13"], "proven": 14, "md": 0.4, "freq": 6, "cf": 1, "roles": ["수감자", "억압 체제", "감옥의 벗", "탈출 열쇠"], "turns": ["수감", "적응", "준비", "부패 확인", "탈출"], "prank": 15}, "도망자추격": {"name": "도망자·추격", "engine": "쫓기는 자가 추격을 따돌리며 진실·자유로 향한다", "req": ["G16", "G9", "G6"], "proven": 6, "md": 0.5, "freq": 6, "cf": 0, "roles": ["도망자", "추격자", "조력자", "누명·비밀"], "turns": ["발단", "도주", "궁지", "반격", "탈출·폭로"], "prank": 20}, "죄와벌": {"name": "죄와 벌", "engine": "저지른 죄가 양심에 잠식돼 심판에 이른다", "req": ["G8", "G1"], "proven": 29, "md": 0.3, "freq": 5, "cf": 3, "roles": ["범죄자", "수사자", "양심의 인물", "숨긴 죄"], "turns": ["궁핍·합리화", "범죄", "압박", "잠식", "자백"], "prank": 10}, "몰락": {"name": "몰락", "engine": "정점에 오른 자가 결함으로 추락한다", "req": ["G14", "G1", "G6", "G10"], "proven": 36, "md": 0.35, "freq": 4, "cf": 4, "roles": ["권력자", "부추기는 자", "도전자", "치명적 결함"], "turns": ["정점", "오만·유혹", "위반", "균열", "몰락"], "prank": 7}, "권력암투": {"name": "권력 암투", "engine": "자리를 둘러싼 음모와 배신이 벌어진다", "req": ["G8", "G13", "G6", "G3"], "proven": 28, "md": 0.4, "freq": 4, "cf": 3, "roles": ["야심가들", "현 권력", "배신자", "판돈"], "turns": ["균형", "음모", "배신", "격돌", "재편"], "prank": 11}, "창조주재앙": {"name": "창조주의 재앙", "engine": "창조주의 과욕이 낳은 것이 그를 파괴한다", "req": ["G17", "G9"], "proven": 12, "md": 0.55, "freq": 4, "cf": 1, "roles": ["창조주", "피조물", "무고한 희생자"], "turns": ["창조·과욕", "통제 불능", "반란", "추락", "공멸"], "prank": 16}, "선택받은자": {"name": "선택받은 자", "engine": "평범한 자가 부름을 받아 거대 권력에 맞선다", "req": ["G7", "G8", "G21"], "proven": 18, "md": 0.7, "freq": 2, "cf": 2, "roles": ["주인공", "사부", "거대 권력", "매개물"], "turns": ["부름", "수련", "각성", "대결", "승리"], "prank": 14}, "구원속죄": {"name": "구원·속죄", "engine": "타락한 자가 속죄로 구원에 이른다", "req": ["G16", "G15", "G21"], "proven": 10, "md": 0.5, "freq": 2, "cf": 1, "roles": ["죄인", "계기의 인물", "과거", "시험"], "turns": ["타락", "계기", "갈등", "희생", "구원"], "prank": 17}, "찬탈복수": {"name": "찬탈복수(햄릿형)", "engine": "찬탈당한 후계자의 복수", "req": ["G3", "G9"], "proven": 33, "md": 0.25, "freq": 1, "cf": 4, "roles": ["죽은 권력자", "찬탈자", "후계자", "내부자", "목격자"], "turns": ["찬탈", "진실 앎", "망설임", "곁가지 죽음", "공멸"], "prank": 8}, "귀향": {"name": "귀향(오디세이형)", "engine": "떠난 자가 시련 끝에 돌아와 자리를 되찾는다", "req": ["G4", "G16"], "proven": 9, "md": 0.5, "freq": 1, "cf": 1, "roles": ["떠난 자", "길의 조력자", "길의 유혹", "집의 것"], "turns": ["떠남", "시련", "정체 은폐", "귀환", "회복"], "prank": 18}}, ST={"스타트업": {"name": "스타트업", "affords": ["G1", "G3", "G9", "G12", "G13", "G14", "G15", "G20"], "gloss": "지분 서열·이사회 승계·회계 은폐·빚·압박·평판·팀·데뷔상승"}, "대기업사내정치": {"name": "대기업 사내정치", "affords": ["G1", "G3", "G6", "G8", "G9", "G13", "G14", "G20"], "gloss": "승진 서열·후계·상명하복·이권·은폐·압박·평판·승진"}, "로펌": {"name": "로펌", "affords": ["G1", "G8", "G9", "G10", "G12", "G13", "G14", "G20"], "gloss": "파트너 서열·이권·의뢰인 비밀·위장·수임료·압박·평판·파트너 승격"}, "증권가": {"name": "투자은행/증권가", "affords": ["G1", "G8", "G9", "G12", "G13", "G14", "G20"], "gloss": "서열·부패·내부자 은폐·부/빚·압박·평판·상승"}, "방송국": {"name": "방송국/언론사", "affords": ["G6", "G8", "G9", "G10", "G11", "G13", "G14", "G15", "G18"], "gloss": "권력·이권·은폐·잠입 위장·마감·압박·평판·취재팀 유대·특종(탐색물)"}, "아이돌기획사": {"name": "아이돌 기획사", "affords": ["G1", "G2", "G3", "G9", "G10", "G11", "G12", "G13", "G14", "G15", "G19", "G20"], "gloss": "연습생 서열·연애금지·센터 자리·계약비리·사생활 위장·데뷔/컴백 마감·계약금·소속사 통제·평판·멤버 유대·트레이너·데뷔 상승"}, "공직": {"name": "정부/공직", "affords": ["G3", "G6", "G8", "G9", "G13", "G14"], "gloss": "권력 승계·억압·부패·은폐·조종·평판"}, "종합병원": {"name": "종합병원", "affords": ["G1", "G5", "G9", "G11", "G13", "G14", "G15", "G17"], "gloss": "의료 위계·폐쇄 병동·의료사고 은폐·응급 마감·압박·평판·환자·동료 유대·감염/폭주"}, "군대": {"name": "군대", "affords": ["G1", "G5", "G6", "G9", "G13", "G14", "G15", "G19"], "gloss": "계급·전장 고립·억압·은폐·압박·명예·전우 유대·훈련"}, "교도소": {"name": "교도소", "affords": ["G1", "G5", "G6", "G9", "G10", "G13", "G15"], "gloss": "서열·감금·억압·은폐·위장·강압·유대"}, "요양원": {"name": "요양원", "affords": ["G5", "G9", "G12", "G13", "G14", "G15"], "gloss": "폐쇄·은폐·비용/유산·통제·평판·유사가족"}, "사이비공동체": {"name": "사이비 종교공동체", "affords": ["G5", "G6", "G7", "G9", "G10", "G13", "G15"], "gloss": "감금·억압·예언·은폐·위장·세뇌 조종·유대"}, "대학원연구실": {"name": "대학원 연구실", "affords": ["G1", "G6", "G8", "G9", "G12", "G13", "G18", "G19", "G20"], "gloss": "사제 서열·억압·성과 가로채기·은폐·등록금/빚·압박·연구(탐색물)·지도교수·학위 상승"}, "요리경연": {"name": "요리 경연", "affords": ["G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "연출 조작·마감·심사 압박·평판·팀·사부·상승"}, "프로스포츠팀": {"name": "프로스포츠팀", "affords": ["G1", "G3", "G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "서열·주전 경쟁·승부조작 은폐·시합 마감·감독 압박·평판·팀 유대·코치·상승"}, "오디션서바이벌": {"name": "오디션/서바이벌", "affords": ["G1", "G9", "G10", "G11", "G13", "G14", "G15", "G20"], "gloss": "서열·편집 조작 은폐·컨셉 위장·탈락 마감·제작진 조종·평판·연대·상승"}, "프로게임단": {"name": "프로게임단", "affords": ["G1", "G3", "G9", "G11", "G13", "G14", "G15", "G19", "G20"], "gloss": "서열·주전 경쟁·승부조작 은폐·대회 마감·감독 압박·평판·팀 유대·코치·신인 상승"}, "재개발조합": {"name": "재개발 조합", "affords": ["G1", "G8", "G12", "G13", "G14", "G15"], "gloss": "지분 서열·이권·보상금·부채·회유·협박·평판·주민 유대"}, "셰어하우스": {"name": "셰어하우스", "affords": ["G2", "G9", "G10", "G15"], "gloss": "연애·비밀·위장·유사가족"}, "스트리머판": {"name": "스트리머/유튜버 판", "affords": ["G9", "G10", "G11", "G13", "G14", "G20"], "gloss": "사생활 은폐·부캐 위장·업로드 마감·여론 조작·평판·구독 상승"}, "긱이코노미": {"name": "배달/긱이코노미", "affords": ["G1", "G6", "G9", "G11", "G12", "G15", "G16"], "gloss": "플랫폼 서열·알고리즘 억압·블랙박스 은폐·실시간 배차 마감·수입/빚·동료 유대·이동"}, "재혼가정": {"name": "재혼가정", "affords": ["G1", "G2", "G9", "G13", "G15"], "gloss": "가족 서열·금지된 끌림·비밀·갈등·유사가족"}, "코인판": {"name": "코인/크립토 판", "affords": ["G8", "G9", "G10", "G12", "G14", "G20"], "gloss": "스캠 이권·은폐·익명 위장·부/빚·평판·상승"}, "AI연구소": {"name": "AI 연구소", "affords": ["G6", "G9", "G13", "G17", "G18", "G19", "G20", "G21"], "gloss": "통제 권력·데이터 은폐·조종·폭주 AI(괴물)·핵심 모델(매개물)·지도교수·상승·인간/AI 두 세계"}, "콘텐츠검열팀": {"name": "콘텐츠 검열/신뢰안전팀", "affords": ["G6", "G9", "G10", "G13", "G14", "G15", "G21"], "gloss": "권력·은폐·검열관 이중생활·압박·평판·팀 유대·온/오프 두 세계"}, "팬데믹대응팀": {"name": "팬데믹 대응팀", "affords": ["G6", "G9", "G11", "G14", "G15", "G17"], "gloss": "권력·은폐·마감·평판·유대·감염(괴물)"}, "우주기업": {"name": "우주기업/정거장", "affords": ["G5", "G6", "G9", "G11", "G16", "G17", "G18"], "gloss": "고립 폐쇄·본사 통제·은폐·산소·마감·항행 여정·우주 위협·미션 화물"}, "귀농귀향": {"name": "귀농·귀향", "affords": ["G4", "G16", "G12", "G14", "G15"], "gloss": "떠났다 돌아올 고향(귀향)·이주 여정·생계·평판·가족 유대"}, "케이퍼": {"name": "케이퍼·사기단", "affords": ["G12", "G10", "G18", "G13", "G15", "G20"], "gloss": "빚·한탕·위장 신분·노릴 물건·계략·팀·한 방"}, "재난현장": {"name": "재난 현장", "affords": ["G16", "G17", "G11", "G15", "G6", "G7"], "gloss": "탈출 여정·재난(괴물)·시한·팀 유대·통제·불길한 징조"}, "셀럽판": {"name": "셀럽·인플루언서", "affords": ["G14", "G1", "G6", "G10", "G20", "G12", "G9"], "gloss": "평판이 전부·인지도 계급·플랫폼 통제·이미지 위장·상승·수익·폭로거리"}, "가상세계": {"name": "가상세계·게임", "affords": ["G21", "G7", "G8", "G16", "G15", "G19", "G18"], "gloss": "현실/가상 두 세계·설정된 운명·부패한 권능·퀘스트 여정·파티 유대·사부·아이템"}, "신분세탁": {"name": "신분세탁·상류 잠입", "affords": ["G20", "G1", "G16", "G10", "G12", "G14"], "gloss": "밑바닥→정상 상승·경직된 계급·잠입 여정·위장 신분·빚·평판"}, "부당수용": {"name": "부당수용·탈출", "affords": ["G5", "G10", "G9", "G12", "G13", "G6"], "gloss": "부당하게 갇힘·위장·은폐된 진실·빚/이권·강압·억압 권력"}}, CS={"스타트업": {"n": 94, "pct": 0.083, "rarity_rank": 5}, "대기업사내정치": {"n": 1862, "pct": 1.649, "rarity_rank": 19}, "로펌": {"n": 4307, "pct": 3.814, "rarity_rank": 27}, "증권가": {"n": 766, "pct": 0.678, "rarity_rank": 12}, "방송국": {"n": 5012, "pct": 4.438, "rarity_rank": 30}, "아이돌기획사": {"n": 992, "pct": 0.878, "rarity_rank": 13}, "공직": {"n": 4299, "pct": 3.807, "rarity_rank": 26}, "종합병원": {"n": 11637, "pct": 10.304, "rarity_rank": 32}, "군대": {"n": 13646, "pct": 12.083, "rarity_rank": 33}, "교도소": {"n": 14788, "pct": 13.094, "rarity_rank": 34}, "요양원": {"n": 370, "pct": 0.328, "rarity_rank": 8}, "사이비공동체": {"n": 4487, "pct": 3.973, "rarity_rank": 28}, "대학원연구실": {"n": 4553, "pct": 4.031, "rarity_rank": 29}, "요리경연": {"n": 701, "pct": 0.621, "rarity_rank": 11}, "프로스포츠팀": {"n": 6179, "pct": 5.471, "rarity_rank": 31}, "오디션서바이벌": {"n": 1149, "pct": 1.017, "rarity_rank": 17}, "프로게임단": {"n": 5, "pct": 0.004, "rarity_rank": 1}, "재개발조합": {"n": 2745, "pct": 2.431, "rarity_rank": 22}, "셰어하우스": {"n": 1128, "pct": 0.999, "rarity_rank": 15}, "스트리머판": {"n": 36, "pct": 0.032, "rarity_rank": 3}, "긱이코노미": {"n": 389, "pct": 0.344, "rarity_rank": 9}, "재혼가정": {"n": 1097, "pct": 0.971, "rarity_rank": 14}, "코인판": {"n": 17, "pct": 0.015, "rarity_rank": 2}, "AI연구소": {"n": 283, "pct": 0.251, "rarity_rank": 6}, "콘텐츠검열팀": {"n": 87, "pct": 0.077, "rarity_rank": 4}, "팬데믹대응팀": {"n": 2831, "pct": 2.507, "rarity_rank": 24}, "우주기업": {"n": 2224, "pct": 1.969, "rarity_rank": 20}, "귀농귀향": {"n": 2859, "pct": 2.531, "rarity_rank": 25}, "케이퍼": {"n": 2823, "pct": 2.5, "rarity_rank": 23}, "재난현장": {"n": 2228, "pct": 1.973, "rarity_rank": 21}, "셀럽판": {"n": 1132, "pct": 1.002, "rarity_rank": 16}, "가상세계": {"n": 364, "pct": 0.322, "rarity_rank": 7}, "신분세탁": {"n": 457, "pct": 0.405, "rarity_rank": 10}, "부당수용": {"n": 1288, "pct": 1.14, "rarity_rank": 18}}, GL={"G1": "계층 격차", "G2": "금지된 사랑", "G3": "승계·축취", "G4": "귀환할 집", "G5": "감금", "G6": "억압 권력", "G7": "예언·운명", "G8": "부패 권력", "G9": "은폐된 진실", "G10": "위장·이중정체", "G11": "마감", "G12": "경제·부채", "G13": "강압·조종", "G14": "평판·명예", "G15": "대리·유대", "G16": "여정·원정", "G17": "괴물·위협", "G18": "탐색물", "G19": "사부·수련", "G20": "신분 상승", "G21": "두 세계"}, CTOT=112937, FEAT=["아이돌기획사", "우주기업", "AI연구소", "코인판", "셰어하우스"];
+const combos=[];
+Object.keys(ST).forEach(set=>{ const aff=ST[set].affords;
+  Object.keys(SK).forEach(sk=>{ const s=SK[sk];
+    if(s.req.every(c=>aff.includes(c))){
+      const fresh=1-s.md, score=+(s.proven*fresh).toFixed(1), cs=CS[set]||{};
+      combos.push({set, setName:ST[set].name, sk, skName:s.name, engine:s.engine, turns:s.turns||[],
+        proven:s.proven, fresh, score, rar:cs.rarity_rank||99, pct:cs.pct, feat:FEAT.includes(set)});
+    } }); });
+combos.sort((a,b)=> b.score-a.score || a.rar-b.rar);
+const topBySet={}; combos.forEach(c=>{ if(!(c.set in topBySet) || c.score>topBySet[c.set].score) topBySet[c.set]=c; });
+combos.forEach(c=>{ c.isTop = topBySet[c.set]===c; });
+const nSk=new Set(combos.map(c=>c.sk)).size;
+document.getElementById('s-total').textContent=(Object.keys(ST).length*Object.keys(SK).length);
+document.getElementById('s-valid').textContent=combos.length;
+document.getElementById('s-sk').textContent=nSk;
+// 뼈대 다양화: 라운드로빈 (뼈대별 최신선부터 한 개씩 돌아가며)
+function diversify(list){ const by={}; list.forEach(c=>{(by[c.sk]=by[c.sk]||[]).push(c);});
+  Object.values(by).forEach(a=>a.sort((x,y)=>y.score-x.score||x.rar-y.rar));
+  const order=Object.keys(by).sort((a,b)=>by[b][0].score-by[a][0].score);
+  const out=[], q={}; order.forEach(k=>q[k]=by[k].slice()); let go=true;
+  while(go){ go=false; order.forEach(k=>{ if(q[k].length){ out.push(q[k].shift()); go=true; } }); } return out; }
+const divAll=diversify(combos);
+const rep=[]; const seen=new Set(); divAll.forEach(c=>{ if(!seen.has(c.sk)){ seen.add(c.sk); rep.push(c);} });
+function card(c,r){ const pct=v=>Math.round(v*100);
+  return `<div class="dcard${c.feat?' feat':''}"><div class="drank">${r}</div>
+    <div><div class="dcombo"><b>${c.setName}</b><span class="dx">×</span><span class="dsk">${c.skName}</span>${(c.feat&&c.isTop)?'<span class="dfeat">⭐ 완성 예시</span>':''}</div>
+      <div class="dengine">${c.engine}</div>
+      <div class="dmeta"><span class="dm">검증 ${c.proven}</span> · <span class="dm">신선 ${pct(c.fresh)}%</span>${c.rar<99?` · <span class="dm">census 희소 ${c.rar}/34${c.pct!=null?` (실제 ${c.pct}%)`:''}</span>`:''}</div>
+      <div class="dturns">${c.turns.join(' → ')}</div></div>
+    <div class="dside"><div class="dscore">${c.score.toFixed(1)}<small> 점</small></div><a class="dopen" href="./?s=${encodeURIComponent(c.set)}">탐색기에서 열기 →</a></div></div>`; }
+function paint(which){ const list=which==='rep'?rep:divAll;
+  document.getElementById('list').innerHTML=list.map((c,i)=>card(c,i+1)).join('');
+  document.getElementById('tg-rep').setAttribute('aria-pressed', which==='rep');
+  document.getElementById('tg-all').setAttribute('aria-pressed', which==='all'); }
+document.getElementById('tg-rep').onclick=()=>paint('rep');
+document.getElementById('tg-all').onclick=()=>paint('all');
+paint('rep');
+</script>
+</body>
+</html>

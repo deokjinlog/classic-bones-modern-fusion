@@ -388,3 +388,112 @@ out=(T.replace("__SK__", json.dumps(sk,ensure_ascii=False))
       .replace("__DOM__", json.dumps(DOM,ensure_ascii=False)))
 open(f"{ROOT}/exhibits/match-explorer.html","w",encoding="utf-8").write(out)
 print("match-explorer.html", len(out), "bytes ·", len(sk),"skeletons ·",len(st),"settings")
+
+# ── 소재 발굴 엔진 (discover.html) : 유효 조합 전체를 신선순·뼈대 다양화로 ──
+D = r'''<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소재 발굴 · classic-bones-modern-fusion</title>
+<style>
+  :root{ --stage:#0e0d14; --panel:#16141d; --panel2:#1c1a26; --ink:#f3eff7; --muted:#9a94a6; --faint:#67626f;
+    --gold:#f6c453; --magenta:#ff2e88; --cyan:#35e6ff; --good:#54e0a0; --line:#242231; --line2:#332f3f;
+    --sans:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    --mono:"SFMono-Regular",Consolas,monospace; }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--stage); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  .wrap{ max-width:860px; margin:0 auto; padding:34px 20px 90px; }
+  code{ font-family:var(--mono); font-size:.9em; color:var(--cyan); }
+  .kicker{ font:800 12px var(--sans); letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin:0 0 10px; }
+  h1{ font-size:clamp(26px,6vw,40px); line-height:1.12; margin:0 0 14px; letter-spacing:-.01em; }
+  .lead{ font-size:15px; color:var(--muted); margin:0 0 4px; } .lead b{ color:var(--ink); }
+  .stats{ display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 8px; }
+  .stat{ background:var(--panel); border:1px solid var(--line2); border-radius:11px; padding:11px 15px; }
+  .stat b{ display:block; font-size:22px; color:var(--gold); font-weight:800; } .stat span{ font-size:11.5px; color:var(--faint); }
+  .toggle{ display:flex; gap:7px; margin:20px 0 14px; }
+  .tg{ border:1px solid var(--line2); background:var(--panel); color:var(--muted); border-radius:999px; padding:7px 14px; font:700 12.5px var(--sans); cursor:pointer; }
+  .tg[aria-pressed="true"]{ background:var(--gold); color:#241a06; border-color:var(--gold); }
+  .tglbl{ margin-left:auto; align-self:center; font-size:11.5px; color:var(--faint); }
+
+  .dcard{ display:grid; grid-template-columns:40px 1fr 132px; gap:14px; align-items:start; padding:15px 16px; border:1px solid var(--line); border-radius:13px; background:var(--panel); margin-bottom:9px; }
+  @media(max-width:560px){ .dcard{ grid-template-columns:32px 1fr; } .dside{ grid-column:2; align-items:flex-start!important; margin-top:6px; } }
+  .dcard.feat{ border-color:#4a3f1e; }
+  .drank{ font:800 17px var(--mono); color:var(--faint); padding-top:2px; }
+  .dcombo{ font-size:16px; } .dcombo b{ color:var(--ink); font-weight:800; } .dx{ color:var(--faint); margin:0 4px; } .dsk{ color:var(--gold); font-weight:700; }
+  .dfeat{ font-size:11px; color:var(--gold); border:1px solid #4a3f1e; border-radius:6px; padding:1px 6px; margin-left:6px; }
+  .dengine{ font-size:12.5px; color:var(--muted); margin-top:3px; }
+  .dmeta{ font-size:12px; color:var(--muted); margin-top:7px; } .dmeta .dm{ color:var(--cyan); }
+  .dturns{ font-size:11.5px; color:var(--faint); margin-top:6px; font-family:var(--mono); overflow-wrap:anywhere; }
+  .dside{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .dscore{ font:800 22px var(--sans); color:var(--gold); } .dscore small{ font-size:11px; color:var(--faint); font-weight:600; }
+  .dopen{ font-size:11.5px; font-weight:700; color:var(--magenta); text-decoration:none; white-space:nowrap; }
+  .note{ margin-top:22px; font-size:12.5px; color:var(--faint); border-left:2px solid var(--line2); padding-left:13px; line-height:1.7; }
+  .foot{ margin-top:30px; font-size:12px; color:var(--faint); } .foot a{ color:var(--magenta); text-decoration:none; }
+</style>
+
+<div class="wrap">
+  <p class="kicker">classic-bones-modern-fusion · 소재 발굴 엔진</p>
+  <h1>안 써본 신선 조합</h1>
+  <p class="lead"><b>검증된 고전 뼈대 × 아무도 안 올려본 현대 세팅.</b> 전체 조합을 코드가 훑어, 말 되는 것만 골라 신선순으로 세웠다.</p>
+  <p class="lead">각 줄이 <b>기획안 한 편의 씨앗</b> — 열어서 근거를 보고, 스킬로 깊게 개발한다.</p>
+  <div class="stats">
+    <div class="stat"><b id="s-total">—</b><span>전체 조합 (세팅×뼈대)</span></div>
+    <div class="stat"><b id="s-valid">—</b><span>말 되는 조합 (양립)</span></div>
+    <div class="stat"><b id="s-sk">—</b><span>쓰이는 뼈대 종류</span></div>
+  </div>
+  <div class="toggle">
+    <button class="tg" id="tg-rep" aria-pressed="true">뼈대별 대표 (다양)</button>
+    <button class="tg" id="tg-all" aria-pressed="false">전체 랭킹</button>
+    <span class="tglbl">신선순 = 신선도 × 검증도 · 동점은 세팅 희소</span>
+  </div>
+  <div id="list"></div>
+  <p class="note">신선도는 그 고전 구조가 현대에 얼마나 닳았는지의 추정, 검증도(proven)는 그 구조가 얼마나 반복돼 살아남았는지, census는 그 세팅이 실제 이야기에 얼마나 드물게 나오는지의 실측이다. 셋 다 코드가 잰다 — 매칭은 취향 0.</p>
+  <p class="foot"><a href="./">← 매칭 탐색기</a> &nbsp;·&nbsp; <a href="method.html">만드는 법</a> &nbsp;·&nbsp; <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">GitHub</a><br>구조는 데이터로 고르고, 이야기는 모델이 쓴다.</p>
+</div>
+
+<script>
+const SK=__SK__, ST=__ST__, CS=__CS__, GL=__GL__, CTOT=__CTOT__, FEAT=__FEAT__;
+const combos=[];
+Object.keys(ST).forEach(set=>{ const aff=ST[set].affords;
+  Object.keys(SK).forEach(sk=>{ const s=SK[sk];
+    if(s.req.every(c=>aff.includes(c))){
+      const fresh=1-s.md, score=+(s.proven*fresh).toFixed(1), cs=CS[set]||{};
+      combos.push({set, setName:ST[set].name, sk, skName:s.name, engine:s.engine, turns:s.turns||[],
+        proven:s.proven, fresh, score, rar:cs.rarity_rank||99, pct:cs.pct, feat:FEAT.includes(set)});
+    } }); });
+combos.sort((a,b)=> b.score-a.score || a.rar-b.rar);
+const topBySet={}; combos.forEach(c=>{ if(!(c.set in topBySet) || c.score>topBySet[c.set].score) topBySet[c.set]=c; });
+combos.forEach(c=>{ c.isTop = topBySet[c.set]===c; });
+const nSk=new Set(combos.map(c=>c.sk)).size;
+document.getElementById('s-total').textContent=(Object.keys(ST).length*Object.keys(SK).length);
+document.getElementById('s-valid').textContent=combos.length;
+document.getElementById('s-sk').textContent=nSk;
+// 뼈대 다양화: 라운드로빈 (뼈대별 최신선부터 한 개씩 돌아가며)
+function diversify(list){ const by={}; list.forEach(c=>{(by[c.sk]=by[c.sk]||[]).push(c);});
+  Object.values(by).forEach(a=>a.sort((x,y)=>y.score-x.score||x.rar-y.rar));
+  const order=Object.keys(by).sort((a,b)=>by[b][0].score-by[a][0].score);
+  const out=[], q={}; order.forEach(k=>q[k]=by[k].slice()); let go=true;
+  while(go){ go=false; order.forEach(k=>{ if(q[k].length){ out.push(q[k].shift()); go=true; } }); } return out; }
+const divAll=diversify(combos);
+const rep=[]; const seen=new Set(); divAll.forEach(c=>{ if(!seen.has(c.sk)){ seen.add(c.sk); rep.push(c);} });
+function card(c,r){ const pct=v=>Math.round(v*100);
+  return `<div class="dcard${c.feat?' feat':''}"><div class="drank">${r}</div>
+    <div><div class="dcombo"><b>${c.setName}</b><span class="dx">×</span><span class="dsk">${c.skName}</span>${(c.feat&&c.isTop)?'<span class="dfeat">⭐ 완성 예시</span>':''}</div>
+      <div class="dengine">${c.engine}</div>
+      <div class="dmeta"><span class="dm">검증 ${c.proven}</span> · <span class="dm">신선 ${pct(c.fresh)}%</span>${c.rar<99?` · <span class="dm">census 희소 ${c.rar}/34${c.pct!=null?` (실제 ${c.pct}%)`:''}</span>`:''}</div>
+      <div class="dturns">${c.turns.join(' → ')}</div></div>
+    <div class="dside"><div class="dscore">${c.score.toFixed(1)}<small> 점</small></div><a class="dopen" href="./?s=${encodeURIComponent(c.set)}">탐색기에서 열기 →</a></div></div>`; }
+function paint(which){ const list=which==='rep'?rep:divAll;
+  document.getElementById('list').innerHTML=list.map((c,i)=>card(c,i+1)).join('');
+  document.getElementById('tg-rep').setAttribute('aria-pressed', which==='rep');
+  document.getElementById('tg-all').setAttribute('aria-pressed', which==='all'); }
+document.getElementById('tg-rep').onclick=()=>paint('rep');
+document.getElementById('tg-all').onclick=()=>paint('all');
+paint('rep');
+</script>'''
+dout=(D.replace("__SK__", json.dumps(sk,ensure_ascii=False))
+       .replace("__ST__", json.dumps(st,ensure_ascii=False))
+       .replace("__CS__", json.dumps(cs,ensure_ascii=False))
+       .replace("__GL__", json.dumps(GL,ensure_ascii=False))
+       .replace("__CTOT__", str(cmeta.get("total",0)))
+       .replace("__FEAT__", json.dumps(["아이돌기획사","우주기업","AI연구소","코인판","셰어하우스"],ensure_ascii=False)))
+open(f"{ROOT}/exhibits/discover.html","w",encoding="utf-8").write(dout)
+print("discover.html", len(dout), "bytes")
