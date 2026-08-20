@@ -68,7 +68,7 @@ T = r'''<meta charset="utf-8">
   .btag.on{background:var(--gold);color:#241a06;border-color:var(--gold);font-weight:800;}
   .pk-note{margin:0;font-size:13.5px;color:var(--muted);line-height:1.75;}
   .pk-note b{color:var(--ink);}
-  .sharebar{display:flex;justify-content:flex-end;margin-bottom:6px;}
+  .sharebar{display:flex;justify-content:flex-end;gap:7px;margin-bottom:6px;}
   .copyl{background:var(--panel);border:1px solid var(--line2);color:var(--muted);border-radius:8px;padding:5px 11px;font:700 11.5px var(--sans);cursor:pointer;white-space:nowrap;transition:.12s;}
   .copyl:hover{border-color:var(--gold);color:var(--ink);}
   .humansum{margin:2px 0 14px;padding:12px 15px;border-radius:11px;background:linear-gradient(180deg,rgba(246,196,83,.09),transparent);border:1px solid #4a3f1e;font-size:14.5px;color:var(--ink);line-height:1.62;}
@@ -207,7 +207,7 @@ const TAG={
  G19:["사부","스승","지도교수","코치","트레이너","멘토","수련","도제","선임","마스터","선배","교관"],
  G20:["상승","데뷔","오디션","사다리","기회","발탁","승급","우승","대회","등단","스카웃","입봉","승진","콘테스트","인턴"],
  G21:["가상","현실","메타버스","vr","게임","이세계","두 세계","온오프","시뮬","증강","아바타","디지털"]};
-let byoAff=[];
+let byoAff=[], _CUR=null;
 function autotag(t){t=(t||'').toLowerCase();const on=new Set();
   for(const kw in DOM){ if(t.includes(kw) && ST[DOM[kw]]) ST[DOM[kw]].affords.forEach(g=>on.add(g)); }
   for(const g in TAG){ if(TAG[g].some(w=>t.includes(w))) on.add(g); }
@@ -224,6 +224,21 @@ function updateURL(qs){ try{history.replaceState(null,'',location.pathname+'?'+q
 function pick(k){ render(k); updateURL('s='+encodeURIComponent(k)); }
 function byoURL(){ updateURL('q='+encodeURIComponent((document.getElementById('byoq').value||'').trim())+'&g='+byoAff.join('.')); }
 function copyLink(b){ try{navigator.clipboard.writeText(location.href).then(()=>{const t=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=t,1300);},()=>{}); }catch(e){} }
+function copyPacket(b){ if(!_CUR||!_CUR.top||_CUR.top.score<=0) return; const {cfg,top,pk}=_CUR;
+  let m=`# ${cfg.name} × ${top.name}\n`;
+  if(pk){ if(pk.l)m+=`> ${pk.l}\n`; if(pk.c)m+=`\n**comp** ${pk.c}\n`;
+    if(pk.p)m+=`\n## 프리미스\n${pk.p}\n`;
+    if(pk.rm&&top.roles)m+=`\n## 인물\n`+top.roles.map((r,i)=>`- ${r} → ${pk.rm[i]||'—'}`).join('\n')+'\n';
+    if(pk.a)m+=`\n## 전개\n`+pk.a.map((x,i)=>`${i+1}. ${x}`).join('\n')+'\n';
+    if(pk.hk||pk.tw||pk.th||pk.wn){ m+=`\n## 깊이\n`; if(pk.hk)m+=`- **훅** ${pk.hk}\n`; if(pk.tw)m+=`- **반전** ${pk.tw}\n`; if(pk.th)m+=`- **주제** ${pk.th}\n`; if(pk.wn)m+=`- **욕망** ${pk.wn}\n`; }
+  } else { m+=`> 구조: ${top.engine}\n`; }
+  m+=`\n## 근거\n- 검증 proven ${top.proven} = 빈도 ${top.freq} + 캐논 ${top.cf}×8 (전체 ${top.prank}/${NSK}위)\n`;
+  m+=`- 신선 ${Math.round(top.fresh*100)}% (1 − 소진 ${(1-top.fresh).toFixed(2)})\n`;
+  if(cfg.cs)m+=`- 실측 census — 이 세팅은 실제 이야기 ${cfg.cs.pct}%에 등장 (WikiPlots ${cfg.cs.n}/${CTOT}편 · 희소 ${cfg.cs.rarity_rank}/${CNS})\n`;
+  m+=`- 양립 ${top.met.length}/${top.req.length} (${top.req.map(gname).join(' · ')})\n- 뼈대 턴: ${top.turns.join(' → ')}\n`;
+  if(!pk)m+=`\n※ 프리미스·전개·반전 프로즈는 스킬 classic-bones-fusion으로 생성.\n`;
+  m+=`\n— classic-bones-modern-fusion · 매칭=결정적 코드, 프리미스=LLM\n`;
+  try{navigator.clipboard.writeText(m).then(()=>{const t=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=t,1400);},()=>{});}catch(e){} }
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
 function rows(aff){
@@ -238,8 +253,9 @@ function bar(lab,val,disp,cls){return `<div class="bar"><div class="bk"><span>${
 function render(setKey){ paint({name:ST[setKey].name, gloss:ST[setKey].gloss, aff:ST[setKey].affords, cs:CS[setKey], pk:PR[setKey], key:setKey}); }
 function paint(cfg){
   const aff=cfg.aff, rs=rows(aff), top=rs[0], maxSc=Math.max(...rs.map(r=>r.score))||1;
+  _CUR={cfg,top,pk:cfg.pk};
   const affh=aff.map(c=>`<span class="gtag">${c} ${gname(c)}</span>`).join("");
-  let h=`<div class="sharebar"><button class="copyl" onclick="copyLink(this)">🔗 이 매칭 링크 복사</button></div>
+  let h=`<div class="sharebar">${(top&&top.score>0)?`<button class="copyl" onclick="copyPacket(this)">📋 기획안 복사</button>`:''}<button class="copyl" onclick="copyLink(this)">🔗 링크 복사</button></div>
     <div class="setline"><span class="setname">${cfg.name}</span><span class="setgloss">${cfg.gloss||''}</span></div>
     <div class="affords">보유 조건 ${aff.length} · ${affh||'<span class="dim">아직 조건이 없어요 — 아래 태그를 켜보세요</span>'}</div>`;
   if(top && top.score>0){
