@@ -82,6 +82,11 @@ T = r'''<meta charset="utf-8">
   .mapset{border:1px solid var(--line2);background:var(--panel);color:var(--muted);border-radius:8px;padding:4px 10px;font:600 12px var(--sans);cursor:pointer;transition:.12s;}
   .mapset:hover{border-color:var(--gold);color:var(--ink);}
   .mapset.feat{border-color:var(--gold);color:var(--ink);}
+  .humansum{margin:2px 0 14px;padding:12px 15px;border-radius:11px;background:linear-gradient(180deg,rgba(246,196,83,.09),transparent);border:1px solid #4a3f1e;font-size:14.5px;color:var(--ink);line-height:1.62;}
+  .humansum b{color:var(--gold);font-weight:800;}
+  .hs-h{font-weight:800;color:var(--gold);margin-right:5px;}
+  .hs-d{color:var(--muted);font-size:.86em;}
+  .metlbl{font:800 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px;}
   .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
   .rnd:hover{border-color:var(--gold);}
 
@@ -266,6 +271,10 @@ function paint(cfg){
     <div class="setline"><span class="setname">${cfg.name}</span><span class="setgloss">${cfg.gloss||''}</span></div>
     <div class="affords">보유 조건 ${aff.length} · ${affh||'<span class="dim">아직 조건이 없어요 — 아래 태그를 켜보세요</span>'}</div>`;
   if(top && top.score>0){
+    const _prov=top.prank<=3?'손꼽히게 검증된':top.prank<=8?'탄탄히 검증된':top.prank<=15?'여러 번 검증된':'쓰인 적 있는';
+    const _rar=cfg.cs?cfg.cs.rarity_rank:null;
+    const _frsh=_rar==null?(top.fresh>=.6?'현대에 덜 닳은':'현대에 제법 닳은'):_rar<=5?'거의 안 쓰인':_rar<=12?'드물게 쓰인':_rar<=22?'가끔 쓰인':'제법 쓰인';
+    const _cb=cfg.cs?` (실제 이야기 ${cfg.cs.pct}%)`:'';
     const metchips=top.req.map(c=> top.met.includes(c)?`<span class="met">✓ ${c} ${gname(c)}</span>`:`<span class="gtag missc">✗ ${c} ${gname(c)}</span>`).join("");
     h+=`<div class="top"><div class="hd"><span class="toptag">1등 매칭</span>
       <h2>${top.name} <span class="engine">— ${top.engine}</span></h2></div>
@@ -274,7 +283,8 @@ function paint(cfg){
         ${bar("신선 freshness", top.fresh, Math.round(top.fresh*100)+"%", "f-cyan")}
         ${bar("양립 fit", top.met.length/top.req.length, top.met.length+"/"+top.req.length, "f-good")}
       </div>
-      <div class="metrics">
+      <div class="humansum"><span class="hs-h">👁 한눈에</span> 수백 년 <b>${_prov}</b> 구조<span class="hs-d">(전체 ${top.prank}위)</span>를, <b>${cfg.name}</b>엔 <b>${_frsh}</b> 조합<span class="hs-d">${_cb}</span>에 얹었다. <span class="hs-d">— 검증됐으면서 신선하다.</span></div>
+      <div class="metrics"><div class="metlbl">근거 상세 <span class="dim">— 숫자로</span></div>
         <div><span class="mk">검증</span> <code>proven ${top.proven} = 빈도 ${top.freq} + 캐논 ${top.cf}×8</code> · 전체 <b>${top.prank}/${NSK}위</b></div>
         <div><span class="mk">양립</span> ${metchips}</div>
         <div><span class="mk">신선</span> <code>1 − 소진 ${(1-top.fresh).toFixed(2)}</code> = <b>${Math.round(top.fresh*100)}%</b> <span class="dim">(순위용 추정)</span></div>
