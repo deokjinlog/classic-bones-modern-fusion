@@ -71,6 +71,17 @@ T = r'''<meta charset="utf-8">
   .sharebar{display:flex;justify-content:flex-end;margin-bottom:6px;}
   .copyl{background:var(--panel);border:1px solid var(--line2);color:var(--muted);border-radius:8px;padding:5px 11px;font:700 11.5px var(--sans);cursor:pointer;white-space:nowrap;transition:.12s;}
   .copyl:hover{border-color:var(--gold);color:var(--ink);}
+  .mapwrap{margin-top:44px;}
+  .maphint{font-size:.82em;color:var(--muted);font-weight:400;}
+  .mapgroup{display:grid;grid-template-columns:184px 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--line);align-items:start;}
+  @media(max-width:560px){.mapgroup{grid-template-columns:1fr;gap:6px;}}
+  .mapsk{font-size:13.5px;color:var(--muted);padding-top:5px;}
+  .mapsk b{color:var(--gold);font-weight:800;} .mapsk .re{font-size:11.5px;color:var(--faint);}
+  .mapc{color:var(--faint);font-size:11.5px;font-weight:700;}
+  .mapsets{display:flex;flex-wrap:wrap;gap:6px;}
+  .mapset{border:1px solid var(--line2);background:var(--panel);color:var(--muted);border-radius:8px;padding:4px 10px;font:600 12px var(--sans);cursor:pointer;transition:.12s;}
+  .mapset:hover{border-color:var(--gold);color:var(--ink);}
+  .mapset.feat{border-color:var(--gold);color:var(--ink);}
   .rnd{border:1px dashed var(--line2);background:transparent;color:var(--gold);border-radius:999px;padding:7px 13px;font:700 13px var(--sans);cursor:pointer;}
   .rnd:hover{border-color:var(--gold);}
 
@@ -168,6 +179,11 @@ T = r'''<meta charset="utf-8">
 
   <div id="result"></div>
 
+  <div class="mapwrap">
+    <p class="picklbl">전체 매칭 지도 &nbsp;<span class="maphint">— 34개 세팅이 각각 어느 고전 뼈대로 가나 (클릭해서 열기)</span></p>
+    <div id="map"></div>
+  </div>
+
   <div class="note">
     <code>score = (1 − 소진) × proven</code> &nbsp;·&nbsp; 양립(요구 ⊆ 보유) 통과만 후보 &nbsp;·&nbsp; <code>proven = 일반 빈도 + 캐논 × 8</code>
     &nbsp;·&nbsp; 매칭·순위는 코드가 결정, 프리미스 문장만 LLM.
@@ -217,6 +233,18 @@ function updateURL(qs){ try{history.replaceState(null,'',location.pathname+'?'+q
 function pick(k){ render(k); updateURL('s='+encodeURIComponent(k)); }
 function byoURL(){ updateURL('q='+encodeURIComponent((document.getElementById('byoq').value||'').trim())+'&g='+byoAff.join('.')); }
 function copyLink(b){ try{navigator.clipboard.writeText(location.href).then(()=>{const t=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=t,1300);},()=>{}); }catch(e){} }
+function buildMap(){
+  const groups={};
+  Object.keys(ST).forEach(k=>{ const t=rows(ST[k].affords)[0]; if(!t||t.score<=0) return;
+    (groups[t.name]=groups[t.name]||{engine:t.engine,keys:[]}).keys.push(k); });
+  const order=Object.keys(groups).sort((a,b)=>groups[b].keys.length-groups[a].keys.length);
+  let h='';
+  order.forEach(name=>{ const g=groups[name];
+    h+=`<div class="mapgroup"><div class="mapsk"><b>${name}</b> <span class="mapc">×${g.keys.length}</span><br><span class="re">${g.engine}</span></div>`+
+       `<div class="mapsets">`+g.keys.map(k=>`<button class="mapset${FEAT.includes(k)?' feat':''}" data-k="${k}">${FEAT.includes(k)?'⭐ ':''}${ST[k].name}</button>`).join('')+`</div></div>`; });
+  const box=document.getElementById('map'); box.innerHTML=h;
+  box.querySelectorAll('.mapset').forEach(b=>b.onclick=()=>{ pick(b.dataset.k); window.scrollTo({top:0,behavior:'smooth'}); });
+}
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
 function rows(aff){
@@ -306,6 +334,7 @@ function paint(cfg){
     if(g.length){ byoAff=g; paintTags(); runByo(); } else submitByo();
     document.querySelector('.byos').scrollIntoView({block:'start'}); }
   else render("아이돌기획사" in ST ? "아이돌기획사" : Object.keys(ST)[0]);
+  buildMap();
 })();
 </script>'''
 
