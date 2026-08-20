@@ -160,10 +160,12 @@ T = r'''<meta charset="utf-8">
 </style>
 
 <div class="wrap">
-  <p class="kicker">classic-bones-modern-fusion · 매칭 엔진</p>
+  <p class="kicker">classic-bones-modern-fusion · 신선한 이야기 소재 엔진</p>
   <h1>고전 뼈대 매칭 탐색기</h1>
-  <p class="lead">현대 <b>세팅</b>을 하나 고르면 — 수백 년 검증된 <b>고전 뼈대</b> 중 무엇이 맞는지, <b>왜</b>인지를
-    코드가 <b>결정적으로</b> 계산한다. <b>매칭은 취향 0</b>(요구 ⊆ 보유), 점수 = 신선도 × 검증도. 프리미스(융합)만 LLM이 쓴다.</p>
+  <p class="lead"><b>“신선한 이야기 줘”에 GPT는 클리셰로 답한다.</b> 이 도구는 검증된 고전 구조 × 아무도 안 써본 현대 세팅으로,
+    <b>왜 신선한지 데이터 근거까지 붙인 기획 씨앗</b>을 낸다 — 웹툰·웹소설 기획자와 지망 작가를 위해.
+    매칭·근거는 <b>코드가 결정</b>(취향 0), 프리미스 문장만 LLM이 쓴다.
+    &nbsp;<a href="discover.html" style="color:var(--gold);font-weight:700;text-decoration:none;white-space:nowrap">💎 소재 발굴 랭킹 →</a></p>
 
   <p class="picklbl">세팅 고르기 · __NSET__ &nbsp;<span class="feathint">⭐ 깊이 완성 사례 — 먼저 눌러보세요</span></p>
   <div class="picker" id="picker"></div>
