@@ -106,7 +106,7 @@ python3 src/match.py 아이돌기획사   # 매칭만 미리 보기 (뼈대 순�
 | `data/census.json` · `src/census.py` | 세팅 배경이 실제 이야기(WikiPlots 11만편) 몇 편에 나오나 실측 → 신선도 근거 |
 | `docs/schema.md` | 스키마 (하드게이트/보편 조건/전개 태그) |
 | `src/match.py` | 결정적 매칭 엔진 (파이썬 CLI 프리뷰) |
-| `engine.js` · `engine.test.js` | 브라우저 매칭 엔진 — 요구 ⊆ 보유 · `score = proven × fresh` · 순위. `proven-models-fresh-niches`와 **byte-identical** 공용(한 번 발명, 두 사이트가 그대로 로드). `node engine.test.js`로 17개 불변식 검증 |
+| `engine.js` · `engine.test.js` · `verify-engine.sh` · `engine.sha256` | 브라우저 매칭 엔진 — 요구 ⊆ 보유 · `score = proven × fresh` · 순위. `proven-models-fresh-niches`와 **byte-identical** 공용(한 번 발명, 두 사이트가 그대로 로드). `bash verify-engine.sh` = 해시 고정 + 17개 불변식 게이트(어긋나면 실패) |
 | `src/lint_packets.py` | 패킷 품질 게이트 — 각 패킷이 자기 뼈대 구조(전개==turns·인물==roles·필드완비)에 충실한지 결정적 검사(CI용) |
 | `src/gen_explorer.py` · `src/build_pages.py` | 탐색기·페이지 생성 (BYOS 생성기·딥링킹 포함) |
 | `src/render_art.py` | 웹툰 작화 생성 (Gemini 또는 무료 Pollinations) |
