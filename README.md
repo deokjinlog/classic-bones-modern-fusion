@@ -100,6 +100,7 @@ python3 src/match.py 아이돌기획사   # 매칭만 미리 보기 (뼈대 순�
 | `data/census.json` · `src/census.py` | 세팅 배경이 실제 이야기(WikiPlots 11만편) 몇 편에 나오나 실측 → 신선도 근거 |
 | `docs/schema.md` | 스키마 (하드게이트/보편 조건/전개 태그) |
 | `src/match.py` | 결정적 매칭 엔진 |
+| `src/lint_packets.py` | 패킷 품질 게이트 — 각 패킷이 자기 뼈대 구조(전개==turns·인물==roles·필드완비)에 충실한지 결정적 검사(CI용) |
 | `src/gen_explorer.py` · `src/build_pages.py` | 탐색기·페이지 생성 (BYOS 생성기·딥링킹 포함) |
 | `src/render_art.py` | 웹툰 작화 생성 (Gemini 또는 무료 Pollinations) |
 | `.claude/skills/classic-bones-fusion/` | 스킬 (6레버 깊이 방법 인코딩) |
