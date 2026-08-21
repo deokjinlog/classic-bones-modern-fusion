@@ -182,6 +182,7 @@ T = r'''<meta charset="utf-8">
   <p class="foot">classic-bones-modern-fusion · <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">github.com/deokjinlog/classic-bones-modern-fusion</a></p>
 </div>
 
+<script src="./engine.js"></script>
 <script>
 const SK=__SK__, ST=__ST__, GL=__GL__, PR=__PR__, CS=__CS__, CTOT=__CTOT__, CNS=__CNS__, FEAT=__FEAT__, DOM=__DOM__;
 const GADD={G1:"명확한 서열·계급 라인 만들기",G2:"규칙·장벽으로 갈린 관계 넣기",G3:"뺏고 뺏길 자리·상속 라인 만들기",G4:"떠났다 돌아올 원점(본진·고향) 두기",G5:"물리·사회적으로 갇힌 상태 넣기",G6:"감시·통제하는 상위 권력 두기",G7:"구속력 있는 예언·정해진 운명 넣기",G8:"쥐면 타락하는 자리·이권 두기",G9:"밝혀질 숨겨진 사실 하나 심기",G10:"정체를 숨기거나 쪼갤 여지(가면·이중신분) 넣기",G11:"절정을 강제하는 시한·데드라인 넣기",G12:"돈·빚·생계 압박 걸기",G13:"의지를 꺾는 계략·회유 넣기",G14:"공적 평판이 무기가 되는 판 만들기",G15:"비혈연 든든한 유대(팀·의형제) 넣기",G16:"목적지로 이동하는 원정·출장 구조 넣기",G17:"세계에 풀린 비인간 치명 위협 넣기",G18:"얻을·지킬·부술 특정 대상(맥거핀) 두기",G19:"사사받을 스승·전통 넣기",G20:"오를 사다리·일생일대 기회 넣기",G21:"맞닿는 두 영역(현실/가상 등) 넣기"};
@@ -242,12 +243,12 @@ function copyPacket(b){ if(!_CUR||!_CUR.top||_CUR.top.score<=0) return; const {c
 const MAXPROV=Math.max(...Object.values(SK).map(s=>s.proven)), NSK=Object.keys(SK).length;
 const gname=c=>GL[c]||c;
 function rows(aff){
-  return Object.keys(SK).map(k=>{
-    const s=SK[k], met=s.req.filter(c=>aff.includes(c)), miss=s.req.filter(c=>!aff.includes(c));
-    const rate=s.req.length?met.length/s.req.length:0, fresh=1-s.md;
-    const score=rate>=0.999?fresh*s.proven:0;
-    return {k,name:s.name,engine:s.engine,req:s.req,met,miss,rate,fresh,proven:s.proven,prank:s.prank,freq:s.freq,cf:s.cf,score,roles:s.roles,turns:s.turns};
-  }).sort((a,b)=> b.score-a.score || b.rate-a.rate);
+  // 매칭·점수·순위 = engine.js(도메인 불변). 여기선 뼈대 필드로 매핑만.
+  return Engine.rank(Object.keys(SK), aff, {
+    req:k=>SK[k].req, proven:k=>SK[k].proven, fresh:k=>1-SK[k].md
+  }).map(r=>{ const s=SK[r.item];
+    return {k:r.item,name:s.name,engine:s.engine,req:s.req,met:r.met,miss:r.miss,rate:r.rate,fresh:r.fresh,proven:s.proven,prank:s.prank,freq:s.freq,cf:s.cf,score:r.score,roles:s.roles,turns:s.turns};
+  });
 }
 function bar(lab,val,disp,cls){return `<div class="bar"><div class="bk"><span>${lab}</span><b>${disp}</b></div><div class="track"><div class="fill ${cls}" style="width:${Math.round(val*100)}%"></div></div></div>`;}
 function render(setKey){ paint({name:ST[setKey].name, gloss:ST[setKey].gloss, aff:ST[setKey].affords, cs:CS[setKey], pk:PR[setKey], key:setKey}); }
@@ -448,16 +449,16 @@ D = r'''<meta charset="utf-8">
   <p class="foot"><a href="./">← 매칭 탐색기</a> &nbsp;·&nbsp; <a href="method.html">만드는 법</a> &nbsp;·&nbsp; <a href="https://github.com/deokjinlog/classic-bones-modern-fusion">GitHub</a><br>구조는 데이터로 고르고, 이야기는 모델이 쓴다.</p>
 </div>
 
+<script src="./engine.js"></script>
 <script>
 const SK=__SK__, ST=__ST__, CS=__CS__, GL=__GL__, CTOT=__CTOT__, FEAT=__FEAT__;
-const combos=[];
-Object.keys(ST).forEach(set=>{ const aff=ST[set].affords;
-  Object.keys(SK).forEach(sk=>{ const s=SK[sk];
-    if(s.req.every(c=>aff.includes(c))){
-      const fresh=1-s.md, score=+(s.proven*fresh).toFixed(1), cs=CS[set]||{};
-      combos.push({set, setName:ST[set].name, sk, skName:s.name, engine:s.engine, turns:s.turns||[],
-        proven:s.proven, fresh, score, rar:cs.rarity_rank||99, pct:cs.pct, feat:FEAT.includes(set)});
-    } }); });
+// 완전 적합 조합 = engine.js(도메인 불변). 여기선 census·표시 필드로 매핑만.
+const combos=Engine.combos(Object.keys(SK), Object.keys(ST), {
+  req:sk=>SK[sk].req, affords:set=>ST[set].affords, proven:sk=>SK[sk].proven, fresh:sk=>1-SK[sk].md
+}).map(x=>{ const s=SK[x.item], set=x.context, cs=CS[set]||{};
+  return {set, setName:ST[set].name, sk:x.item, skName:s.name, engine:s.engine, turns:s.turns||[],
+    proven:s.proven, fresh:x.fresh, score:+x.score.toFixed(1), rar:cs.rarity_rank||99, pct:cs.pct, feat:FEAT.includes(set)};
+});
 combos.sort((a,b)=> b.score-a.score || a.rar-b.rar);
 const topBySet={}; combos.forEach(c=>{ if(!(c.set in topBySet) || c.score>topBySet[c.set].score) topBySet[c.set]=c; });
 combos.forEach(c=>{ c.isTop = topBySet[c.set]===c; });
